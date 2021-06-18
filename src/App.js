@@ -1,10 +1,13 @@
-import './App.css';
+import React, { Suspense } from 'react';
+
+import Routes from './main/routes/route';
+import './resources/styles/reset.scss'
 
 function App() {
   return (
-    <div className="App">
-      Hello World !
-    </div>
+    <Suspense fallback={<div>Please Wait...</div>}>
+      <Routes />
+    </Suspense>
   );
 }
 
