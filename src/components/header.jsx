@@ -11,7 +11,6 @@ const Header = (props) => {
                 <Button variant="contained" className={pathname === '/' ? 'active' : ''} color="primary">Home</Button>
                 <Button variant="contained" className={pathname === '/shop' ? 'active' : ''} color="primary">Shop</Button>
                 <Button variant="contained" className={pathname === '/about' ? 'active' : ''} color="primary">About</Button>
-                <Button variant="contained" className={pathname === '/contact' ? 'active' : ''} color="primary">Contact</Button>
             </Toolbar>
         </AppBar>
     );
