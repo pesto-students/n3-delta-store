@@ -8,9 +8,9 @@ const Header = (props) => {
     return (
         <AppBar position="static" color="transparent">
             <Toolbar >
-                <Button variant="contained" className={pathname === '/' ? 'active' : ''} color="primary">Home</Button>
-                <Button variant="contained" className={pathname === '/shop' ? 'active' : ''} color="primary">Shop</Button>
-                <Button variant="contained" className={pathname === '/about' ? 'active' : ''} color="primary">About</Button>
+                <Button variant={pathname === '/' ? 'contained' : 'text'} color="primary">Home</Button>
+                <Button variant={pathname === '/shop' ? 'contained' : 'text'} color="primary">Shop</Button>
+                <Button variant={pathname === '/about' ? 'contained' : 'text'} color="primary">About</Button>
             </Toolbar>
         </AppBar>
     );
