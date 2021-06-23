@@ -42,11 +42,6 @@ const Home = (props) => {
                 width: '100%',
                 marginTop: theme.spacing(3),
                 marginBottom: theme.spacing(2),
-            },
-            footerColor: {
-                background: 'rgb(133, 143, 195)',
-                background: 'radial - gradient(circle, rgba(133, 143, 195, 1) 0 %, rgba(252, 70, 107, 0.22172619047619047) 100 %)'
-
             }
         })
     });

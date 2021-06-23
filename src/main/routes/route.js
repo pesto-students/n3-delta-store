@@ -9,6 +9,7 @@ import Header from '../../components/header';
 const Home = lazy(() => import('../../containers/HomeContainer'));
 const About = lazy(() => import('../../containers/AboutContainer'));
 const Contact = lazy(() => import('../../containers/ContactContainer'));
+const Shop = lazy(() => import('../../containers/ShopContainer'));
 
 const Routes = ({ isLoggedIn }) => {
   const location = useLocation();
@@ -27,6 +28,13 @@ const Routes = ({ isLoggedIn }) => {
           } else {
             return <Home />;
           }
+        }}
+      />
+      <Route
+        exact
+        path="/shop"
+        render={() => {
+          return <Shop />;
         }}
       />
       <Route
