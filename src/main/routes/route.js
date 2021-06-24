@@ -6,7 +6,6 @@ import {
   Switch,
   useLocation,
 } from "react-router-dom";
-import React, { lazy } from "react";
 import Footer from "../../components/footer";
 import Header from "../../components/header";
 

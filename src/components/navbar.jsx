@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { Link, useHistory } from "react-router-dom";
+import React, { useState } from "react";
+import { useHistory, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -19,6 +19,7 @@ import Fade from "@material-ui/core/Fade";
 import LoginModal from "./LoginModal";
 import { signOut } from "../services/Authentication/auth";
 import { setAuth } from "../main/store/actions/AuthActions";
+import { Button } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -36,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
     cursor: "pointer",
   },
   linkTitle: {
-    flexGrow: 1,
+    // flexGrow: 1,
     padding: 5,
   },
   title: {
@@ -47,72 +48,111 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const links = [
+  {
+    route: "/",
+    title: "Home",
+  },
+  {
+    route: "/shop",
+    title: "Shop",
+  },
+  {
+    route: "/about",
+    title: "About",
+  },
+];
+
 const Navbar = () => {
   const classes = useStyles();
   const history = useHistory();
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+
   const totalCartItems = useSelector((state) => state?.cart?.length || 0);
   const authState = useSelector((state) => state?.authReducer);
 
   const { isLoggedIn } = authState;
   const dispatch = useDispatch();
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
-
-  useEffect(() => {}, []);
+  const { pathname } = useLocation();
 
   const handleProfileIconClick = (event, route) => {
-    !isLoggedIn
-      ? handleMenuItemOnClick(route)
-      : setAnchorEl(event.currentTarget);
+    console.log(authState);
+    !isLoggedIn ? dispatch(openLoginModal()) : setAnchorEl(event.currentTarget);
   };
-
   const handleProfileMenuClose = () => {
     setAnchorEl(null);
   };
 
-  const mainLogo = () => (
-    <Typography
-      className={classes.title}
-      onClick={() => history.push("/")}
-      variant="h6"
-      noWrap
-    >
-      <img src={AppLogo} alt="app-logo" className={classes.logo} />
-    </Typography>
-  );
+  const handleMenuItemOnClick = (route = "") => {
+    // !isLoggedIn ? dispatch(openLoginModal()) :
+    history.push(`/${route}`);
+  };
 
-  const links = [
-    {
-      route: "home",
-      title: "Home",
-    },
-    {
-      route: "shop",
-      title: "Shop",
-    },
-    {
-      route: "about",
-      title: "About",
-    },
-    {
-      route: "contact",
-      title: "Contact",
-    },
-  ];
-
+  const mainLogo = () => {
+    return (
+      <Typography
+        className={classes.title}
+        onClick={() => history.push("/")}
+        variant="h6"
+        noWrap
+      >
+        <img src={AppLogo} alt="app-logo" className={classes.logo} />
+      </Typography>
+    );
+  };
   const pageLinks = () => {
     const generatedLinks = links.map(({ route, title }) => (
-      <Typography variant="h6" className={classes.linkTitle} key={route}>
-        <Link href="#" to={`/${route}`}>
-          {title}
-        </Link>
-      </Typography>
+      <Button
+        variant={pathname === route ? "contained" : "text"}
+        color="primary"
+        onClick={() => {
+          history.push(route);
+        }}
+        className={classes.linkTitle}
+      >
+        {title}
+      </Button>
+
+      // <Typography variant="h6" className={classes.linkTitle} key={route}>
+      //   <Link href="#" to={`/${route}`}>
+      //     {title}
+      //   </Link>
+      // </Typography>
     ));
     return <>{generatedLinks}</>;
   };
 
-  const handleMenuItemOnClick = (route = "") => {
-    !isLoggedIn ? dispatch(openLoginModal()) : history.push(`/${route}`);
+  const profileMenu = () => {
+    return (
+      <Menu
+        id="fade-menu"
+        anchorEl={anchorEl}
+        keepMounted
+        open={open}
+        onClose={handleProfileMenuClose}
+        TransitionComponent={Fade}
+      >
+        <MenuItem
+          onClick={() => {
+            handleProfileMenuClose();
+            handleMenuItemOnClick("profile");
+          }}
+        >
+          Profile
+        </MenuItem>
+        <MenuItem
+          onClick={async () => {
+            await signOut();
+            dispatch(setAuth(null));
+            handleProfileMenuClose();
+            history.push("/");
+          }}
+        >
+          Logout
+        </MenuItem>
+      </Menu>
+    );
   };
 
   return (
@@ -126,39 +166,7 @@ const Navbar = () => {
           <IconButton aria-label={`Language`} color="inherit">
             <TranslateOutlinedIcon />
           </IconButton>
-          <div>
-            <Menu
-              id="fade-menu"
-              anchorEl={anchorEl}
-              keepMounted
-              open={open}
-              onClose={handleProfileMenuClose}
-              TransitionComponent={Fade}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-            >
-              <MenuItem
-                onClick={() => {
-                  handleProfileMenuClose();
-                  handleMenuItemOnClick("profile");
-                }}
-              >
-                Profile
-              </MenuItem>
-              <MenuItem
-                onClick={async () => {
-                  const result = await signOut();
-                  console.log("signout", result);
-                  dispatch(setAuth({}));
-                  history.push("/");
-                }}
-              >
-                Logout
-              </MenuItem>
-            </Menu>
-          </div>
+          <div>{profileMenu()}</div>
           <IconButton
             aria-label={`Profile`}
             color="inherit"
