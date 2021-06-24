@@ -17,7 +17,7 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import Fade from "@material-ui/core/Fade";
 import LoginModal from "./LoginModal";
-import { signOut } from "../service/auth";
+import { signOut } from "../services/Authentication/auth";
 import { setAuth } from "../main/store/actions/AuthActions";
 
 const useStyles = makeStyles((theme) => ({
@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Navbar() {
+const Navbar = () => {
   const classes = useStyles();
   const history = useHistory();
   const totalCartItems = useSelector((state) => state?.cart?.length || 0);
@@ -152,6 +152,7 @@ function Navbar() {
                   const result = await signOut();
                   console.log("signout", result);
                   dispatch(setAuth({}));
+                  history.push("/");
                 }}
               >
                 Logout
@@ -192,6 +193,6 @@ function Navbar() {
       </AppBar>
     </div>
   );
-}
+};
 
 export default Navbar;

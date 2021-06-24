@@ -1,4 +1,4 @@
-import firebase from "../config/firebaseConfig";
+import firebase from "../../config/firebaseConfig";
 export const socialAuth = async (provider) => {
   try {
     return await firebase.auth().signInWithPopup(provider);

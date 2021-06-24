@@ -8,8 +8,8 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import { useDispatch, useSelector } from "react-redux";
 import googleLogo from "../resources/images/google_logo.png";
 import { closeLoginModal } from "../main/store/actions/LoginModalActions";
-import { googleProvider } from "../config/authMethods";
-import { socialAuth } from "../service/auth";
+import { googleProvider } from "../services/Authentication/authMethods";
+import { socialAuth } from "../services/Authentication/auth";
 import { setAuth } from "../main/store/actions/AuthActions";
 import { setError } from "../main/store/actions/ErrorActions";
 
