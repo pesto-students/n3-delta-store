@@ -1,6 +1,8 @@
 import React, { lazy } from 'react';
 import { connect } from 'react-redux';
 import { Redirect, Route, withRouter, Switch, useLocation } from 'react-router-dom';
+import Footer from '../../components/footer';
+import Header from '../../components/header';
 
 // import PrivateRoute from './PrivateRoute';
 
@@ -13,6 +15,8 @@ const Routes = ({ isLoggedIn }) => {
   const { from } = location.state || { from: { pathname: '/' } };
 
   return (
+    <>
+    <Header />
     <Switch>
       <Route
         exact
@@ -41,6 +45,8 @@ const Routes = ({ isLoggedIn }) => {
       />
       {/* <PrivateRoute exact path="/dashboard" component={Dashboard} /> */}
     </Switch>
+    <Footer />
+    </>
   );
 };
 
