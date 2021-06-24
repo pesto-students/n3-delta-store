@@ -6,6 +6,9 @@ import {
   Switch,
   useLocation,
 } from "react-router-dom";
+import React, { lazy } from "react";
+import Footer from "../../components/footer";
+import Header from "../../components/header";
 
 const Home = lazy(() => import("../../containers/HomeContainer"));
 const About = lazy(() => import("../../containers/AboutContainer"));
@@ -18,47 +21,51 @@ const Routes = ({ isLoggedIn }) => {
   const { from } = location.state || { from: { pathname: "/" } };
 
   return (
-    <Switch>
-      <Route
-        exact
-        path="/"
-        render={() => {
-          if (isLoggedIn && from) {
-            return <Redirect to={from} />;
-          } else {
-            return <Home />;
-          }
-        }}
-      />
-      <Route
-        exact
-        path="/about"
-        render={() => {
-          return <About />;
-        }}
-      />
-      <Route
-        exact
-        path="/contact"
-        render={() => {
-          return <Contact />;
-        }}
-      />
-      <Route
-        exact
-        path="/cart"
-        render={() => {
-          return <Cart />;
-        }}
-      />
-      <Route
-        exact
-        path="/wishlist"
-        render={() => {
-          return <WishList />;
-        }}
-      />
-    </Switch>
+    <>
+      <Header />
+      <Switch>
+        <Route
+          exact
+          path="/"
+          render={() => {
+            if (isLoggedIn && from) {
+              return <Redirect to={from} />;
+            } else {
+              return <Home />;
+            }
+          }}
+        />
+        <Route
+          exact
+          path="/about"
+          render={() => {
+            return <About />;
+          }}
+        />
+        <Route
+          exact
+          path="/contact"
+          render={() => {
+            return <Contact />;
+          }}
+        />
+        <Route
+          exact
+          path="/cart"
+          render={() => {
+            return <Cart />;
+          }}
+        />
+        <Route
+          exact
+          path="/wishlist"
+          render={() => {
+            return <WishList />;
+          }}
+        />
+      </Switch>
+      <Footer />
+    </>
   );
 };
 
