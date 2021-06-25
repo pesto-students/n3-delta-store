@@ -13,3 +13,9 @@ export const getProducts = () => {
 
     return commerce.products.list();
 }
+
+export const getProduct = (id) => {
+    const commerce = new Commerce(ECOMMERCE_PUBLIC_KEY);
+
+    return commerce.products.retrieve(id);
+}

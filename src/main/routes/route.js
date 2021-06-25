@@ -10,6 +10,7 @@ const Home = lazy(() => import('../../containers/HomeContainer'));
 const About = lazy(() => import('../../containers/AboutContainer'));
 const Contact = lazy(() => import('../../containers/ContactContainer'));
 const Shop = lazy(() => import('../../containers/ShopContainer'));
+const PDP = lazy(() => import('../../containers/PDPContainer'));
 
 const Routes = ({ isLoggedIn }) => {
   const location = useLocation();
@@ -35,6 +36,13 @@ const Routes = ({ isLoggedIn }) => {
         path="/shop"
         render={() => {
           return <Shop />;
+        }}
+      />
+      <Route
+        exact
+        path="/shop/product/:id"
+        render={() => {
+          return <PDP />;
         }}
       />
       <Route
