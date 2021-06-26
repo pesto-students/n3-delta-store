@@ -9,7 +9,7 @@ import { useHistory } from 'react-router-dom';
 
 const Home = (props) => {
     const useStyles = makeStyles((theme) => {
-        console.log(theme); return ({
+        return ({
             paper: {
                 ...theme.typography.h5,
                 textAlign: 'center',
