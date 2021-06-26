@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import Carousel from 'react-material-ui-carousel'
+import { Carousel } from 'react-responsive-carousel';
 import { Paper, CardMedia, Divider, Grid, makeStyles, Container, Typography, TextField, Button, Card, CardContent, Link } from '@material-ui/core'
 import { getCategories } from '../main/axios/commerce';
 import { translate } from '../resources/language/translate';
 import { Phone, MailOutline, LocationCityOutlined } from '@material-ui/icons';
-
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { useHistory } from 'react-router-dom';
 
 const Home = (props) => {
     const useStyles = makeStyles((theme) => {
-        console.log(theme); return ({
+        return ({
             paper: {
                 ...theme.typography.h5,
                 textAlign: 'center',
@@ -19,7 +20,7 @@ const Home = (props) => {
                 },
             },
             root: {
-                marginTop: theme.spacing(10),
+                marginTop: theme.spacing(5),
                 marginBottom: 0
             },
             card: {
@@ -42,17 +43,13 @@ const Home = (props) => {
                 width: '100%',
                 marginTop: theme.spacing(3),
                 marginBottom: theme.spacing(2),
-            },
-            footerColor: {
-                background: 'rgb(133, 143, 195)',
-                background: 'radial - gradient(circle, rgba(133, 143, 195, 1) 0 %, rgba(252, 70, 107, 0.22172619047619047) 100 %)'
-
             }
         })
     });
 
     const classes = useStyles();
     const [categories, setCategories] = useState([])
+    const history = useHistory();
 
     useEffect(() => {
         if (!(categories && categories.length)) {
@@ -66,45 +63,34 @@ const Home = (props) => {
         e.preventDefault();
     }
 
-    var items = [
-        {
-            img: 'https://res.cloudinary.com/dwclofpev/image/upload/v1624298910/samples/ecommerce/oie_2120324lgcHQ4Z7_qlia85.jpg'
-        },
-        {
-            img: 'https://res.cloudinary.com/dwclofpev/image/upload/v1624298910/samples/ecommerce/oie_2120723FKM6U6QZ_hoc7wd.jpg'
-        }
-    ]
     return (
         <main>
             <section>
                 <Carousel
+                    showStatus={false}
+                    centerMode={true}
                     autoPlay={true}
-                    timeout={100}
-                    changeOnFirstRender={true}
-                    animation="slide"
-                    navButtonsProps={{          // Change the colors and radius of the actual buttons. THIS STYLES BOTH BUTTONS
-                        style: {
-                            borderRadius: 10,
-                        }
-                    }}
-                >
-                    {
-                        items.map((item, i) => (<Paper key={i}>
-                            <CardMedia component="img"
-                                src={item.img} />
-                        </Paper>))
-                    }
+                    showThumbs={false} >
+                    <div>
+                        <img alt="Discount" src="https://res.cloudinary.com/dwclofpev/image/upload/v1624298910/samples/ecommerce/oie_2120324lgcHQ4Z7_qlia85.jpg" />
+
+                    </div>
+                    <div>
+                        <img alt="Payment" src="https://res.cloudinary.com/dwclofpev/image/upload/v1624298910/samples/ecommerce/oie_2120723FKM6U6QZ_hoc7wd.jpg" />
+
+                    </div>
                 </Carousel>
             </section>
 
             <Divider />
 
             <section className={classes.root}>
-                <Grid container className={classes.card}>
+                <Typography variant="h3" align="center" >{translate('Categories')}</Typography>
+                <Grid container >
                     {categories.map((category, i) => (
                         <Grid key={category.id} className={classes.cardItem} item xs={12} sm={12} md={6} lg={6}>
                             <Grid style={{ margin: 'auto' }} item xs={12} >
-                                <Paper className={classes.paper}>
+                                <Paper onClick={() => { history.push(`/shop/${category.slug}`) }} className={classes.paper}>
                                     <CardMedia>
                                         <img className={classes.img} alt={translate(category.name)} src={category.description} />
                                     </CardMedia>

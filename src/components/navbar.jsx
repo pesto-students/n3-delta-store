@@ -74,8 +74,10 @@ const Navbar = () => {
 
   const { isLoggedIn } = authState;
   const dispatch = useDispatch();
-  const { pathname } = useLocation();
-
+  let { pathname } = useLocation();
+  if (pathname.split("/").length > 2) {
+    pathname = `/${pathname.split("/")[1]}`;
+  }
   const handleProfileIconClick = (event, route) => {
     console.log(authState);
     !isLoggedIn ? dispatch(openLoginModal()) : setAnchorEl(event.currentTarget);
@@ -104,6 +106,7 @@ const Navbar = () => {
   const pageLinks = () => {
     const generatedLinks = links.map(({ route, title }) => (
       <Button
+        key={title}
         variant={pathname === route ? "contained" : "text"}
         color="primary"
         onClick={() => {

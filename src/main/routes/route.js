@@ -12,6 +12,7 @@ import Header from "../../components/header";
 const Home = lazy(() => import("../../containers/HomeContainer"));
 const About = lazy(() => import("../../containers/AboutContainer"));
 const Contact = lazy(() => import("../../containers/ContactContainer"));
+const Shop = lazy(() => import('../../containers/ShopContainer'));
 const Cart = lazy(() => import("../../containers/CartContainer"));
 const WishList = lazy(() => import("../../containers/WishListContainer"));
 
@@ -46,6 +47,20 @@ const Routes = ({ isLoggedIn }) => {
           path="/contact"
           render={() => {
             return <Contact />;
+          }}
+        />
+        <Route
+          exact
+          path="/shop"
+          render={() => {
+            return <Shop />;
+          }}
+        />
+        <Route
+          exact
+          path="/shop/:categories"
+          render={() => {
+            return <Shop />;
           }}
         />
         <Route
