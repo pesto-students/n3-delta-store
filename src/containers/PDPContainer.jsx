@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom'
 import { getProduct } from '../main/axios/commerce';
 import Error from '../components/Error';
 import _ from 'lodash';
-import { Box, Button, CardMedia, FormControl, Grid, IconButton, makeStyles, MenuItem, Paper, Select, Typography } from '@material-ui/core';
+import { Box, Button, CardMedia, FormControl, Grid, makeStyles, MenuItem, Paper, Select, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import Brightness1SharpIcon from '@material-ui/icons/Brightness1Sharp';
 import FavoriteIcon from '@material-ui/icons/Favorite';
@@ -19,7 +19,6 @@ const PDPContainer = props => {
     const [open, setOpen] = useState(false);
 
     const useStyles = makeStyles((theme) => {
-        console.log(theme)
         return ({
             root: {
                 flexGrow: 1,
@@ -59,7 +58,7 @@ const PDPContainer = props => {
                 console.log(err)
             });
         }
-    }, [product])
+    }, [product, id])
     if (isError) {
         return (
             <main>
@@ -107,7 +106,7 @@ const PDPContainer = props => {
             colorEle = _.map(colorOptions.options, (option) => {
                 return (
                     <Grid item key={option.id}  >
-                        <Box borderRadius={16} onClick={() => setColor(option.id)} border={5} className={color == option.id ? classes.selectedPallette : classes.optionPallette}>
+                        <Box borderRadius={16} onClick={() => setColor(option.id)} border={5} className={color === option.id ? classes.selectedPallette : classes.optionPallette}>
                             <Brightness1SharpIcon fontSize="large" style={{ color: option.name }} />
                         </Box>
                     </Grid>)
@@ -164,8 +163,8 @@ const PDPContainer = props => {
 
                     ) : ""}
                     <div className={classes.cartButton}>
-                        <Button size="large" fullWidth variant="contained" color="secondary"><FavoriteIcon/> Add to Wishlist</Button>
-                        <Button size="large" fullWidth variant="contained" color="primary"><ShoppingCart/> Add to Cart</Button>
+                        <Button size="large" fullWidth variant="contained" color="secondary"><FavoriteIcon /> Add to Wishlist</Button>
+                        <Button size="large" fullWidth variant="contained" color="primary"><ShoppingCart /> Add to Cart</Button>
                     </div>
                 </Grid>
             </Grid>

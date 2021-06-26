@@ -3,13 +3,15 @@ import React, { useEffect, useState } from 'react'
 import { getProducts } from '../main/axios/commerce';
 import Filter from '../components/filters'
 import _ from 'lodash';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 
 const ShopContainer = (props) => {
     let params = useParams("categories");
     const [products, setProducts] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [filters, setFilters] = useState({});
+    const history = useHistory();
+
 
     const getFilteredProducts = (productsData, checkedCategories) => {
         return _.compact(_.map(productsData, (prod) => {
@@ -106,7 +108,7 @@ const ShopContainer = (props) => {
                 <main className={classes.main}>
                     <Grid container>
                         {productsList.map((product) => (
-                            <Grid key={product.id} item className={classes.gridList} >
+                            <Grid key={product.id} onClick={() => history.push(`/shop/product/${product.id}`)} item className={classes.gridList} >
                                 <Card className={classes.cardWidth}>
 
                                     <CardMedia

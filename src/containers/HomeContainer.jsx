@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Carousel } from 'react-responsive-carousel';
 import { Paper, CardMedia, Divider, Grid, makeStyles, Container, Typography, TextField, Button, Card, CardContent, Link } from '@material-ui/core'
 import { getCategories } from '../main/axios/commerce';
@@ -6,6 +6,8 @@ import { translate } from '../resources/language/translate';
 import { Phone, MailOutline, LocationCityOutlined } from '@material-ui/icons';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { useHistory } from 'react-router-dom';
+import { setHomeCategories } from '../main/store/actions/HomeActions';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Home = (props) => {
     const useStyles = makeStyles((theme) => {
@@ -48,13 +50,15 @@ const Home = (props) => {
     });
 
     const classes = useStyles();
-    const [categories, setCategories] = useState([])
+    const homeState = useSelector((state) => state?.homeReducer)
+    const { categories } = homeState;
     const history = useHistory();
+    const dispatch = useDispatch();
 
     useEffect(() => {
         if (!(categories && categories.length)) {
             getCategories().then(
-                res => { return setCategories(res.data) }
+                res => { return dispatch(setHomeCategories(res.data)) }
             )
         }
     })
