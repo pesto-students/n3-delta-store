@@ -58,6 +58,13 @@ const Routes = ({ isLoggedIn }) => {
         />
         <Route
           exact
+          path="/shop/:categories"
+          render={() => {
+            return <Shop />;
+          }}
+        />
+        <Route
+          exact
           path="/cart"
           render={() => {
             return <Cart />;
