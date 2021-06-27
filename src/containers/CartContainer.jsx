@@ -5,7 +5,6 @@ const Cart = () => {
   const authState = useSelector((state) => state?.authReducer);
 
   const { isLoggedIn } = authState;
-  const dispatch = useDispatch();
   if (!isLoggedIn) {
     return (
       <>

@@ -71,6 +71,7 @@ const Home = (props) => {
         <main>
             <section>
                 <Carousel
+                    infiniteLoop={true}
                     showStatus={false}
                     centerMode={true}
                     autoPlay={true}

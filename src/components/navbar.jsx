@@ -20,6 +20,7 @@ import LoginModal from "./LoginModal";
 import { signOut } from "../services/Authentication/auth";
 import { setAuth } from "../main/store/actions/AuthActions";
 import { Button } from "@material-ui/core";
+import Search from "../components/search";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -166,6 +167,7 @@ const Navbar = () => {
           {pageLinks()}
 
           <div className={classes.grow} />
+          <Search />
           <IconButton aria-label={`Language`} color="inherit">
             <TranslateOutlinedIcon />
           </IconButton>
