@@ -1,3 +1,4 @@
+import { formatUserInfo } from "../../../utils/util";
 import { SET_AUTH, GET_AUTH } from "../constants/StoreConstants";
 
 const initialState = {
@@ -7,12 +8,15 @@ const initialState = {
 
 const AuthReducer = (state = initialState, action) => {
   switch (action.type) {
-    case SET_AUTH:
+    case SET_AUTH: {
+      const { payload = null } = action;
+
       return {
         ...state,
-        isLoggedIn: action?.payload ? true : false,
-        user: action.payload,
+        isLoggedIn: payload ? true : false,
+        user: payload ? formatUserInfo(payload) : null,
       };
+    }
     case GET_AUTH:
       return state;
     default:

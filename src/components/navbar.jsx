@@ -69,7 +69,9 @@ const Navbar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
-  const totalCartItems = useSelector((state) => state?.cart?.length || 0);
+  const totalCartItems = useSelector(
+    (state) => state?.cart?.items?.length || 0
+  );
   const authState = useSelector((state) => state?.authReducer);
 
   const { isLoggedIn } = authState;
