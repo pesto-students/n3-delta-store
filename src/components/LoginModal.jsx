@@ -12,6 +12,8 @@ import { googleProvider } from "../services/Authentication/authMethods";
 import { socialAuth } from "../services/Authentication/auth";
 import { setAuth } from "../main/store/actions/AuthActions";
 import { setError } from "../main/store/actions/ErrorActions";
+import { SET_LOADING } from "../main/store/constants/StoreConstants";
+import { setLoader } from "../main/store/actions/LoadingActions";
 
 const useStyles = makeStyles((theme) => ({
   dialogPaper: {
@@ -48,13 +50,15 @@ function LoginModal() {
     dispatch(closeLoginModal());
   };
   const handleLogin = async (provider) => {
+    dispatch(setLoader(true));
     const response = await socialAuth(provider);
     const { error } = response;
     if (error) {
       dispatch(setError(`Couldn't log you in! Please Try Again`));
     } else {
-      dispatch(setAuth(response?.additionalUserInfo?.profile));
+      dispatch(setAuth(response?.user));
     }
+    dispatch(setLoader(false));
     handleClose();
   };
 
