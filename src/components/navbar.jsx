@@ -20,6 +20,7 @@ import LoginModal from "./LoginModal";
 import { signOut } from "../services/Authentication/auth";
 import { setAuth } from "../main/store/actions/AuthActions";
 import { Button } from "@material-ui/core";
+import { noCart } from "../main/store/actions/CartActions";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -69,11 +70,8 @@ const Navbar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
-  const totalCartItems = useSelector(
-    (state) => state?.cart?.items?.length || 0
-  );
+  const totalCartItems = useSelector((state) => state?.cart?.cartLength || 0);
   const authState = useSelector((state) => state?.authReducer);
-
   const { isLoggedIn } = authState;
   const dispatch = useDispatch();
   let { pathname } = useLocation();
@@ -150,8 +148,8 @@ const Navbar = () => {
           onClick={async () => {
             await signOut();
             dispatch(setAuth(null));
+            dispatch(noCart());
             handleProfileMenuClose();
-            history.push("/");
           }}
         >
           Logout
