@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { fade, makeStyles, withStyles } from '@material-ui/core/styles';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import { CardMedia, CircularProgress, IconButton, InputBase, Typography } from '@material-ui/core';
-import { SearchOutlined, SearchRounded } from '@material-ui/icons';
+import { CardMedia, CircularProgress, IconButton, InputBase, Paper, Typography } from '@material-ui/core';
+import { SearchOutlined, SearchRounded, SearchSharp, SendRounded } from '@material-ui/icons';
 import { searchProduct } from '../main/axios/commerce';
 import { useHistory } from 'react-router-dom';
 
@@ -67,15 +67,8 @@ const Search = (props) => {
         inputRoot: {
             color: 'primary',
         },
-        inputInput: {
-            padding: theme.spacing(1, 1, 1, 0),
-            // vertical padding + font size from searchIcon
-            paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-            transition: theme.transitions.create('width'),
-            width: '100%',
-            [theme.breakpoints.up('md')]: {
-                width: '20ch',
-            },
+        input: {
+            padding: theme.spacing(1),
         }, media: {
             paddingRight: theme.spacing(2)
         }, productName: {
@@ -90,6 +83,7 @@ const Search = (props) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const [searchResult, setSearchResult] = useState([]);
     const [searching, setSearching] = useState(false);
+    const [searchString, setSearchString] = useState('');
     const history = useHistory();
 
     const handleClick = (event) => {
@@ -114,31 +108,28 @@ const Search = (props) => {
                 onClose={handleClose}
             >
                 <MenuItem className={classes.root}>
-                    <div className={classes.search}>
-                        <div className={classes.searchIcon}>
-                            <SearchRounded />
-                        </div>
+                    <Paper component="form" onSubmit={(e) => {
+                        e.preventDefault(); setSearching(true);
+                        if (!searchString) {
+                            setSearching(false);
+                            setSearchResult([])
+                            return;
+                        }
+                        setSearching(true);
+                        searchProduct(searchString).then((res) => {
+                            setSearching(false);
+                            setSearchResult(res.data)
+                        })
+                    }} >
                         <InputBase
-                            placeholder="Search…"
-                            onKeyUp={(e) => {
-                                if (!e.currentTarget.value) {
-                                    setSearching(false);
-                                    setSearchResult([])
-                                    return;
-                                }
-                                setSearching(true);
-                                searchProduct(e.currentTarget.value).then((res) => {
-                                    setSearching(false);
-                                    setSearchResult(res.data)
-                                })
-                            }}
-                            classes={{
-                                root: classes.inputRoot,
-                                input: classes.inputInput,
-                            }}
-                            inputProps={{ 'aria-label': 'search' }}
+                            placeholder="Search.."
+                            onKeyUp={(e) => { setSearchString(e.currentTarget.value) }}
+                            inputProps={{ className: classes.input, 'aria-label': 'Search' }}
                         />
-                    </div>
+                        <IconButton type="submit" className={classes.iconButton} aria-label="search">
+                            <SendRounded color="primary" />
+                        </IconButton>
+                    </Paper>
                 </MenuItem>
                 {searching ? (
                     <MenuItem className={classes.root}>

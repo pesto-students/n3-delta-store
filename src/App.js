@@ -15,10 +15,10 @@ function App() {
   const dispatch = useDispatch();
   const loading = useSelector((state) => state?.loader?.loading || false);
 
-  axios.get(`https://freegeoip.app/json/`)
-    .then(res => {
-      console.log(res)
-    });
+  // axios.get(`https://freegeoip.app/json/`)
+  //   .then(res => {
+  //     console.log(res.data.country_code)
+  //   });
 
 
   const updateUser = (response) => {

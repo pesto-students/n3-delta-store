@@ -43,7 +43,18 @@ const PDPContainer = props => {
     const classes = useStyles();
 
     useEffect(() => {
+        console.log(product);
         if (!product || _.isEmpty(product)) {
+            dispatch(setLoader(true))
+            getProduct(id).then((productData) => {
+                dispatch(setLoader(false))
+                setProduct(productData)
+            }).catch((err) => {
+                setError(true);
+                console.log(err)
+            });
+        } else if (product && id !== product.id) {
+
             dispatch(setLoader(true))
             getProduct(id).then((productData) => {
                 dispatch(setLoader(false))
