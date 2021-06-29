@@ -9,7 +9,7 @@ import firebase from "./config/firebaseConfig";
 import { useDispatch, useSelector } from "react-redux";
 import { setAuth } from "./main/store/actions/AuthActions";
 import { setDisplayType } from "./main/store/actions/DisplayActions";
-import axios from 'axios';
+// import axios from 'axios';
 
 function App() {
   const dispatch = useDispatch();

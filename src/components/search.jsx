@@ -3,7 +3,7 @@ import { fade, makeStyles, withStyles } from '@material-ui/core/styles';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { CardMedia, CircularProgress, IconButton, InputBase, Paper, Typography } from '@material-ui/core';
-import { SearchOutlined, SearchRounded, SearchSharp, SendRounded } from '@material-ui/icons';
+import { SearchOutlined, SendRounded } from '@material-ui/icons';
 import { searchProduct } from '../main/axios/commerce';
 import { useHistory } from 'react-router-dom';
 

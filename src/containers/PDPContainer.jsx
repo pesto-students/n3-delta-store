@@ -43,7 +43,6 @@ const PDPContainer = props => {
     const classes = useStyles();
 
     useEffect(() => {
-        console.log(product);
         if (!product || _.isEmpty(product)) {
             dispatch(setLoader(true))
             getProduct(id).then((productData) => {
@@ -64,7 +63,7 @@ const PDPContainer = props => {
                 console.log(err)
             });
         }
-    }, [product, id])
+    }, [product, id, dispatch])
     if (isError) {
         return (
             <main>
