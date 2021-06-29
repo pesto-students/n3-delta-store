@@ -12,12 +12,20 @@ import { setLoader } from "./main/store/actions/LoadingActions";
 import { getCart, getExistingUserCart } from "./main/axios/commerce";
 import { noCart, setCart } from "./main/store/actions/CartActions";
 import { dbUtils } from "./services/firestore/db";
+import { setDisplayType } from "./main/store/actions/DisplayActions";
+import axios from 'axios';
 
 function App() {
   const dispatch = useDispatch();
   const loading = useSelector((state) => state?.loader?.loading || false);
   const authState = useSelector((state) => state?.authReducer);
   const { isLoggedIn, user } = authState;
+
+  axios.get(`https://freegeoip.app/json/`)
+    .then(res => {
+      console.log(res)
+    });
+
 
   const updateUser = (response) => {
     dispatch(setAuth(response));
@@ -62,6 +70,18 @@ function App() {
     firebase.auth().onAuthStateChanged(updateUser);
   }, []);
 
+  const setResponsiveness = () => {
+    dispatch(setDisplayType(window))
+  }
+
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged(updateUser);
+    window.addEventListener("resize", () => setResponsiveness());
+    setResponsiveness();
+    return () => {
+      window.removeEventListener("resize", () => setResponsiveness());
+    }
+  }, [setResponsiveness]);
   return (
     <ThemeProvider theme={theme}>
       <Suspense fallback={<Loading open={true} />}>

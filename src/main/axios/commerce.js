@@ -50,3 +50,17 @@ export const emptyCart = (id) => {
   const commerce = new Commerce(ECOMMERCE_PUBLIC_KEY);
   return commerce.cart.empty();
 };
+
+export const getProduct = (id) => {
+    const commerce = new Commerce(ECOMMERCE_PUBLIC_KEY);
+
+    return commerce.products.retrieve(id);
+}
+
+export const searchProduct = (query) => {
+    const commerce = new Commerce(ECOMMERCE_PUBLIC_KEY);
+
+    return commerce.products.list({
+        query: query,
+    });
+}

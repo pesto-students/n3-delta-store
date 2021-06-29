@@ -1,3 +1,4 @@
+import { Typography } from '@material-ui/core';
 import React from 'react';
 import { getCurrentFullYear } from '../utils/util';
 
@@ -5,9 +6,9 @@ const Footer = (props) => {
 
     return (
         <footer >
-            <div className="copyright">
+            <Typography align="center" >
                 Copyright © {getCurrentFullYear()} template
-            </div>
+            </Typography>
         </footer >
     );
 

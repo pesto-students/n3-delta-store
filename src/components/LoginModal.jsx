@@ -12,7 +12,6 @@ import { googleProvider } from "../services/Authentication/authMethods";
 import { socialAuth } from "../services/Authentication/auth";
 import { setAuth } from "../main/store/actions/AuthActions";
 import { setError } from "../main/store/actions/ErrorActions";
-import { SET_LOADING } from "../main/store/constants/StoreConstants";
 import { setLoader } from "../main/store/actions/LoadingActions";
 
 const useStyles = makeStyles((theme) => ({

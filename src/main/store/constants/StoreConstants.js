@@ -17,3 +17,6 @@ export const UPDATE_ITEM_QUANTITY = "UPDATE_ITEM_QUANTITY";
 export const CLEAR_CART = "CLEAR_CART";
 export const EMPTY_CART = "EMPTY_CART";
 export const NO_CART = "NO_CART";
+export const SET_HOME_CATEGORIES = "SET_HOME_CATEGORIES";
+export const SET_LOADING = "SET_LOADING";
+export const SET_DISPLAY_TYPE = "SET_DISPLAY_TYPE";

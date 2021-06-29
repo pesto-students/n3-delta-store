@@ -13,13 +13,14 @@ const Home = lazy(() => import("../../containers/HomeContainer"));
 const About = lazy(() => import("../../containers/AboutContainer"));
 const Contact = lazy(() => import("../../containers/ContactContainer"));
 const Shop = lazy(() => import('../../containers/ShopContainer'));
+const PDP = lazy(() => import('../../containers/PDPContainer'));
 const Cart = lazy(() => import("../../containers/CartContainer"));
 const WishList = lazy(() => import("../../containers/WishListContainer"));
 
 const Routes = ({ isLoggedIn }) => {
   const location = useLocation();
   const { from } = location.state || { from: { pathname: "/" } };
-
+  
   return (
     <>
       <Header />
@@ -61,6 +62,13 @@ const Routes = ({ isLoggedIn }) => {
           path="/shop/:categories"
           render={() => {
             return <Shop />;
+          }}
+        />
+        <Route
+          exact
+          path="/shop/product/:id"
+          render={() => {
+            return <PDP />;
           }}
         />
         <Route
