@@ -2,6 +2,7 @@ import { SET_DISPLAY_TYPE } from "../constants/StoreConstants";
 
 const initialState = {
     isMobile: false,
+    country: 'IN',
 };
 
 const DisplayReducer = (state = initialState, action) => {

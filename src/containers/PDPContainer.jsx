@@ -10,6 +10,8 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import { ShoppingCart } from '@material-ui/icons';
 import SizeSelector from '../components/SizeSelector';
 import ColorSelector from '../components/ColorSelector';
+import { useDispatch } from 'react-redux';
+import { setLoader } from '../main/store/actions/LoadingActions';
 
 const PDPContainer = props => {
     const { id } = useParams();
@@ -17,7 +19,8 @@ const PDPContainer = props => {
     const [isError, setError] = useState(false)
     const [size, setSize] = useState('');
     const [color, setColor] = useState('');
-    
+    const dispatch = useDispatch();
+
     const useStyles = makeStyles((theme) => {
         return ({
             root: {
@@ -41,8 +44,9 @@ const PDPContainer = props => {
 
     useEffect(() => {
         if (!product || _.isEmpty(product)) {
-
+            dispatch(setLoader(true))
             getProduct(id).then((productData) => {
+                dispatch(setLoader(false))
                 setProduct(productData)
             }).catch((err) => {
                 setError(true);
@@ -66,10 +70,6 @@ const PDPContainer = props => {
     const handleChange = (event) => {
         setSize(event.target.value);
     };
-
-
-
-
 
     return (
         <main className={classes.root}>

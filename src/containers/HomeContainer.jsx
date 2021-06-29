@@ -8,11 +8,16 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { useHistory } from 'react-router-dom';
 import { setHomeCategories } from '../main/store/actions/HomeActions';
 import { useDispatch, useSelector } from 'react-redux';
+import { setLoader } from '../main/store/actions/LoadingActions';
+import _ from 'lodash';
 
 const Home = (props) => {
     const useStyles = makeStyles((theme) => {
-        console.log(theme);
         return ({
+            page: {
+                ...theme.page,
+                marginTop: theme.spacing(8)
+            },
             paper: {
                 ...theme.typography.h5,
                 textAlign: 'center',
@@ -58,8 +63,9 @@ const Home = (props) => {
 
     useEffect(() => {
         if (!(categories && categories.length)) {
+            dispatch(setLoader(true))
             getCategories().then(
-                res => { return dispatch(setHomeCategories(res.data)) }
+                res => { dispatch(setLoader(false)); return dispatch(setHomeCategories(res.data)) }
             )
         }
     })
@@ -67,9 +73,9 @@ const Home = (props) => {
     const handleSubmit = (e) => {
         e.preventDefault();
     }
-
+    const categoriesList = categories && categories.length ? categories : _.times(4, _.constant({}))
     return (
-        <main>
+        <main className={classes.page}>
             <section>
                 <Carousel
                     infiniteLoop={true}
@@ -94,8 +100,8 @@ const Home = (props) => {
                 <section className={classes.root}>
                     <Typography variant="h3" align="center" >{translate('Categories')}</Typography>
                     <Grid container >
-                        {categories.map((category, i) => (
-                            <Grid key={category.id} className={classes.cardItem} item xs={12} sm={12} md={6} lg={6}>
+                        {categoriesList.map((category, i) => (
+                            <Grid key={i} className={classes.cardItem} item xs={12} sm={12} md={6} lg={6}>
                                 <Grid style={{ margin: 'auto' }} item xs={12} >
                                     <Paper onClick={() => { history.push(`/shop/${category.slug}`) }} className={classes.paper}>
                                         <CardMedia>

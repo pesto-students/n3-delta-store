@@ -9,10 +9,18 @@ import firebase from "./config/firebaseConfig";
 import { useDispatch, useSelector } from "react-redux";
 import { setAuth } from "./main/store/actions/AuthActions";
 import { setDisplayType } from "./main/store/actions/DisplayActions";
+import axios from 'axios';
 
 function App() {
   const dispatch = useDispatch();
   const loading = useSelector((state) => state?.loader?.loading || false);
+
+  axios.get(`https://freegeoip.app/json/`)
+    .then(res => {
+      console.log(res)
+    });
+
+
   const updateUser = (response) => {
     dispatch(setAuth(response));
   };
