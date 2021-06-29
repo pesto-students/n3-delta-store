@@ -5,6 +5,7 @@ import HomeReducer from "./reducers/HomeReducer";
 import ErrorReducer from "./reducers/ErrorReducer";
 import LoginModalReducer from "./reducers/LoginModalReducer";
 import LoadingReducer from "./reducers/LoadingReducer";
+import DisplayReducer from "./reducers/DisplayReducer";
 
 export default combineReducers({
   authReducer: AuthReducer,
@@ -12,4 +13,5 @@ export default combineReducers({
   errorReducer: ErrorReducer,
   homeReducer: HomeReducer,
   loader: LoadingReducer,
+  display: DisplayReducer,
 });

@@ -8,8 +8,7 @@ const Filters = (props) => {
     const useStyles = makeStyles((theme) => {
         return ({
             drawer: {
-                position: "static",
-                width: '240px'
+                position: "static"
             }, capitalizeWord: {
                 textTransform: 'capitalize'
             }

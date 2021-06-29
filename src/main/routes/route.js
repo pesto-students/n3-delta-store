@@ -20,7 +20,7 @@ const WishList = lazy(() => import("../../containers/WishListContainer"));
 const Routes = ({ isLoggedIn }) => {
   const location = useLocation();
   const { from } = location.state || { from: { pathname: "/" } };
-
+  
   return (
     <>
       <Header />

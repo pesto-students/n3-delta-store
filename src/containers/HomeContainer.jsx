@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 const Home = (props) => {
     const useStyles = makeStyles((theme) => {
+        console.log(theme);
         return ({
             paper: {
                 ...theme.typography.h5,
@@ -25,11 +26,11 @@ const Home = (props) => {
                 marginTop: theme.spacing(5),
                 marginBottom: 0
             },
-            card: {
-                padding: '1vh',
-            },
             cardItem: {
-                padding: theme.spacing(5)
+                padding: theme.spacing(5),
+                [theme.breakpoints.down("sm")]: {
+                    padding: theme.spacing(2)
+                },
             },
             cardIFootertem: {
                 padding: theme.spacing(1)
@@ -86,84 +87,86 @@ const Home = (props) => {
                     </div>
                 </Carousel>
             </section>
+            <Container>
 
-            <Divider />
+                <Divider />
 
-            <section className={classes.root}>
-                <Typography variant="h3" align="center" >{translate('Categories')}</Typography>
-                <Grid container >
-                    {categories.map((category, i) => (
-                        <Grid key={category.id} className={classes.cardItem} item xs={12} sm={12} md={6} lg={6}>
-                            <Grid style={{ margin: 'auto' }} item xs={12} >
-                                <Paper onClick={() => { history.push(`/shop/${category.slug}`) }} className={classes.paper}>
-                                    <CardMedia>
-                                        <img className={classes.img} alt={translate(category.name)} src={category.description} />
-                                    </CardMedia>
-                                    <Typography variant="h4">{translate(category.name)}</Typography>
-                                </Paper>
-                            </Grid>
-                        </Grid>))}
-                </Grid>
-
-            </section>
-
-            <Divider />
-
-            <section className={classes.footerColor}>
-                <Container className={classes.card}>
-                    <Grid layout={'row'} container>
-                        <Grid className={classes.cardIFootertem} item xs={12} md={6} >
-                            <Card className={classes.cardContent}>
-                                <CardContent>
-                                    <Typography variant="h4" component="h2" gutterBottom>
-                                        {translate('Contact Us')}
-                                    </Typography>
-                                    <Typography variant="subtitle2">
-                                        {translate('Need a hand? Or a high five?')}
-                                    </Typography>
-                                    <Typography variant="subtitle2">
-                                        {translate("Here's how to reach us.")}
-                                    </Typography>
-                                    <Typography variant="subtitle1">
-                                        <Link href="tel:9619207440" onClick={(e) => e.preventDefault()}>
-                                            <Phone fontSize="small" /> 9619207440
-                                        </Link>
-                                    </Typography>
-                                    <Typography variant="subtitle1">
-                                        <Link href="mailto:mitesh.jethmalani@gmail.com" onClick={(e) => e.preventDefault()}>
-                                            <MailOutline fontSize="small" /> mitesh.jethmalani@gmail.com
-                                        </Link>
-                                    </Typography>
-                                    <Typography variant="subtitle1">
-                                        <LocationCityOutlined /> Address:
-                                    </Typography>
-                                    <Typography variant="subtitle2">
-                                        Pesto Tech
-                                    </Typography>
-                                </CardContent>
-                            </Card>
-                        </Grid>
-                        <Grid className={classes.cardIFootertem} item xs={12} md={6} >
-                            <Card className={classes.cardContent}>
-                                <CardContent>
-                                    <form onSubmit={handleSubmit}>
-                                        <Typography variant="h4" component="h2" gutterBottom>
-                                            {translate('Receive offers')}
-                                        </Typography>
-                                        <Typography variant="h6">
-                                            {translate('Taste the holidays of the everyday close to home.')}
-                                        </Typography>
-                                        <TextField type="email" required={true} className={classes.textField} placeholder={translate("Your email")} />
-                                        <Button type="submit" color="primary" variant="contained" fullWidth={true}>
-                                            {translate('Keep me updated')}
-                                        </Button>
-                                    </form>
-                                </CardContent>
-                            </Card>
-                        </Grid>
+                <section className={classes.root}>
+                    <Typography variant="h3" align="center" >{translate('Categories')}</Typography>
+                    <Grid container >
+                        {categories.map((category, i) => (
+                            <Grid key={category.id} className={classes.cardItem} item xs={12} sm={12} md={6} lg={6}>
+                                <Grid style={{ margin: 'auto' }} item xs={12} >
+                                    <Paper onClick={() => { history.push(`/shop/${category.slug}`) }} className={classes.paper}>
+                                        <CardMedia>
+                                            <img className={classes.img} alt={translate(category.name)} src={category.description} />
+                                        </CardMedia>
+                                        <Typography variant="h4">{translate(category.name)}</Typography>
+                                    </Paper>
+                                </Grid>
+                            </Grid>))}
                     </Grid>
-                </Container>
-            </section>
+
+                </section>
+
+                <Divider />
+
+                <section className={classes.footerColor}>
+                    <Container >
+                        <Grid layout={'row'} container>
+                            <Grid className={classes.cardIFootertem} item xs={12} md={6} >
+                                <Card className={classes.cardContent}>
+                                    <CardContent>
+                                        <Typography variant="h4" gutterBottom>
+                                            {translate('Contact Us')}
+                                        </Typography>
+                                        <Typography variant="subtitle2">
+                                            {translate('Need a hand? Or a high five?')}
+                                        </Typography>
+                                        <Typography variant="subtitle2">
+                                            {translate("Here's how to reach us.")}
+                                        </Typography>
+                                        <Typography variant="subtitle1">
+                                            <Link href="tel:9619207440" onClick={(e) => e.preventDefault()}>
+                                                <Phone fontSize="small" /> 9619207440
+                                            </Link>
+                                        </Typography>
+                                        <Typography variant="subtitle1">
+                                            <Link href="mailto:mitesh.jethmalani@gmail.com" onClick={(e) => e.preventDefault()}>
+                                                <MailOutline fontSize="small" /> mitesh.jethmalani@gmail.com
+                                            </Link>
+                                        </Typography>
+                                        <Typography variant="subtitle1">
+                                            <LocationCityOutlined /> Address:
+                                        </Typography>
+                                        <Typography variant="subtitle2">
+                                            Pesto Tech
+                                        </Typography>
+                                    </CardContent>
+                                </Card>
+                            </Grid>
+                            <Grid className={classes.cardIFootertem} item xs={12} md={6} >
+                                <Card className={classes.cardContent}>
+                                    <CardContent>
+                                        <form onSubmit={handleSubmit}>
+                                            <Typography variant="h4" gutterBottom>
+                                                {translate('Receive offers')}
+                                            </Typography>
+                                            <Typography variant="h6">
+                                                {translate('Taste the holidays of the everyday close to home.')}
+                                            </Typography>
+                                            <TextField type="email" required={true} className={classes.textField} placeholder={translate("Your email")} />
+                                            <Button type="submit" color="primary" variant="contained" fullWidth={true}>
+                                                {translate('Keep me updated')}
+                                            </Button>
+                                        </form>
+                                    </CardContent>
+                                </Card>
+                            </Grid>
+                        </Grid>
+                    </Container>
+                </section>
+            </Container>
         </main >
     )
 }

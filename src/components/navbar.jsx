@@ -19,8 +19,10 @@ import Fade from "@material-ui/core/Fade";
 import LoginModal from "./LoginModal";
 import { signOut } from "../services/Authentication/auth";
 import { setAuth } from "../main/store/actions/AuthActions";
-import { Button } from "@material-ui/core";
+import { Button, CssBaseline, Drawer, List, ListItem, ListItemText } from "@material-ui/core";
 import Search from "../components/search";
+import { List as ListIcon } from "@material-ui/icons";
+import ElevationScroll from "./elevation";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -64,10 +66,12 @@ const links = [
   },
 ];
 
-const Navbar = () => {
+const Navbar = (props) => {
   const classes = useStyles();
   const history = useHistory();
   const [anchorEl, setAnchorEl] = useState(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const isMobile = useSelector((state) => state?.display?.isMobile || false)
   const open = Boolean(anchorEl);
 
   const totalCartItems = useSelector(
@@ -94,6 +98,13 @@ const Navbar = () => {
     history.push(`/${route}`);
   };
 
+  const handleDrawerOpen = () => {
+    setDrawerOpen(true);
+  }
+  const handleDrawerClose = () => {
+    setDrawerOpen(false);
+  }
+
   const mainLogo = () => {
     return (
       <Typography
@@ -107,26 +118,63 @@ const Navbar = () => {
     );
   };
   const pageLinks = () => {
-    const generatedLinks = links.map(({ route, title }) => (
-      <Button
-        key={title}
-        variant={pathname === route ? "contained" : "text"}
-        color="primary"
-        onClick={() => {
-          history.push(route);
-        }}
-        className={classes.linkTitle}
-      >
-        {title}
-      </Button>
 
-      // <Typography variant="h6" className={classes.linkTitle} key={route}>
-      //   <Link href="#" to={`/${route}`}>
-      //     {title}
-      //   </Link>
-      // </Typography>
-    ));
-    return <>{generatedLinks}</>;
+
+    const generatedLinks = links.map(({ route, title }) => {
+
+      return isMobile ? (
+        <List
+          {...{
+            component: "nav",
+            "aria-label": { title },
+            selected: pathname === route,
+            color: pathname === route ? "primary" : "inherit",
+            style: { textDecoration: "none" },
+            key: title,
+          }}
+        >
+          <ListItem button key={title}
+            selected={pathname === route}
+            onClick={(event) => { handleDrawerClose(); history.push(route) }}
+          >
+            <ListItemText primary={title} />
+          </ListItem>
+        </List >) : (
+
+        <Button
+          key={title}
+          variant={pathname === route ? "contained" : "text"}
+          color="primary"
+          onClick={() => {
+            history.push(route);
+          }}
+          className={classes.linkTitle}
+        >
+          {title}
+        </Button>)
+    });
+    return isMobile ? (
+      <>
+        <IconButton  {...{
+          edge: "start",
+          color: "inherit",
+          "aria-label": "menu",
+          "aria-haspopup": "true",
+          onClick: handleDrawerOpen,
+        }}>
+          <ListIcon />
+        </IconButton>
+        <Drawer
+          {...{
+            anchor: "left",
+            open: drawerOpen,
+            onClose: handleDrawerClose,
+          }}
+        >
+          <div>{generatedLinks}</div>
+        </Drawer>
+
+      </>) : generatedLinks;
   };
 
   const profileMenu = () => {
@@ -162,51 +210,54 @@ const Navbar = () => {
   };
 
   return (
-    <div className={classes.grow}>
-      <AppBar position="static" className={classes.appBar}>
-        <Toolbar>
-          {mainLogo()}
-          {pageLinks()}
+    <>
+      <CssBaseline />
+      <ElevationScroll {...props}>
+        <AppBar position="fixed" className={classes.appBar}>
+          <Toolbar>
+            {mainLogo()}
+            {pageLinks()}
 
-          <div className={classes.grow} />
-          <Search />
-          <IconButton aria-label={`Language`} color="inherit">
-            <TranslateOutlinedIcon />
-          </IconButton>
-          <div>{profileMenu()}</div>
-          <IconButton
-            aria-label={`Profile`}
-            color="inherit"
-            onClick={(e) => {
-              handleProfileIconClick(e, "profile");
-            }}
-          >
-            <AccountCircleOutlinedIcon />
-          </IconButton>
-          <IconButton
-            aria-label={`${totalCartItems} item(s) in your cart`}
-            color="inherit"
-            onClick={() => {
-              handleMenuItemOnClick("cart");
-            }}
-          >
-            <Badge badgeContent={totalCartItems} color="primary">
-              <ShoppingCart />
-            </Badge>
-          </IconButton>
-          <IconButton
-            aria-label="Wish list"
-            color="inherit"
-            onClick={() => {
-              handleMenuItemOnClick("wishlist");
-            }}
-          >
-            <Favorite />
-          </IconButton>
-          <LoginModal />
-        </Toolbar>
-      </AppBar>
-    </div>
+            <div className={classes.grow} />
+            <Search />
+            <IconButton aria-label={`Language`} color="inherit">
+              <TranslateOutlinedIcon />
+            </IconButton>
+            <div>{profileMenu()}</div>
+            <IconButton
+              aria-label={`Profile`}
+              color="inherit"
+              onClick={(e) => {
+                handleProfileIconClick(e, "profile");
+              }}
+            >
+              <AccountCircleOutlinedIcon />
+            </IconButton>
+            <IconButton
+              aria-label={`${totalCartItems} item(s) in your cart`}
+              color="inherit"
+              onClick={() => {
+                handleMenuItemOnClick("cart");
+              }}
+            >
+              <Badge badgeContent={totalCartItems} color="primary">
+                <ShoppingCart />
+              </Badge>
+            </IconButton>
+            <IconButton
+              aria-label="Wish list"
+              color="inherit"
+              onClick={() => {
+                handleMenuItemOnClick("wishlist");
+              }}
+            >
+              <Favorite />
+            </IconButton>
+            <LoginModal />
+          </Toolbar>
+        </AppBar>
+      </ElevationScroll>
+    </>
   );
 };
 

@@ -77,9 +77,13 @@ const ShopContainer = (props) => {
                 },
             },
             root: {
+                marginTop: theme.spacing(8),
+                marginBottom: 0,
+                [theme.breakpoints.up("sm")]: {
+                    display: "flex",
+                    flex: 1,
+                },
                 minHeight: "90vh",
-                display: "flex",
-                flex: 1,
             },
             media: {
                 textAlign: 'center'
@@ -93,7 +97,12 @@ const ShopContainer = (props) => {
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
             }, gridList: {
-                margin: theme.spacing(2)
+                margin: theme.spacing(2),
+            }, gridContainer: {
+                [theme.breakpoints.down("md")]: {
+                    justifyContent: "center"
+                }
+
             }
 
 
@@ -105,8 +114,8 @@ const ShopContainer = (props) => {
         <>
             <div className={classes.root}>
                 <Filter updateFilter={updateFilter} filters={filters}></Filter>
-                <main className={classes.main}>
-                    <Grid container>
+                <main>
+                    <Grid container className={classes.gridContainer}>
                         {productsList.map((product) => (
                             <Grid key={product.id} onClick={() => history.push(`/shop/product/${product.id}`)} item className={classes.gridList} >
                                 <Card className={classes.cardWidth}>
