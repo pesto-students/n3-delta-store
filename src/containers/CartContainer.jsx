@@ -1,11 +1,10 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 const Cart = () => {
   const authState = useSelector((state) => state?.authReducer);
 
   const { isLoggedIn } = authState;
-  const dispatch = useDispatch();
   if (!isLoggedIn) {
     return (
       <>

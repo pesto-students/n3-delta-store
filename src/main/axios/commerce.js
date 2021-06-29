@@ -10,5 +10,19 @@ export const getCategories = () => {
 export const getProducts = () => {
   const commerce = new Commerce(ECOMMERCE_PUBLIC_KEY);
 
-  return commerce.products.list();
-};
+    return commerce.products.list();
+}
+
+export const getProduct = (id) => {
+    const commerce = new Commerce(ECOMMERCE_PUBLIC_KEY);
+
+    return commerce.products.retrieve(id);
+}
+
+export const searchProduct = (query) => {
+    const commerce = new Commerce(ECOMMERCE_PUBLIC_KEY);
+
+    return commerce.products.list({
+        query: query,
+    });
+}

@@ -3,13 +3,19 @@ import React, { useEffect, useState } from 'react'
 import { getProducts } from '../main/axios/commerce';
 import Filter from '../components/filters'
 import _ from 'lodash';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setLoader } from '../main/store/actions/LoadingActions';
+import { Skeleton } from '@material-ui/lab';
 
 const ShopContainer = (props) => {
     let params = useParams("categories");
     const [products, setProducts] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [filters, setFilters] = useState({});
+    const history = useHistory();
+    const dispatch = useDispatch();
+
 
     const getFilteredProducts = (productsData, checkedCategories) => {
         return _.compact(_.map(productsData, (prod) => {
@@ -45,6 +51,7 @@ const ShopContainer = (props) => {
 
     useEffect(() => {
         if (!(products && products.length)) {
+            dispatch(setLoader(true));
             getProducts().then(
                 res => {
                     setProducts(res.data)
@@ -58,6 +65,7 @@ const ShopContainer = (props) => {
                     })
                     setFilters({ categories })
                     setFilteredProducts(getFilteredProducts(res.data, getCheckedCategories({ categories })))
+                    dispatch(setLoader(false));
                 }
             )
         }
@@ -66,18 +74,24 @@ const ShopContainer = (props) => {
 
     const useStyles = makeStyles((theme) => {
         const cardWidth = 240;
+        const cardHeight = 290;
         return ({
             cardWidth: {
                 maxWidth: cardWidth,
                 width: cardWidth,
+                height: cardHeight,
                 '&:hover': {
                     boxShadow: theme.shadows[18]
                 },
             },
             root: {
-                minHeight: "90vh",
-                display: "flex",
-                flex: 1,
+                ...theme.page,
+                marginTop: theme.spacing(8),
+                marginBottom: 0,
+                [theme.breakpoints.up("sm")]: {
+                    display: "flex",
+                    flex: 1,
+                },
             },
             media: {
                 textAlign: 'center'
@@ -91,7 +105,12 @@ const ShopContainer = (props) => {
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
             }, gridList: {
-                margin: theme.spacing(2)
+                margin: theme.spacing(2),
+            }, gridContainer: {
+                [theme.breakpoints.down("md")]: {
+                    justifyContent: "center"
+                }
+
             }
 
 
@@ -99,14 +118,29 @@ const ShopContainer = (props) => {
     })
     const classes = useStyles();
     const productsList = filteredProducts && filteredProducts.length ? filteredProducts : products;
-    return (
+    return !(productsList && productsList.length) ? (<>
+        <div className={classes.root}>
+            <Filter updateFilter={updateFilter} filters={filters}></Filter>
+            <main>
+
+                <Grid container className={classes.gridContainer}>
+                    {_.times(4, _.constant(0)).map((product, key) => (
+                        <Grid key={key} item className={classes.gridList} >
+                            <Card className={classes.cardWidth}>
+                                <Skeleton variant="rect" className={classes.cardWidth} />
+                            </Card>
+                        </Grid>
+                    ))}
+                </Grid>
+            </main>
+        </div></>) : (
         <>
             <div className={classes.root}>
                 <Filter updateFilter={updateFilter} filters={filters}></Filter>
-                <main className={classes.main}>
-                    <Grid container>
+                <main>
+                    <Grid container className={classes.gridContainer}>
                         {productsList.map((product) => (
-                            <Grid key={product.id} item className={classes.gridList} >
+                            <Grid key={product.id} onClick={() => history.push(`/shop/product/${product.id}`)} item className={classes.gridList} >
                                 <Card className={classes.cardWidth}>
 
                                     <CardMedia

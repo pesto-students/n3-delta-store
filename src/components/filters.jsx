@@ -9,7 +9,10 @@ const Filters = (props) => {
         return ({
             drawer: {
                 position: "static",
-                width: '240px'
+                width: "240px",
+                [theme.breakpoints.down("md")]: {
+                    width: "100%",
+                }
             }, capitalizeWord: {
                 textTransform: 'capitalize'
             }
@@ -58,6 +61,12 @@ const Filters = (props) => {
             </Accordion>)
         })
 
+    } else {
+        accordian = (<Accordion defaultExpanded={true} >
+            <AccordionDetails>
+
+            </AccordionDetails>
+        </Accordion>)
     }
     return (
         <Drawer
