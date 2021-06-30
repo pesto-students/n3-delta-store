@@ -28,7 +28,11 @@ const PDPContainer = props => {
                 marginTop: theme.spacing(5)
             },
             gridList: {
-                padding: theme.spacing(6)
+                padding: theme.spacing(6),
+                [theme.breakpoints.down("md")]: {
+                    padding: theme.spacing(1)
+
+                }
             }, gridPadding: {
                 padding: theme.spacing(2)
             }, img: {
@@ -84,14 +88,14 @@ const PDPContainer = props => {
     return (
         <main className={classes.root}>
             <Grid container className={classes.gridList}>
-                <Grid key={product.id} xs={5} item className={classes.gridPadding}>
+                <Grid key={product.id} xs={12} sm={12} md={5} item className={classes.gridPadding}>
                     <CardMedia
                         className={classes.media}
                     >
                         <img className={classes.img} src={product.media.source} alt={classes.media} />
                     </CardMedia>
                 </Grid>
-                <Grid xs={6} item className={classes.gridPadding}>
+                <Grid xs={12} sm={12} md={6} item className={classes.gridPadding}>
                     <Typography variant="h3">
                         {product.name}
                     </Typography>

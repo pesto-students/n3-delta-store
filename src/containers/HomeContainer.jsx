@@ -105,7 +105,7 @@ const Home = (props) => {
                                 <Grid style={{ margin: 'auto' }} item xs={12} >
                                     <Paper onClick={() => { history.push(`/shop/${category.slug}`) }} className={classes.paper}>
                                         <CardMedia>
-                                            <img className={classes.img} alt={translate(category.name)} src={category.description} />
+                                            <img className={classes.img} alt={category.slug ? `alt-${category.slug}` : ""} src={category.description} />
                                         </CardMedia>
                                         <Typography variant="h4">{translate(category.name)}</Typography>
                                     </Paper>
@@ -161,8 +161,8 @@ const Home = (props) => {
                                             <Typography variant="h6">
                                                 {translate('Taste the holidays of the everyday close to home.')}
                                             </Typography>
-                                            <TextField type="email" required={true} className={classes.textField} placeholder={translate("Your email")} />
-                                            <Button type="submit" color="primary" variant="contained" fullWidth={true}>
+                                            <TextField type="email" required={true} title="Your Email" className={classes.textField} placeholder={translate("Your email")} />
+                                            <Button type="submit" color="primary" aria-label={translate('Keep me updated')} variant="contained" fullWidth={true}>
                                                 {translate('Keep me updated')}
                                             </Button>
                                         </form>
