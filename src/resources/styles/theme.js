@@ -1,7 +1,10 @@
 import { createMuiTheme } from "@material-ui/core";
 
 const theme = createMuiTheme({
-    header:{
+    body: {
+        "fontFamily": `"Roboto", "Helvetica", "Arial", sans-serif`
+    },
+    header: {
         height: "60px"
     },
     img: {

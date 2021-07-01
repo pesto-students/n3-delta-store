@@ -1,51 +1,18 @@
-import React, { Suspense, useEffect } from "react";
-import Routes from "./main/routes/route";
 import "./resources/styles/reset.scss";
-import { ThemeProvider } from "@material-ui/core";
-import theme from "./resources/styles/theme";
-import GlobalError from "./components/GlobalError";
-import Loading from "./components/Loading";
-import firebase from "./config/firebaseConfig";
-import { useDispatch, useSelector } from "react-redux";
-import { setAuth } from "./main/store/actions/AuthActions";
-import { setDisplayType } from "./main/store/actions/DisplayActions";
-// import axios from 'axios';
+import store from './main/store/store'
+import { Provider } from 'react-redux'
+import AppMain from "./AppMain";
+import { BrowserRouter as Router } from 'react-router-dom';
 
 function App() {
-  const dispatch = useDispatch();
-  const loading = useSelector((state) => state?.loader?.loading || false);
-
-  // axios.get(`https://freegeoip.app/json/`)
-  //   .then(res => {
-  //     console.log(res.data.country_code)
-  //   });
-
-
-  const updateUser = (response) => {
-    dispatch(setAuth(response));
-  };
-
-  const setResponsiveness = () => {
-    dispatch(setDisplayType(window))
-  }
-
-  useEffect(() => {
-    firebase.auth().onAuthStateChanged(updateUser);
-    window.addEventListener("resize", () => setResponsiveness());
-    setResponsiveness();
-    return () => {
-      window.removeEventListener("resize", () => setResponsiveness());
-    }
-  }, [setResponsiveness]);
   return (
-    <ThemeProvider theme={theme}>
-      <Suspense fallback={<Loading open={true} />}>
-        <Routes />
-        <GlobalError />
-        <Loading open={loading} />
-      </Suspense>
-    </ThemeProvider>
+    <Provider store={store}>
+      <Router basename="/">
+        <AppMain />
+      </Router>
+    </Provider>
   );
 }
+
 
 export default App;

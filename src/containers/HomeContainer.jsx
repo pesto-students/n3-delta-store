@@ -51,6 +51,9 @@ const Home = (props) => {
                 width: '100%',
                 marginTop: theme.spacing(3),
                 marginBottom: theme.spacing(2),
+            },
+            font:{
+                ...theme.body
             }
         })
     });
@@ -98,7 +101,7 @@ const Home = (props) => {
                 <Divider />
 
                 <section className={classes.root}>
-                    <Typography variant="h3" align="center" >{translate('Categories')}</Typography>
+                    <Typography className={classes.font} variant="h3" align="center" >{translate('Categories')}</Typography>
                     <Grid container >
                         {categoriesList.map((category, i) => (
                             <Grid key={i} className={classes.cardItem} item xs={12} sm={12} md={6} lg={6}>
