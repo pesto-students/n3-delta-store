@@ -64,7 +64,7 @@ function App() {
     } else {
       dispatch(noCart());
     }
-  }, [isLoggedIn]);
+  }, [dispatch, isLoggedIn]);
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged(updateUser);
@@ -75,7 +75,6 @@ function App() {
   }
 
   useEffect(() => {
-    firebase.auth().onAuthStateChanged(updateUser);
     window.addEventListener("resize", () => setResponsiveness());
     setResponsiveness();
     return () => {
