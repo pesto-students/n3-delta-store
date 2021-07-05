@@ -1,5 +1,5 @@
-# Getting Started with Create React App
-
+![](https://res.cloudinary.com/dwclofpev/image/upload/v1625492082/samples/Delta_Store_yzqtj1.png)
+# Getting Started with Delta Store
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
@@ -19,52 +19,44 @@ You will also see any lint errors in the console.
 Launches the test runner in the interactive watch mode.\
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `yarn build`
+## Keys required
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+| Library  | Keys Required  |
+|----------|:-------------:|
+| [Commerce.js](https://dashboard.chec.io/settings/developer) | Eg.: pk_test_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX |
+| [Firbase](https://commercejs.com/) | FIREBASE_API_KEY |
+|  | FIREBASE_AUTH_DOMAIN |
+|  | FIREBASE_PROJECT_ID |
+|  | FIREBASE_STORAGE_BUCKET |
+|  | FIREBASE_MESSAGING_SENDER_ID |
+|  | FIREBASE_APP_ID |
+|  | FIREBASE_MEASUREMENT_ID |
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Technology Stack
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+It is an e-commerce site built with following Stack
+| Library  |  Coded?       | Description  |
+|----------|:-------------:|:-------------|
+| [React](https://reactjs.org/) | &#10004; | Front End Library |
+| [Firebase](https://firebase.google.com/) | &#10004; | Library used for authentication |
+| [Firestore](https://firebase.google.com/products/firestore?gclsrc=aw.ds&gclid=Cj0KCQjw24qHBhCnARIsAPbdtlJ8Wq-nK99Zgqjibv2EKRFJ3d23t6H3PQeWlmzWpQxJnzG59rYhyKwaAmqeEALw_wcB) | &#10004; | To store wishlist data |
+| [Commerce.js](https://commercejs.com/) | &#10004; | Library to get products, cart and store cart details |
 
-### `yarn eject`
+## Features
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+| Feature  |  Coded?       | Description  |
+|----------|:-------------:|:-------------|
+| Cart | &#10004; | A new Cart is created for every user |
+| See Cart | &#10004; | Ability to see the Cart and it items |
+| Add Item | &#10004; | Ability to add a new Item on the Cart |
+| Remove a Item | &#10004; | Ability of Remove a Item from the Cart |
+| Add Item to wishlist | &#10004; | Ability to add a Item to wishlist |
+| Remove Item from wishlist | &#10004; | Ability to remove a Item from wishlist |
+| Move to wishlist | &#10004; | Ability to move item from cart to wishlist |
+| Checkout | &#10004; | Ability to Checkout |
+| Localisation | &#10004; | Ability to get text localised |
+| Search Product | &#10004; | Ability to search a product |
+| List of Products | &#10004; | Ability to get all the prodcuts present in the store |
+| Filter Products | &#10004; | Ability to filter all prodcuts present in the store with categories |
+| Product Size Selector | &#10004; | Ability to select a product's size variant if present in a product |
+| Product Color Selector | &#10004; | Ability to select a product's color variant if present in a product |
