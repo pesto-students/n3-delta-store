@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import App from './App';
 import _ from 'lodash';
-test('renders learn react link', () => {
+test('Check is Header working', () => {
   render(<App />);
 
   const linkArr = ["Home", "Shop", "About"]
