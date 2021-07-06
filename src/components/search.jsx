@@ -34,9 +34,9 @@ const Search = (props) => {
             padding: 0
         },
         searchIcon: {
-            padding: theme.spacing(0, 2),
+            //padding: theme.spacing(0, 2),
             height: '100%',
-            position: 'absolute',
+            //position: 'absolute',
             pointerEvents: 'none',
             display: 'flex',
             alignItems: 'center',
@@ -51,7 +51,7 @@ const Search = (props) => {
             padding: theme.spacing(1),
         }, inputInput: {
             padding: theme.spacing(1, 1, 1, 0),
-            paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+            paddingLeft: `calc(1em + ${theme.spacing(1)}px)`,
         }, media: {
             paddingRight: theme.spacing(2)
         }, productName: {
@@ -114,7 +114,7 @@ const Search = (props) => {
                         'aria-label': 'search'
                     }}
                 />
-                <IconButton type="submit" className={classes.searchIcon} aria-label="search">
+                <IconButton type="submit" aria-label="search">
                     <SearchOutlined />
                 </IconButton>
             </Paper>
@@ -131,9 +131,10 @@ const Search = (props) => {
 
                 {searchResult && searchResult.map((product) => {
                     return (<MenuItem onClick={() => {
-                        history.push(`/shop/product/${product.id}`)
+                        setSearchString('')
                         setSearchResult([]);
                         setAnchorEl(null);
+                        history.push(`/shop/product/${product.id}`)
                     }} key={product.id} className={classes.root}>
                         <CardMedia
                             className={classes.media}

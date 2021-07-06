@@ -1,3 +1,11 @@
+const regex = {
+  email: new RegExp(
+    '^(([^<>()\\[\\]\\\\.,;:\\s@]+(\\.[^<>()\\[\\]\\\\.,;:\\s@]+)*)|(.+))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$',
+  ), url: new RegExp('^http(s?):\\/\\/\\S+(\\/\\S+)*(\\/)?$'),
+  price: new RegExp(/^\d+(\.\d{1,2})?$/),
+  number: new RegExp('^[0-9]+$'),
+  phoneNumber: new RegExp("^[7-9][0-9]{9}$")
+}
 export const getCurrentFullYear = () => {
   const currentdate = new Date();
   return currentdate.getFullYear();
@@ -47,3 +55,9 @@ export const formatUserInfo = (user = null) => {
   }
   return user;
 };
+
+export const isValidEmail = (value) => {
+  const result = regex.email.test(value);
+  if (!result) return false;
+  return true
+}
