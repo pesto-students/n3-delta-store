@@ -14,6 +14,9 @@ const Profile = (props) => {
       page: {
         ...theme.page,
         marginTop: theme.spacing(8)
+      },
+      container:{
+        padding:theme.spacing(1,1)
       }
 
     })
@@ -24,16 +27,12 @@ const Profile = (props) => {
     <main className={classes.page}>
       <Container>
         <Box
-          sx={{
-            backgroundColor: 'background.default',
-            minHeight: '100%',
-            py: 3
-          }}
+          className={classes.mainPage}
         >
-          <Container maxWidth="lg">
+          <Container className={classes.container} maxWidth="lg">
             <Grid
               container
-              spacing={3}
+              spacing={2}
             >
               <Grid
                 item
