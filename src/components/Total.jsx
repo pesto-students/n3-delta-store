@@ -1,82 +1,98 @@
-import React from "react";
-import {
-  Box,
-  Button,
-  ButtonBase,
-  CardMedia,
-  FormControl,
-  Grid,
-  makeStyles,
-  MenuItem,
-  Paper,
-  Select,
-  Typography,
-} from "@material-ui/core";
-import SizeSelect from "./SizeSelect";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { makeStyles } from "@material-ui/core/styles";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableRow from "@material-ui/core/TableRow";
+import Paper from "@material-ui/core/Paper";
 
-const useStyles = makeStyles((theme) => ({
+const TAX_RATE = 0.18;
+const shippingCost = 40;
+
+const useStyles = makeStyles({
   root: {
-    // flexGrow: 1,
-    padding: theme.spacing(2),
+    display: "flex",
+    margin: "12px 0px",
+    marginTop:'100px'
   },
-  paper: {
-    padding: theme.spacing(2),
-    margin: "auto",
-    maxWidth: 500,
+  cell: {
+    fontSize: 16,
   },
-  image: {
-    width: 128,
-    height: 128,
-  },
-  img: {
-    margin: "auto",
-    display: "block",
-    maxWidth: "100%",
-    maxHeight: "100%",
-  },
-}));
+});
 
-const Total = ({ total = {} }) => {
+const Total = () => {
   const classes = useStyles();
+  const authState = useSelector((state) => state?.authReducer);
+  const cartInfo = useSelector((state) => state?.cart);
+  const { cart, total:cartTotal } = cartInfo;
+  const currency = cart?.currency?.code;
+  const [summary, setSummary] = useState({
+    subtotal: 0,
+    shipping: 40,
+    tax: 0,
+    total: 0,
+  });
 
+  useEffect(() => {
+    const shipping = cartTotal ? shippingCost : 0;
+    const tax = ((cartTotal + shipping) * TAX_RATE);
+    const total = cartTotal + shipping + tax;
+    setSummary({
+      ...summary,
+      shipping,
+      subtotal: cartTotal,
+      tax,
+      total,
+    });
+  }, [cart]);
   return (
-    <div className={classes.root}>
-      <Paper className={classes.paper}>
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm container>
-            <Grid item xs container direction="column" spacing={2}>
-              <Grid item style={{ display: "flex" }}>
-                <Typography variant="subtitle1" style={{ paddingRight: 5 }}>
-                  color:
-                </Typography>
-                <Typography variant="subtitle1">asdf</Typography>
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid item>
-            <Typography
-              variant="body2"
-              gutterBottom
-              style={{ display: "flex" }}
-            >
-              bla
-            </Typography>
-          </Grid>
-        </Grid>
-        <Grid container spacing={2} style={{ display: "flex", flexGrow: 1 }}>
-          <Grid item>
-            <Button
-              size="large"
-              fullWidth
-              variant="contained"
-              color="secondary"
-            >
-              Proceed to checkout
-            </Button>
-          </Grid>
-        </Grid>
-      </Paper>
-    </div>
+    <TableContainer component={Paper} className={classes.root} position="fixed">
+      <Table className={classes.table} aria-label="spanning table">
+        <TableBody>
+          <TableRow>
+            <TableCell className={classes.cell} colSpan={2}>
+              Subtotal
+            </TableCell>
+            <TableCell className={classes.cell} align="right">
+              {summary.subtotal}
+              {` ${currency}`}
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell className={classes.cell} colSpan={2}>
+              Shipping
+            </TableCell>
+            <TableCell className={classes.cell} align="right">
+              {summary.shipping}
+              {` ${currency}`}
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell className={classes.cell}>Tax</TableCell>
+            <TableCell className={classes.cell} align="right">{`${(
+              TAX_RATE * 100
+            ).toFixed(0)} %`}</TableCell>
+            <TableCell className={classes.cell} align="right">
+              {summary?.tax.toFixed(2)}
+              {` ${currency}`}
+            </TableCell>
+          </TableRow>
+          <TableRow style={{backgroundColor:'green'}}>
+            <TableCell className={classes.cell} colSpan={2}>
+              <h3>Total</h3>
+            </TableCell>
+            <TableCell className={classes.cell} align="right" >
+              <h3>
+                {summary?.total}
+                {` ${currency}`}
+              </h3>
+            </TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 };
 

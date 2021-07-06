@@ -1,29 +1,28 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import CartItem from "../components/CartItem";
-import {
-  Divider,
-  makeStyles,
-  Container,
-  Grid,
-  Button,
-} from "@material-ui/core";
+import { Divider, makeStyles, Container, Grid } from "@material-ui/core";
 import EmptyCart from "../components/EmptyCart";
 import NoAuth from "../components/NoAuth";
-import { useHistory } from "react-router-dom";
+import Total from "../components/Total";
+import CheckoutFlow from "../components/CheckoutFlow";
 const useStyles = makeStyles(() => ({
   container: {
-    marginTop: "100px",
+    marginTop: "20px",
     marginBottom: "70px",
   },
 
   columnTitle: {
     margin: "8px 0px",
   },
+
+  billSummary: {
+    position: "sticky",
+    top: "20px",
+  },
 }));
-const Cart = () => {
+const Checkout = () => {
   const classes = useStyles();
-  const history = useHistory();
 
   const authState = useSelector((state) => state?.authReducer);
   const cart = useSelector((state) => state?.cart);
@@ -50,28 +49,19 @@ const Cart = () => {
     }
 
     return (
-      <Container maxWidth="md" className={classes.container}>
-        <Grid container justify="center">
-          <Grid item xs={12}>
-            <Grid item style={{ display: "flex", justifyContent:'space-between', paddingBottom:10 }}>
-              <h2 className={classes.columnTitle}>
-                My Cart({cartLength}) ({total})
-              </h2>
-              <Button
-                size="medium"
-                variant="contained"
-                color="primary"
-                onClick={() => {
-                  history.push(`/checkout`);
-                }}
-              >
-                proceed to checkout
-              </Button>
-            </Grid>
+      <Container maxWidth="lg" className={classes.container}>
+        <Grid container justify="center" spacing={3}>
+          <Grid item xs={12} md={8}>
+            <h2 className={classes.columnTitle}>Checkout</h2>
             <Divider />
-            {items?.map((item) => (
-              <CartItem item={item} />
-            ))}
+            <CheckoutFlow />
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <div className={classes.billSummary}>
+              <h2 className={classes.columnTitle}>Total</h2>
+              <Divider />
+              <Total />
+            </div>
           </Grid>
         </Grid>
       </Container>
@@ -79,4 +69,4 @@ const Cart = () => {
   }
 };
 
-export default Cart;
+export default Checkout;

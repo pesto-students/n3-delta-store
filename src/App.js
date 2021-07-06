@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect } from "react";
+import React, { Suspense, useEffect, useRef } from "react";
 import Routes from "./main/routes/route";
 import "./resources/styles/reset.scss";
 import { ThemeProvider } from "@material-ui/core";
@@ -13,19 +13,20 @@ import { getCart, getExistingUserCart } from "./main/axios/commerce";
 import { noCart, setCart } from "./main/store/actions/CartActions";
 import { dbUtils } from "./services/firestore/db";
 import { setDisplayType } from "./main/store/actions/DisplayActions";
-import axios from 'axios';
+import axios from "axios";
+import { setWishList } from "./main/store/actions/WishListActions";
 
 function App() {
   const dispatch = useDispatch();
   const loading = useSelector((state) => state?.loader?.loading || false);
   const authState = useSelector((state) => state?.authReducer);
+  const wishList = useSelector((state) => state?.wishList);
   const { isLoggedIn, user } = authState;
+  const initialRender = useRef(true);
 
-  axios.get(`https://freegeoip.app/json/`)
-    .then(res => {
-      console.log(res)
-    });
-
+  axios.get(`https://freegeoip.app/json/`).then((res) => {
+    console.log(res);
+  });
 
   const updateUser = (response) => {
     dispatch(setAuth(response));
@@ -52,11 +53,27 @@ function App() {
     const { uid } = user;
     const userData = await dbUtils.getUser(uid);
     if (userData) {
+      const { wishList } = userData;
+      dispatch(setWishList(wishList));
       fetchCartItems();
     } else {
       createAndFetchCart();
     }
   };
+
+  const updateDbWishList = async(items) => {
+    const { uid } = user;
+    await dbUtils.updateUserWishList(uid, items);
+  };
+
+  useEffect(() => {
+    if (initialRender?.current) {
+      initialRender.current = false;
+      return;
+    }
+    console.log(wishList);
+    updateDbWishList(wishList?.items);
+  }, [wishList]);
 
   useEffect(() => {
     if (isLoggedIn) {

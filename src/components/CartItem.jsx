@@ -1,24 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
-  Box,
   Button,
   ButtonBase,
-  CardMedia,
-  FormControl,
   Grid,
   makeStyles,
-  MenuItem,
   Paper,
-  Select,
   Typography,
 } from "@material-ui/core";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import SizeSelect from "./SizeSelect";
-import { removeFromCart } from "../main/axios/commerce";
+import {
+  getProduct,
+  getVariantsForProduct,
+  removeFromCart,
+  updateCart,
+} from "../main/axios/commerce";
 import { setError } from "../main/store/actions/ErrorActions";
 import { setCart } from "../main/store/actions/CartActions";
 import { useDispatch } from "react-redux";
 import { setLoader } from "../main/store/actions/LoadingActions";
+import SizeSelector from "./SizeSelector";
+import QuantitySelector from "./QuantitySelector";
+import ColorSelector from "./ColorSelector";
+import { addItemToWishList } from "../main/store/actions/WishListActions";
+import { translate } from "../resources/language/translate";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     padding: theme.spacing(2),
     margin: "auto",
-    maxWidth: 500,
+    maxWidth: 700,
   },
   image: {
     width: 128,
@@ -44,13 +48,38 @@ const useStyles = makeStyles((theme) => ({
 
 const CartItem = ({ item = {} }) => {
   const classes = useStyles();
+  const history = useHistory();
   const dispatch = useDispatch();
-  const handleRemove = async () => {
+  const [size, setSize] = useState("");
+  const [product, setProduct] = useState(null);
+  const [quantity, setQuantity] = useState(item.quantity || 1);
+
+  const getVariants = async () => {
+    const { product } = await getVariantsForProduct(item?.product_id);
+    setProduct(product);
+  };
+
+  const getProductData = async () => {
+    dispatch(setLoader(true));
+    const prd = await getProduct(item?.product_id);
+    setProduct(prd);
+    dispatch(setLoader(false));
+  };
+
+  useEffect(() => {
+    getProductData();
+  }, []);
+
+  const handleRemove = async (wishlist) => {
     try {
       dispatch(setLoader(true));
       const response = await removeFromCart(item?.id);
       const { success, cart } = response;
       if (success) {
+        console.log("what is wishlist", wishlist);
+        if (wishlist) {
+          dispatch(addItemToWishList(product));
+        }
         dispatch(setCart(cart));
       }
     } catch (err) {
@@ -59,29 +88,46 @@ const CartItem = ({ item = {} }) => {
       dispatch(setLoader(false));
     }
   };
-  const handleMove = async () => {
+
+  const handleMoveToWishList = async () => {
+    await handleRemove(true);
+  };
+
+  const handleSizeChange = (selectedSize) => {
+    console.log(`selectedSize is`, selectedSize);
+  };
+
+  const handleQuantityChange = async (selectedQuantity) => {
+    console.log(`selectedQuantity is`, selectedQuantity);
     try {
-      const response = await removeFromCart(item?.id);
+      dispatch(setLoader(true));
+      const response = await updateCart(item?.id, {
+        quantity: selectedQuantity,
+      });
       const { success, cart } = response;
       if (success) {
-        setCart(cart);
         dispatch(setCart(cart));
       }
     } catch (err) {
       console.log(err);
       dispatch(setError("Error in Removing Item from Cart"));
+    } finally {
+      dispatch(setLoader(false));
     }
   };
 
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
-        <Grid container spacing={2}>
-          <Grid item>
+        <Grid container spacing={2} key={item?.product_id}>
+          <Grid
+            item
+            onClick={() => history.push(`/shop/product/${item?.product_id}`)}
+          >
             <ButtonBase className={classes.image}>
               <img
                 className={classes.img}
-                alt="complex"
+                alt="product image"
                 src={item?.media?.source}
               />
             </ButtonBase>
@@ -89,7 +135,7 @@ const CartItem = ({ item = {} }) => {
           <Grid item xs={12} sm container>
             <Grid item xs container direction="column" spacing={2}>
               <Grid item xs>
-                <Typography gutterBottom variant="h5">
+                <Typography gutterBottom variant="h6">
                   {item.name}
                 </Typography>
                 <Typography gutterBottom variant="body2" color="textSecondary">
@@ -105,13 +151,31 @@ const CartItem = ({ item = {} }) => {
                 </Typography>
               </Grid>
               <Grid item style={{ display: "flex" }}>
-                <SizeSelect />
+                <Grid item style={{ display: "flex", alignItems: "center" }}>
+                  <Typography variant="subtitle2" style={{ paddingRight: 5 }}>
+                    {translate("Size")}:{" "}
+                  </Typography>
+                  <SizeSelector
+                    handleChange={handleSizeChange}
+                    size={size}
+                    product={product}
+                  />
+                </Grid>
+                <Grid item style={{ display: "flex", alignItems: "center" }}>
+                  <Typography variant="subtitle2" style={{ paddingRight: 5 }}>
+                    {translate("Quantity")}:{" "}
+                  </Typography>
+                  <QuantitySelector
+                    onChange={handleQuantityChange}
+                    value={quantity}
+                  />
+                </Grid>
               </Grid>
-              <Grid item style={{ display: "flex" }}>
-                <Typography variant="subtitle1" style={{ paddingRight: 5 }}>
-                  color:
+              <Grid item style={{ display: "flex", alignItems: "center" }}>
+                <Typography variant="subtitle2" style={{ paddingRight: 5 }}>
+                  {translate("Color")}:{" "}
                 </Typography>
-                <Typography variant="subtitle1">{item?.colour}</Typography>
+                <ColorSelector product={product} />
               </Grid>
             </Grid>
           </Grid>
@@ -126,16 +190,26 @@ const CartItem = ({ item = {} }) => {
             </Typography>
           </Grid>
         </Grid>
-        <Grid container spacing={2} style={{ display: "flex", flexGrow: 1 }}>
+        <Grid
+          container
+          spacing={2}
+          style={{
+            display: "flex",
+            flexGrow: 1,
+            justifyContent: "space-between",
+          }}
+        >
           <Grid item>
             <Button
               size="large"
               fullWidth
               variant="contained"
-              color="primary"
-              onClick={handleRemove}
+              color="secondary"
+              onClick={() => {
+                handleRemove();
+              }}
             >
-              Remove
+              Delete from cart
             </Button>
           </Grid>
           <Grid item>
@@ -143,8 +217,8 @@ const CartItem = ({ item = {} }) => {
               size="large"
               fullWidth
               variant="contained"
-              color="secondary"
-              onClick={handleMove}
+              color="primary"
+              onClick={handleMoveToWishList}
             >
               Move to Wishlist
             </Button>

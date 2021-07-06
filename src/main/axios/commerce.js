@@ -52,15 +52,26 @@ export const emptyCart = (id) => {
 };
 
 export const getProduct = (id) => {
-    const commerce = new Commerce(ECOMMERCE_PUBLIC_KEY);
+  const commerce = new Commerce(ECOMMERCE_PUBLIC_KEY);
 
-    return commerce.products.retrieve(id);
-}
+  return commerce.products.retrieve(id);
+};
+
+export const getVariantsForProduct = async (id) => {
+  const commerce = new Commerce(ECOMMERCE_PUBLIC_KEY);
+  const variants = await commerce.products.getVariants(id);
+  return {
+    product: {
+      variant_groups: variants?.data || [],
+    },
+  };
+  // .then((variants) => console.log(variants.data));
+};
 
 export const searchProduct = (query) => {
-    const commerce = new Commerce(ECOMMERCE_PUBLIC_KEY);
+  const commerce = new Commerce(ECOMMERCE_PUBLIC_KEY);
 
-    return commerce.products.list({
-        query: query,
-    });
-}
+  return commerce.products.list({
+    query: query,
+  });
+};

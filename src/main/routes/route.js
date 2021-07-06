@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 import Footer from "../../components/footer";
 import Header from "../../components/header";
+import Checkout from "../../containers/CheckoutContainer";
 
 const Home = lazy(() => import("../../containers/HomeContainer"));
 const About = lazy(() => import("../../containers/AboutContainer"));
@@ -83,6 +84,13 @@ const Routes = ({ isLoggedIn }) => {
           path="/wishlist"
           render={() => {
             return <WishList />;
+          }}
+        />
+        <Route
+          exact
+          path="/checkout"
+          render={() => {
+            return <Checkout />;
           }}
         />
       </Switch>

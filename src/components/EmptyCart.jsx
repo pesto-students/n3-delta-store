@@ -8,6 +8,7 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import emptyCartSrc from "../resources/images/cart_empty.png";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles({
   root: {
@@ -17,6 +18,7 @@ const useStyles = makeStyles({
 
 const EmptyCart = () => {
   const classes = useStyles();
+  const history = useHistory();
 
   return (
     <Card className={classes.root}>
@@ -43,7 +45,7 @@ const EmptyCart = () => {
           fullWidth
           variant="contained"
           color="primary"
-          onClick={() => {}}
+          onClick={() => history.push("/")}
         >
           Continue Shopping
         </Button>

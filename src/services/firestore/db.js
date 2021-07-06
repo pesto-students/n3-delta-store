@@ -14,6 +14,7 @@ export class dbUtils {
           {
             ...user,
             cartId,
+            wishList: [],
           },
           { merge: true }
         );
@@ -31,6 +32,24 @@ export class dbUtils {
       if (doc?.exists) {
         data = doc.data();
       }
+    } catch (err) {
+      console.log(err);
+    }
+    return data;
+  };
+
+  static updateUserWishList = async (uid, payload) => {
+    let docRef = db.collection(USERS).doc(uid);
+    let data = null;
+    try {
+      const doc = await docRef.update({
+        wishList: payload,
+      });
+      if (doc?.exists) {
+        data = doc.data();
+        console.log("updated user successfully", data);
+      }
+      return data;
     } catch (err) {
       console.log(err);
     }
