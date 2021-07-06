@@ -2,8 +2,7 @@ body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-image: radial-gradient(circle, #fff8fc, #f6f2f6, #eeecef, #e6e5e8, #dfdfe0, #dbdbdd, #d8d7db, #d4d3d8, #d2d1da, #d0cfdc, #cecede, #cbcce0);
-}
+  }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',

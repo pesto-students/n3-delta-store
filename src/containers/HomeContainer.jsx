@@ -31,6 +31,9 @@ const Home = (props) => {
                 marginTop: theme.spacing(5),
                 marginBottom: 0
             },
+            sectionPadding:{
+                paddingTop: theme.spacing(2)
+            },
             cardItem: {
                 padding: theme.spacing(5),
                 [theme.breakpoints.down("sm")]: {
@@ -51,9 +54,6 @@ const Home = (props) => {
                 width: '100%',
                 marginTop: theme.spacing(3),
                 marginBottom: theme.spacing(2),
-            },
-            font:{
-                ...theme.body
             }
         })
     });
@@ -96,12 +96,12 @@ const Home = (props) => {
                     </div>
                 </Carousel>
             </section>
-            <Container>
+            <Container component="section" className={classes.sectionPadding}>
 
-                <Divider />
+                <Divider type="dott" />
 
                 <section className={classes.root}>
-                    <Typography className={classes.font} variant="h3" align="center" >{translate('Categories')}</Typography>
+                    <Typography variant="h3" align="center" >{translate('Categories')}</Typography>
                     <Grid container >
                         {categoriesList.map((category, i) => (
                             <Grid key={i} className={classes.cardItem} item xs={12} sm={12} md={6} lg={6}>
