@@ -1,4 +1,5 @@
 import firebase from "firebase";
+require('firebase/analytics')
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -9,6 +10,7 @@ const firebaseConfig = {
   appId: process.env.REACT_APP_FIREBASE_APP_ID,
   measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
 };
+console.log(process.env)
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 firebase.analytics();

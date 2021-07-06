@@ -6,6 +6,7 @@ import _ from 'lodash';
 const Filters = (props) => {
 
     const useStyles = makeStyles((theme) => {
+        console.log(theme)
         return ({
             drawer: {
                 position: "static",
@@ -14,7 +15,11 @@ const Filters = (props) => {
                     width: "100%",
                 }
             }, capitalizeWord: {
-                textTransform: 'capitalize'
+                textTransform: 'capitalize',
+                fontWeight:700
+            },accordianHeader:{
+                backgroundColor: theme.palette.secondary.main,
+                color:theme.palette.secondary.contrastText
             }
         })
     })
@@ -50,8 +55,10 @@ const Filters = (props) => {
                     expandIcon={<ExpandMoreOutlined />}
                     aria-controls={filterName}
                     id={filterName}
+                    color="secondary"
+                    className={classes.accordianHeader}
                 >
-                    <Typography className={classes.capitalizeWord}>{filterName}</Typography>
+                    <Typography  className={classes.capitalizeWord}>{filterName}</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                     <Container>

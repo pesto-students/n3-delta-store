@@ -35,7 +35,6 @@ const PDPContainer = (props) => {
     colorVar: false,
   });
   const dispatch = useDispatch();
-
   const authState = useSelector((state) => state?.authReducer);
   const { isLoggedIn } = authState;
 
@@ -48,7 +47,7 @@ const PDPContainer = (props) => {
     }
     return variantOptions ? true : false;
   };
-
+  
   const useStyles = makeStyles((theme) => {
     return {
       root: {
@@ -57,6 +56,9 @@ const PDPContainer = (props) => {
       },
       gridList: {
         padding: theme.spacing(6),
+        [theme.breakpoints.down("md")]: {
+          padding: theme.spacing(1),
+        },
       },
       gridPadding: {
         padding: theme.spacing(2),
@@ -67,6 +69,12 @@ const PDPContainer = (props) => {
       },
       cartButton: {
         paddingTop: theme.spacing(2),
+      },
+      productTitle: {
+        ...theme.typography.h3,
+        [theme.breakpoints.down("md")]: {
+          ...theme.typography.h4,
+        },
       },
     };
   });
@@ -84,8 +92,19 @@ const PDPContainer = (props) => {
           setError(true);
           console.log(err);
         });
+    } else if (product && id !== product.id) {
+      dispatch(setLoader(true));
+      getProduct(id)
+        .then((productData) => {
+          dispatch(setLoader(false));
+          setProduct(productData);
+        })
+        .catch((err) => {
+          setError(true);
+          console.log(err);
+        });
     }
-  }, [product, id]);
+  }, [product, id, dispatch]);
 
   useEffect(() => {
     const sizeVar = checkOptionsAvailable("Size");
@@ -95,20 +114,6 @@ const PDPContainer = (props) => {
       colorVar,
     });
   }, [product]);
-  if (isError) {
-    return (
-      <main>
-        <Error />
-      </main>
-    );
-  }
-  if (_.isEmpty(product)) {
-    return (
-      <Paper>
-        <Skeleton variant="rect" width={210} height={"50%"} />
-      </Paper>
-    );
-  }
 
   const handleChange = (event) => {
     setSize(event.target.value);
@@ -124,7 +129,7 @@ const PDPContainer = (props) => {
 
   const handleAddToWishList = () => {
     try {
-      /* const { sizeVar, colorVar } = variantAvailable;
+      const { sizeVar, colorVar } = variantAvailable;
       if (sizeVar && !size) {
         dispatch(setError("Please Select Size"));
         return;
@@ -132,7 +137,7 @@ const PDPContainer = (props) => {
       if (colorVar && !color) {
         dispatch(setError("Please Select Color"));
         return;
-      } */
+      }
       dispatch(addItemToWishList(product));
     } catch (err) {
     } finally {
@@ -142,7 +147,7 @@ const PDPContainer = (props) => {
 
   const handleAddToCart = async () => {
     try {
-      /* const { sizeVar, colorVar } = variantAvailable;
+      const { sizeVar, colorVar } = variantAvailable;
       if (sizeVar && !size) {
         dispatch(setError("Please Select Size"));
         return;
@@ -150,7 +155,7 @@ const PDPContainer = (props) => {
       if (colorVar && !color) {
         dispatch(setError("Please Select Color"));
         return;
-      } */
+      }
       dispatch(setLoader(true));
       const response = await addToCart(product?.id, 1);
       const { success, cart } = response;
@@ -165,10 +170,34 @@ const PDPContainer = (props) => {
     }
   };
 
+
+  if (isError) {
+    return (
+      <main>
+        <Error />
+      </main>
+    );
+  }
+
+  if (_.isEmpty(product)) {
+    return (
+      <Paper>
+        <Skeleton variant="rect" width={210} height={"50%"} />
+      </Paper>
+    );
+  }
+
   return (
     <main className={classes.root}>
       <Grid container className={classes.gridList}>
-        <Grid key={product.id} xs={5} item className={classes.gridPadding}>
+        <Grid
+          key={product.id}
+          xs={12}
+          sm={12}
+          md={5}
+          item
+          className={classes.gridPadding}
+        >
           <CardMedia className={classes.media}>
             <img
               className={classes.img}
@@ -177,35 +206,32 @@ const PDPContainer = (props) => {
             />
           </CardMedia>
         </Grid>
-        <Grid xs={6} item className={classes.gridPadding}>
-          <Typography variant="h3">{product.name}</Typography>
-          <Typography variant="subtitle2">
+        <Grid xs={12} sm={12} md={6} item className={classes.gridPadding}>
+          <Typography className={classes.productTitle}>
+            {product.name}
+          </Typography>
+          <Typography variant="subtitle1">
             <div dangerouslySetInnerHTML={{ __html: product.description }} />
           </Typography>
           <Typography variant="h5" className={classes.gridPadding}>
             {product.price.formatted_with_symbol}
           </Typography>
 
-          <Grid item style={{ display: "flex" }}>
-            <Typography variant="h5" style={{ paddingRight: 5 }}>
-              {translate("Size")}:{" "}
-            </Typography>
+          <Typography variant="h5" className={classes.gridPadding}>
             <SizeSelector
               product={product}
               handleChange={handleChange}
               size={size}
             />
-          </Grid>
-          <Grid item style={{ display: "flex" }}>
-            <Typography variant="h5" style={{ paddingRight: 5 }}>
-              {translate("Color")}:{" "}
-            </Typography>
+          </Typography>
+
+          <Typography variant="h5" className={classes.gridPadding}>
             <ColorSelector
               product={product}
               setColor={setColor}
               color={color}
             ></ColorSelector>
-          </Grid>
+          </Typography>
           <div className={classes.cartButton}>
             <Button
               size="large"
