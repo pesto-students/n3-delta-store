@@ -1,8 +1,11 @@
 import { render, screen } from '@testing-library/react';
 import App from './App';
-
-test('renders learn react link', () => {
+import _ from 'lodash';
+test('Check is Header working', () => {
   render(<App />);
-  const linkElement = screen.getByText(/Hello World !/i);
-  expect(linkElement).toBeInTheDocument();
+
+  const linkArr = ["Home", "Shop", "About"]
+  _.each(linkArr, (link) => {
+    expect(screen.getByText(link)).toBeInTheDocument();
+  })
 });

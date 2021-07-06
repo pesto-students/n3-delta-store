@@ -1,4 +1,5 @@
 import firebase from "firebase";
+require('firebase/analytics')
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
