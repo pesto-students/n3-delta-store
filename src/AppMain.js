@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect } from "react";
+import React, { Suspense, useEffect, useRef } from "react";
 import Routes from "./main/routes/route";
 import "./resources/styles/reset.scss";
 import { ThemeProvider } from "@material-ui/core";
@@ -9,8 +9,6 @@ import firebase from "./config/firebaseConfig";
 import { useDispatch, useSelector } from "react-redux";
 import { setAuth } from "./main/store/actions/AuthActions";
 import { setDisplayType } from "./main/store/actions/DisplayActions";
-import firebase from "./config/firebaseConfig";
-import { useDispatch, useSelector } from "react-redux";
 import { setLoader } from "./main/store/actions/LoadingActions";
 import { getCart, getExistingUserCart } from "./main/axios/commerce";
 import { noCart, setCart } from "./main/store/actions/CartActions";

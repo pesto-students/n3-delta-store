@@ -38,6 +38,11 @@ const useStyles = makeStyles((theme) => ({
     width: 128,
     height: 128,
   },
+  gridFlex: {
+    display: "flex",
+    alignItems: "center",
+    paddingBottom: 5,
+  },
   img: {
     margin: "auto",
     display: "block",
@@ -141,17 +146,16 @@ const CartItem = ({ item = {} }) => {
                 <Typography gutterBottom variant="body2" color="textSecondary">
                   {item.description}
                 </Typography>
-                <Typography
-                  variant="body2"
-                  gutterBottom
-                  style={{ display: "flex" }}
-                >
-                  {item?.currency}
-                  {item?.price?.formatted_with_symbol}
-                </Typography>
               </Grid>
-              <Grid item style={{ display: "flex" }}>
-                <Grid item style={{ display: "flex", alignItems: "center" }}>
+              <Grid item>
+                <Grid
+                  item
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    paddingBottom: 5,
+                  }}
+                >
                   <Typography variant="subtitle2" style={{ paddingRight: 5 }}>
                     {translate("Size")}:{" "}
                   </Typography>
@@ -161,7 +165,14 @@ const CartItem = ({ item = {} }) => {
                     product={product}
                   />
                 </Grid>
-                <Grid item style={{ display: "flex", alignItems: "center" }}>
+                <Grid
+                  item
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    paddingBottom: 5,
+                  }}
+                >
                   <Typography variant="subtitle2" style={{ paddingRight: 5 }}>
                     {translate("Quantity")}:{" "}
                   </Typography>
@@ -196,27 +207,24 @@ const CartItem = ({ item = {} }) => {
           style={{
             display: "flex",
             flexGrow: 1,
-            justifyContent: "space-between",
           }}
         >
           <Grid item>
             <Button
               size="large"
               fullWidth
-              variant="contained"
               color="secondary"
               onClick={() => {
                 handleRemove();
               }}
             >
-              Delete from cart
+              Delete
             </Button>
           </Grid>
           <Grid item>
             <Button
               size="large"
               fullWidth
-              variant="contained"
               color="primary"
               onClick={handleMoveToWishList}
             >
