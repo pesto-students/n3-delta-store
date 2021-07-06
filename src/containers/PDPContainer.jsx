@@ -40,6 +40,11 @@ const PDPContainer = props => {
                 boxShadow: theme.shadows[3]
             }, cartButton: {
                 paddingTop: theme.spacing(2)
+            }, productTitle: {
+                ...theme.typography.h3,
+                [theme.breakpoints.down("md")]: {
+                    ...theme.typography.h4,
+                }
             }
         })
 
@@ -96,21 +101,25 @@ const PDPContainer = props => {
                     </CardMedia>
                 </Grid>
                 <Grid xs={12} sm={12} md={6} item className={classes.gridPadding}>
-                    <Typography variant="h3">
+                    <Typography className={classes.productTitle}>
                         {product.name}
                     </Typography>
-                    <Typography variant="subtitle2">
+                    <Typography variant="subtitle1">
                         <div dangerouslySetInnerHTML={{ __html: product.description }} />
                     </Typography>
                     <Typography variant="h5" className={classes.gridPadding}>
                         {product.price.formatted_with_symbol}
                     </Typography>
 
-                    <SizeSelector product={product}
-                        handleChange={handleChange}
-                        size={size} />
+                    <Typography variant="h5" className={classes.gridPadding}>
+                        <SizeSelector product={product}
+                            handleChange={handleChange}
+                            size={size} />
+                    </Typography>
 
-                    <ColorSelector product={product} setColor={setColor} color={color} ></ColorSelector>
+                    <Typography variant="h5" className={classes.gridPadding}>
+                        <ColorSelector product={product} setColor={setColor} color={color} ></ColorSelector>
+                    </Typography>
                     <div className={classes.cartButton}>
                         <Button size="large" fullWidth variant="contained" color="secondary"><FavoriteIcon /> Add to Wishlist</Button>
                         <Button size="large" fullWidth variant="contained" color="primary"><ShoppingCart /> Add to Cart</Button>

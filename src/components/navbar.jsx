@@ -3,7 +3,6 @@ import { useHistory, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import ShoppingCart from "@material-ui/icons/ShoppingCart";
 import AccountCircleOutlinedIcon from "@material-ui/icons/AccountCircleOutlined";
@@ -19,7 +18,7 @@ import Fade from "@material-ui/core/Fade";
 import LoginModal from "./LoginModal";
 import { signOut } from "../services/Authentication/auth";
 import { setAuth } from "../main/store/actions/AuthActions";
-import { Button, CssBaseline, Drawer, List, ListItem, ListItemText } from "@material-ui/core";
+import { Button, CssBaseline, Divider, Drawer, List, ListItem, ListItemText } from "@material-ui/core";
 import Search from "../components/search";
 import { List as ListIcon } from "@material-ui/icons";
 import ElevationScroll from "./elevation";
@@ -30,26 +29,21 @@ const useStyles = makeStyles((theme) => ({
   },
   appBar: {
     ...theme.header,
-    backgroundColor: "#ffffff",
+    backgroundColor: theme.palette.common.white,
     color: "black",
+  },
+  drawerList: {
+    textDecoration: "none",
+    padding: 0
   },
   logo: {
     height: "50px",
     display: "flex",
     alignItems: "center",
-    padding: 5,
+    paddingRight: theme.spacing(1),
+    paddingLeft: theme.spacing(1),
     cursor: "pointer",
-  },
-  linkTitle: {
-    // flexGrow: 1,
-    padding: 5,
-  },
-  title: {
-    display: "none",
-    [theme.breakpoints.up("sm")]: {
-      display: "block",
-    },
-  },
+  }
 }));
 
 const links = [
@@ -108,14 +102,12 @@ const Navbar = (props) => {
 
   const mainLogo = () => {
     return (
-      <Typography
+      <div
         className={classes.title}
         onClick={() => history.push("/")}
-        variant="h6"
-        noWrap
       >
         <img src={AppLogo} alt="app-logo" className={classes.logo} />
-      </Typography>
+      </div>
     );
   };
   const pageLinks = () => {
@@ -127,18 +119,18 @@ const Navbar = (props) => {
         <List
           {...{
             component: "nav",
-            "aria-label": { title },
-            selected: pathname === route,
+            "aria-label": title,
             color: pathname === route ? "primary" : "inherit",
-            style: { textDecoration: "none" },
+            className: classes.drawerList,
             key: title,
           }}
         >
           <ListItem button key={title}
             selected={pathname === route}
+
             onClick={(event) => { handleDrawerClose(); history.push(route) }}
           >
-            <ListItemText primary={title} />
+            <ListItemText>{title}</ListItemText>
           </ListItem>
         </List >) : (
 
@@ -158,7 +150,7 @@ const Navbar = (props) => {
       <>
         <IconButton  {...{
           edge: "start",
-          color: "inherit",
+          color: "primary",
           "aria-label": "menu",
           "aria-haspopup": "true",
           onClick: handleDrawerOpen,
@@ -172,7 +164,12 @@ const Navbar = (props) => {
             onClose: handleDrawerClose,
           }}
         >
-          <div>{generatedLinks}</div>
+          <div>{isMobile ? (
+            <>
+              {mainLogo()}
+              <Divider />
+              <div>{generatedLinks}</div></>) : null}
+          </div>
         </Drawer>
 
       </>) : generatedLinks;
@@ -183,6 +180,7 @@ const Navbar = (props) => {
       <Menu
         id="fade-menu"
         anchorEl={anchorEl}
+        color="primary"
         keepMounted
         open={open}
         onClose={handleProfileMenuClose}
@@ -197,6 +195,7 @@ const Navbar = (props) => {
           Profile
         </MenuItem>
         <MenuItem
+          color="primary"
           onClick={async () => {
             await signOut();
             dispatch(setAuth(null));
@@ -216,18 +215,18 @@ const Navbar = (props) => {
       <ElevationScroll {...props}>
         <AppBar position="fixed" className={classes.appBar}>
           <Toolbar>
-            {mainLogo()}
+            {!isMobile ? mainLogo() : null}
             {pageLinks()}
 
-            <div className={classes.grow} />
             <Search />
-            <IconButton aria-label={`Language`} color="inherit">
-              <TranslateOutlinedIcon />
+            <div className={classes.grow} />
+            <IconButton aria-label={`Language`} color="secondary">
+              <TranslateOutlinedIcon  />
             </IconButton>
             <div>{profileMenu()}</div>
             <IconButton
               aria-label={`Profile`}
-              color="inherit"
+              color="secondary"
               onClick={(e) => {
                 handleProfileIconClick(e, "profile");
               }}
@@ -236,7 +235,7 @@ const Navbar = (props) => {
             </IconButton>
             <IconButton
               aria-label={`${totalCartItems} item(s) in your cart`}
-              color="inherit"
+              color="secondary"
               onClick={() => {
                 handleMenuItemOnClick("cart");
               }}
@@ -247,7 +246,7 @@ const Navbar = (props) => {
             </IconButton>
             <IconButton
               aria-label="Wish list"
-              color="inherit"
+              color="secondary"
               onClick={() => {
                 handleMenuItemOnClick("wishlist");
               }}

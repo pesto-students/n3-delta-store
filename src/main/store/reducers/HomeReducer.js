@@ -15,5 +15,5 @@ const HomeReducer = (state = initialState, action) => {
             return state;
     }
 };
-
+export const homeInitalState = initialState;
 export default HomeReducer;

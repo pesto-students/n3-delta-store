@@ -20,23 +20,22 @@ function AppMain() {
   //     console.log(res.data.country_code)
   //   });
 
-
-  const updateUser = (response) => {
-    dispatch(setAuth(response));
-  };
-
-  const setResponsiveness = () => {
-    dispatch(setDisplayType(window))
-  }
-
   useEffect(() => {
+    const updateUser = (response) => {
+      dispatch(setAuth(response));
+    };
+
+    const setResponsiveness = () => {
+      dispatch(setDisplayType(window))
+    }
+
     firebase.auth().onAuthStateChanged(updateUser);
     window.addEventListener("resize", () => setResponsiveness());
     setResponsiveness();
     return () => {
       window.removeEventListener("resize", () => setResponsiveness());
     }
-  }, [setResponsiveness]);
+  }, [dispatch]);
   return (
     <ThemeProvider theme={theme}>
       <Suspense fallback={<Loading open={true} />}>
