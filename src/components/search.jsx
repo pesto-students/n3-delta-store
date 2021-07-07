@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import { CardMedia, CircularProgress, IconButton, InputBase, Menu, Paper, Typography } from '@material-ui/core';
 import { SearchOutlined } from '@material-ui/icons';
 import { searchProduct } from '../main/axios/commerce';
 import { useHistory } from 'react-router-dom';
-
+import _ from 'lodash';
 
 const Search = (props) => {
 
@@ -73,25 +73,39 @@ const Search = (props) => {
         setAnchorEl(event.currentTarget);
     };
 
+    const debounceCallBack = (searchString) => {
+        console.log(searchString)
+        setSearching(true);
+        if (!searchString) {
+            setSearching(false);
+            setSearchResult([])
+            return;
+        }
+        setSearching(true);
+        searchProduct(searchString).then((res) => {
+            setSearching(false);
+            setSearchResult(res.data)
+        })
+    }
+    const debounce_fun = useMemo(() => _.debounce(debounceCallBack, 1000), []);
+
+    useEffect(() => {
+        debounce_fun(searchString);
+    }, [debounce_fun, searchString]);
+
+    const searchResultInput = (e) => {
+        setSearchString(e.currentTarget.value);
+    }
+
     const handleClose = () => {
-        setAnchorEl(null);
         setSearchResult([])
     };
 
     return (
         <div className={classes.search}>
             <Paper component="form" className={classes.form} onSubmit={(e) => {
-                e.preventDefault(); setSearching(true);
-                if (!searchString) {
-                    setSearching(false);
-                    setSearchResult([])
-                    return;
-                }
-                setSearching(true);
-                searchProduct(searchString).then((res) => {
-                    setSearching(false);
-                    setSearchResult(res.data)
-                })
+                e.preventDefault();
+
             }} >
                 <InputBase
                     endAdornment={
@@ -105,7 +119,7 @@ const Search = (props) => {
                     value={searchString}
                     placeholder="Search.."
                     onClick={handleClick}
-                    onChange={(e) => { setSearchString(e.currentTarget.value) }}
+                    onChange={(e) => { searchResultInput(e) }}
                     classes={{
                         root: classes.inputRoot,
                         input: classes.inputInput,

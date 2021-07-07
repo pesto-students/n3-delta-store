@@ -62,8 +62,8 @@ function LoginModal() {
   };
 
   useEffect(() => {
-    handleClose();
-  }, [isLoggedIn]);
+    dispatch(closeLoginModal());
+  }, [isLoggedIn, dispatch]);
 
   return (
     <Dialog

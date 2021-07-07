@@ -16,10 +16,12 @@ const Filters = (props) => {
                 }
             }, capitalizeWord: {
                 textTransform: 'capitalize',
-                fontWeight:700
-            },accordianHeader:{
+                fontWeight: 700
+            }, accordianHeader: {
                 backgroundColor: theme.palette.secondary.main,
-                color:theme.palette.secondary.contrastText
+                color: theme.palette.secondary.contrastText
+            }, arrowColor: {
+                color: theme.palette.common.white
             }
         })
     })
@@ -52,13 +54,13 @@ const Filters = (props) => {
             })
             return (<Accordion defaultExpanded={true} key={filterName}>
                 <AccordionSummary
-                    expandIcon={<ExpandMoreOutlined />}
+                    expandIcon={<ExpandMoreOutlined className={classes.arrowColor} />}
                     aria-controls={filterName}
                     id={filterName}
                     color="secondary"
                     className={classes.accordianHeader}
                 >
-                    <Typography  className={classes.capitalizeWord}>{filterName}</Typography>
+                    <Typography variant="h6" className={classes.capitalizeWord}>{filterName}</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                     <Container>

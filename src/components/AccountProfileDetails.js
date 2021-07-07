@@ -11,8 +11,7 @@ import {
   Paper,
   Tab,
   Tabs,
-  TextField,
-  Typography
+  TextField
 } from '@material-ui/core';
 import _ from 'lodash';
 import { isValidEmail } from '../utils/util';
