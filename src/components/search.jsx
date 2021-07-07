@@ -74,7 +74,6 @@ const Search = (props) => {
     };
 
     const debounceCallBack = (searchString) => {
-        console.log(searchString)
         setSearching(true);
         if (!searchString) {
             setSearching(false);
