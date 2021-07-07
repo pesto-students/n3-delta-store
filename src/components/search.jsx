@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import { CardMedia, CircularProgress, IconButton, InputBase, Menu, Paper, Typography } from '@material-ui/core';
 import { SearchOutlined } from '@material-ui/icons';
 import { searchProduct } from '../main/axios/commerce';
 import { useHistory } from 'react-router-dom';
-
+import _ from 'lodash';
 
 const Search = (props) => {
 
@@ -34,9 +34,9 @@ const Search = (props) => {
             padding: 0
         },
         searchIcon: {
-            padding: theme.spacing(0, 2),
+            //padding: theme.spacing(0, 2),
             height: '100%',
-            position: 'absolute',
+            //position: 'absolute',
             pointerEvents: 'none',
             display: 'flex',
             alignItems: 'center',
@@ -51,7 +51,7 @@ const Search = (props) => {
             padding: theme.spacing(1),
         }, inputInput: {
             padding: theme.spacing(1, 1, 1, 0),
-            paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+            paddingLeft: `calc(1em + ${theme.spacing(1)}px)`,
         }, media: {
             paddingRight: theme.spacing(2)
         }, productName: {
@@ -73,25 +73,38 @@ const Search = (props) => {
         setAnchorEl(event.currentTarget);
     };
 
+    const debounceCallBack = (searchString) => {
+        setSearching(true);
+        if (!searchString) {
+            setSearching(false);
+            setSearchResult([])
+            return;
+        }
+        setSearching(true);
+        searchProduct(searchString).then((res) => {
+            setSearching(false);
+            setSearchResult(res.data)
+        })
+    }
+    const debounce_fun = useMemo(() => _.debounce(debounceCallBack, 1000), []);
+
+    useEffect(() => {
+        debounce_fun(searchString);
+    }, [debounce_fun, searchString]);
+
+    const searchResultInput = (e) => {
+        setSearchString(e.currentTarget.value);
+    }
+
     const handleClose = () => {
-        setAnchorEl(null);
         setSearchResult([])
     };
 
     return (
         <div className={classes.search}>
             <Paper component="form" className={classes.form} onSubmit={(e) => {
-                e.preventDefault(); setSearching(true);
-                if (!searchString) {
-                    setSearching(false);
-                    setSearchResult([])
-                    return;
-                }
-                setSearching(true);
-                searchProduct(searchString).then((res) => {
-                    setSearching(false);
-                    setSearchResult(res.data)
-                })
+                e.preventDefault();
+
             }} >
                 <InputBase
                     endAdornment={
@@ -105,7 +118,7 @@ const Search = (props) => {
                     value={searchString}
                     placeholder="Search.."
                     onClick={handleClick}
-                    onChange={(e) => { setSearchString(e.currentTarget.value) }}
+                    onChange={(e) => { searchResultInput(e) }}
                     classes={{
                         root: classes.inputRoot,
                         input: classes.inputInput,
@@ -114,7 +127,7 @@ const Search = (props) => {
                         'aria-label': 'search'
                     }}
                 />
-                <IconButton type="submit" className={classes.searchIcon} aria-label="search">
+                <IconButton type="submit" aria-label="search">
                     <SearchOutlined />
                 </IconButton>
             </Paper>
@@ -131,9 +144,10 @@ const Search = (props) => {
 
                 {searchResult && searchResult.map((product) => {
                     return (<MenuItem onClick={() => {
-                        history.push(`/shop/product/${product.id}`)
+                        setSearchString('')
                         setSearchResult([]);
                         setAnchorEl(null);
+                        history.push(`/shop/product/${product.id}`)
                     }} key={product.id} className={classes.root}>
                         <CardMedia
                             className={classes.media}

@@ -10,7 +10,7 @@ const SizeSelector = props => {
     let sizeOptionsEle = [];
     if (product.variant_groups && product.variant_groups.length) {
         const sizeOptions = _.find(product.variant_groups, { name: "Size" })
-        if (sizeOptions.options && sizeOptions.options.length) {
+        if (sizeOptions && sizeOptions.options && sizeOptions.options.length) {
             sizeOptionsEle = _.map(sizeOptions.options, (option) => {
                 return (<MenuItem value={option.id}>
                     {translate(option.name)}

@@ -16,6 +16,7 @@ const Shop = lazy(() => import('../../containers/ShopContainer'));
 const PDP = lazy(() => import('../../containers/PDPContainer'));
 const Cart = lazy(() => import("../../containers/CartContainer"));
 const WishList = lazy(() => import("../../containers/WishListContainer"));
+const Profile = lazy(() => import("../../containers/ProfileContainer"));
 
 const Routes = ({ isLoggedIn }) => {
   const location = useLocation();
@@ -83,6 +84,13 @@ const Routes = ({ isLoggedIn }) => {
           path="/wishlist"
           render={() => {
             return <WishList />;
+          }}
+        />
+        <Route
+          exact
+          path="/profile"
+          render={() => {
+            return <Profile />;
           }}
         />
       </Switch>

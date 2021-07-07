@@ -43,7 +43,12 @@ const PDPContainer = props => {
             }, productTitle: {
                 ...theme.typography.h3,
                 [theme.breakpoints.down("md")]: {
-                    ...theme.typography.h4,
+                    ...theme.typography.h5,
+                }
+            },productDescription:{
+                ...theme.typography.subtitle1,
+                [theme.breakpoints.down("md")]: {
+                    ...theme.typography.subtitle2,
                 }
             }
         })
@@ -104,8 +109,8 @@ const PDPContainer = props => {
                     <Typography className={classes.productTitle}>
                         {product.name}
                     </Typography>
-                    <Typography variant="subtitle1">
-                        <div dangerouslySetInnerHTML={{ __html: product.description }} />
+                    <Typography dangerouslySetInnerHTML={{ __html: product.description }} className={classes.productDescription}>
+                        
                     </Typography>
                     <Typography variant="h5" className={classes.gridPadding}>
                         {product.price.formatted_with_symbol}

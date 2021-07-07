@@ -6,7 +6,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import ShoppingCart from "@material-ui/icons/ShoppingCart";
 import AccountCircleOutlinedIcon from "@material-ui/icons/AccountCircleOutlined";
-import TranslateOutlinedIcon from "@material-ui/icons/TranslateOutlined";
+//import TranslateOutlinedIcon from "@material-ui/icons/TranslateOutlined";
 import Favorite from "@material-ui/icons/Favorite";
 import Badge from "@material-ui/core/Badge";
 import AppLogo from "../resources/images/Delta Store.png";
@@ -220,9 +220,9 @@ const Navbar = (props) => {
 
             <Search />
             <div className={classes.grow} />
-            <IconButton aria-label={`Language`} color="secondary">
+            {/* <IconButton aria-label={`Language`} color="secondary">
               <TranslateOutlinedIcon  />
-            </IconButton>
+            </IconButton> */}
             <div>{profileMenu()}</div>
             <IconButton
               aria-label={`Profile`}
