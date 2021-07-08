@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Carousel } from 'react-responsive-carousel';
-import { Paper, CardMedia, Divider, Grid, makeStyles, Container, Typography} from '@material-ui/core'
+import { Paper, CardMedia, Divider, Grid, makeStyles, Container, Typography } from '@material-ui/core'
 import { getCategories } from '../main/axios/commerce';
 import { translate } from '../resources/language/translate';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
@@ -49,19 +49,20 @@ const Home = (props) => {
     });
 
     const classes = useStyles();
-    const homeState = useSelector((state) => state?.homeReducer)
+    const homeState = useSelector((state) => state?.homeReducer);
+    const loader = useSelector(state => state.loader.loading);
     const { categories } = homeState;
     const history = useHistory();
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (!(categories && categories.length)) {
+        if (!(categories && categories.length) && !loader) {
             dispatch(setLoader(true))
             getCategories().then(
-                res => { dispatch(setLoader(false)); return dispatch(setHomeCategories(res.data)) }
+                res => { dispatch(setHomeCategories(res.data)); dispatch(setLoader(false)); }
             )
         }
-    })
+    }, [categories, dispatch, loader])
 
 
     const categoriesList = categories && categories.length ? categories : _.times(4, _.constant({}))

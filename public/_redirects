@@ -1,0 +1,5 @@
+/shop   /shop1
+/about  /about
+/shop categories=:categories /shop/:categories
+/shop/product id=:id /shop/product/:id
+/profile  /profile

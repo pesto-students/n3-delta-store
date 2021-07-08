@@ -4,12 +4,13 @@ import { getProducts } from '../main/axios/commerce';
 import Filter from '../components/filters'
 import _ from 'lodash';
 import { useHistory, useParams } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setLoader } from '../main/store/actions/LoadingActions';
 import { Skeleton } from '@material-ui/lab';
 
 const ShopContainer = (props) => {
     let params = useParams("categories");
+    const loader = useSelector(state => state.loader.loading)
     const [products, setProducts] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [filters, setFilters] = useState({});
@@ -50,7 +51,7 @@ const ShopContainer = (props) => {
     }
 
     useEffect(() => {
-        if (!(products && products.length)) {
+        if (!(products && products.length) && !loader) {
             dispatch(setLoader(true));
             getProducts().then(
                 res => {
@@ -69,7 +70,7 @@ const ShopContainer = (props) => {
                 }
             )
         }
-    })
+    }, [products, dispatch, loader, params])
 
 
     const useStyles = makeStyles((theme) => {

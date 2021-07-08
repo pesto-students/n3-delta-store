@@ -43,7 +43,7 @@ const Search = (props) => {
             justifyContent: 'center',
         },
         inputRoot: {
-            color: 'primary',
+            color: theme.palette.primary.main,
         }, form: {
             display: 'flex'
         },
