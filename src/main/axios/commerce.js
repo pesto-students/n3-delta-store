@@ -25,10 +25,10 @@ export const getExistingUserCart = (cartId) => {
   return commerce.cart.retrieve(cartId);
 };
 
-export const addToCart = (productId, quantity) => {
+export const addToCart = (productId, quantity, metaData) => {
   const commerce = new Commerce(ECOMMERCE_PUBLIC_KEY);
 
-  return commerce.cart.add(productId, quantity);
+  return commerce.cart.add(productId, quantity, metaData);
 };
 
 export const updateCart = (id, payload) => {

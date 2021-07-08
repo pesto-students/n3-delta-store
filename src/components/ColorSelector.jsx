@@ -28,7 +28,7 @@ const ColorSelector = (props) => {
         setColor(colorOptions.options[0].id);
       }
     }
-  }, [product, color, setColor]);
+  }, [product]);
 
   let colorEle = [];
   if (product?.variant_groups && product.variant_groups.length) {

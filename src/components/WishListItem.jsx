@@ -24,9 +24,10 @@ import { translate } from "../resources/language/translate";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 345,
+    maxWidth: 200,
     padding: theme.spacing(2),
     margin: theme.spacing(2),
+    outline: "1px solid #e9e9eb",
   },
   media: {
     height: "200px",
@@ -80,23 +81,27 @@ const WishListItem = ({ item = {} }) => {
 
   return (
     <Card className={classes.root}>
-      <CardHeader
-        action={
-          <IconButton
-            aria-label="delete item from wishlist"
-            onClick={handleDelete}
-          >
-            <CancelIcon />
-          </IconButton>
-        }
-      />
-      <CardContent>
-        <Typography className={classes.title} variant="subtitle2">
-          {item?.name}
-        </Typography>
-        <Typography className={classes.subheader} variant="h6">
-          {item?.price?.formatted_with_symbol}
-        </Typography>
+      <CardContent
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <Grid item xs={12} sm container spacing={2}>
+          <Typography className={classes.title} variant="subtitle2">
+            {item?.name}
+          </Typography>
+          <Typography className={classes.subheader} variant="h6">
+            {item?.price?.formatted_with_symbol}
+          </Typography>
+        </Grid>
+        <IconButton
+          aria-label="delete item from wishlist"
+          onClick={handleDelete}
+        >
+          <CancelIcon />
+        </IconButton>
       </CardContent>
       <CardMedia
         className={classes.media}
@@ -124,7 +129,7 @@ const WishListItem = ({ item = {} }) => {
 
       <CardActions disableSpacing>
         <Button
-          size="large"
+          size="small"
           fullWidth
           variant="contained"
           color="primary"

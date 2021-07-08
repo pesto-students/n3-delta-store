@@ -23,6 +23,7 @@ import { addItemToWishList } from "../main/store/actions/WishListActions";
 import { addItemToCart, setCart } from "../main/store/actions/CartActions";
 import { translate } from "../resources/language/translate";
 import { openLoginModal } from "../main/store/actions/LoginModalActions";
+import { setError as setGlobalError } from "../main/store/actions/ErrorActions";
 
 const PDPContainer = (props) => {
   const { id } = useParams();
@@ -45,9 +46,9 @@ const PDPContainer = (props) => {
       variantOptions = _.find(product.variant_groups, { name: variant });
       console.log(variantOptions);
     }
-    return variantOptions ? true : false;
+    return variantOptions ? variantOptions.id : false;
   };
-  
+
   const useStyles = makeStyles((theme) => {
     return {
       root: {
@@ -131,11 +132,11 @@ const PDPContainer = (props) => {
     try {
       const { sizeVar, colorVar } = variantAvailable;
       if (sizeVar && !size) {
-        dispatch(setError("Please Select Size"));
+        dispatch(setGlobalError("Please Select Size"));
         return;
       }
       if (colorVar && !color) {
-        dispatch(setError("Please Select Color"));
+        dispatch(setGlobalError("Please Select Color"));
         return;
       }
       dispatch(addItemToWishList(product));
@@ -149,27 +150,29 @@ const PDPContainer = (props) => {
     try {
       const { sizeVar, colorVar } = variantAvailable;
       if (sizeVar && !size) {
-        dispatch(setError("Please Select Size"));
+        dispatch(setGlobalError("Please Select Size"));
         return;
       }
       if (colorVar && !color) {
-        dispatch(setError("Please Select Color"));
+        dispatch(setGlobalError("Please Select Color"));
         return;
       }
       dispatch(setLoader(true));
-      const response = await addToCart(product?.id, 1);
+      const metaData = {};
+      metaData[sizeVar] = size;
+      metaData[colorVar] = color;
+      const response = await addToCart(product?.id, 1, metaData);
       const { success, cart } = response;
       if (success) {
         dispatch(setCart(cart));
       }
     } catch (err) {
       console.log(err);
-      dispatch(setError("Error in adding Item from Cart"));
+      dispatch(setGlobalError("Error in adding Item from Cart"));
     } finally {
       dispatch(setLoader(false));
     }
   };
-
 
   if (isError) {
     return (

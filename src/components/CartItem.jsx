@@ -13,6 +13,7 @@ import {
   removeFromCart,
   updateCart,
 } from "../main/axios/commerce";
+import _ from "lodash";
 import { setError } from "../main/store/actions/ErrorActions";
 import { setCart } from "../main/store/actions/CartActions";
 import { useDispatch } from "react-redux";
@@ -26,7 +27,6 @@ import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    // flexGrow: 1,
     padding: theme.spacing(2),
   },
   paper: {
@@ -51,18 +51,52 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const checkSelectedOptions = (options = [], variant) => {
+  if (options.length === 0) {
+    return "";
+  }
+  const [selectedVariant = null] = options.filter(
+    ({ group_name }) => group_name === variant
+  );
+  return selectedVariant?.option_id || "";
+};
+
 const CartItem = ({ item = {} }) => {
+  const { selected_options = [] } = item;
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
-  const [size, setSize] = useState("");
+  const [size, setSize] = useState(
+    checkSelectedOptions(selected_options, "Size")
+  );
+  const [color, setColor] = useState(
+    checkSelectedOptions(selected_options, "Color")
+  );
   const [product, setProduct] = useState(null);
   const [quantity, setQuantity] = useState(item.quantity || 1);
+  const [variantAvailable, setVariantAvailable] = useState({
+    sizeVar: false,
+    colorVar: false,
+  });
+  const { sizeVar, colorVar } = variantAvailable;
 
-  const getVariants = async () => {
-    const { product } = await getVariantsForProduct(item?.product_id);
-    setProduct(product);
+  const checkOptionsAvailable = (variant) => {
+    let variantOptions = [];
+    if (product?.variant_groups && product.variant_groups.length) {
+      variantOptions = _.find(product.variant_groups, { name: variant });
+      console.log(variantOptions);
+    }
+    return variantOptions ? variantOptions.id : false;
   };
+
+  useEffect(() => {
+    const sizeVar = checkOptionsAvailable("Size");
+    const colorVar = checkOptionsAvailable("Color");
+    setVariantAvailable({
+      sizeVar,
+      colorVar,
+    });
+  }, [product]);
 
   const getProductData = async () => {
     dispatch(setLoader(true));
@@ -98,17 +132,27 @@ const CartItem = ({ item = {} }) => {
     await handleRemove(true);
   };
 
-  const handleSizeChange = (selectedSize) => {
-    console.log(`selectedSize is`, selectedSize);
+  const handleSizeChange = (event) => {
+    const selected = event?.target?.value;
+    setSize(selected);
+    const variantData = {};
+    variantData[sizeVar] = selected;
+    const metaData = { options: variantData };
+    handleUpdateCartItem(metaData);
   };
 
-  const handleQuantityChange = async (selectedQuantity) => {
-    console.log(`selectedQuantity is`, selectedQuantity);
+  const handleColorChange = (selected) => {
+    setColor(selected);
+    const variantData = {};
+    variantData[colorVar] = selected;
+    const metaData = { options: variantData };
+    handleUpdateCartItem(metaData);
+  };
+
+  const handleUpdateCartItem = async (body) => {
     try {
       dispatch(setLoader(true));
-      const response = await updateCart(item?.id, {
-        quantity: selectedQuantity,
-      });
+      const response = await updateCart(item?.id, body);
       const { success, cart } = response;
       if (success) {
         dispatch(setCart(cart));
@@ -119,6 +163,13 @@ const CartItem = ({ item = {} }) => {
     } finally {
       dispatch(setLoader(false));
     }
+  };
+
+  const handleQuantityChange = async (selectedQuantity) => {
+    const body = {
+      quantity: selectedQuantity,
+    };
+    handleUpdateCartItem(body);
   };
 
   return (
@@ -148,23 +199,25 @@ const CartItem = ({ item = {} }) => {
                 </Typography>
               </Grid>
               <Grid item>
-                <Grid
-                  item
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    paddingBottom: 5,
-                  }}
-                >
-                  <Typography variant="subtitle2" style={{ paddingRight: 5 }}>
-                    {translate("Size")}:{" "}
-                  </Typography>
-                  <SizeSelector
-                    handleChange={handleSizeChange}
-                    size={size}
-                    product={product}
-                  />
-                </Grid>
+                {sizeVar && (
+                  <Grid
+                    item
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      paddingBottom: 5,
+                    }}
+                  >
+                    <Typography variant="subtitle2" style={{ paddingRight: 5 }}>
+                      {translate("Size")}:{" "}
+                    </Typography>
+                    <SizeSelector
+                      handleChange={handleSizeChange}
+                      size={size}
+                      product={product}
+                    />
+                  </Grid>
+                )}
                 <Grid
                   item
                   style={{
@@ -182,12 +235,18 @@ const CartItem = ({ item = {} }) => {
                   />
                 </Grid>
               </Grid>
-              <Grid item style={{ display: "flex", alignItems: "center" }}>
-                <Typography variant="subtitle2" style={{ paddingRight: 5 }}>
-                  {translate("Color")}:{" "}
-                </Typography>
-                <ColorSelector product={product} />
-              </Grid>
+              {colorVar && (
+                <Grid item style={{ display: "flex", alignItems: "center" }}>
+                  <Typography variant="subtitle2" style={{ paddingRight: 5 }}>
+                    {translate("Color")}:{" "}
+                  </Typography>
+                  <ColorSelector
+                    product={product}
+                    color={color}
+                    setColor={handleColorChange}
+                  />
+                </Grid>
+              )}
             </Grid>
           </Grid>
           <Grid item>
