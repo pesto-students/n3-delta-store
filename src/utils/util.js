@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 const regex = {
   email: new RegExp(
     '^(([^<>()\\[\\]\\\\.,;:\\s@]+(\\.[^<>()\\[\\]\\\\.,;:\\s@]+)*)|(.+))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$',
@@ -60,4 +62,21 @@ export const isValidEmail = (value) => {
   const result = regex.email.test(value);
   if (!result) return false;
   return true
+}
+
+export const getProductImg = (product,selectedColorOfProd ) => {
+  const colorOptions = _.find(product.variant_groups, { name: "Color" })
+  if (colorOptions) {
+      const selectedColor = _.find(colorOptions.options, { id: selectedColorOfProd })
+      if (selectedColor && selectedColor.name) {
+
+          const selectedAsset = _.find(product.assets, (prodAsset) => {
+              return prodAsset.filename.split("_")[1].split(".")[0] === selectedColor.name
+          })
+          if (selectedAsset) {
+              return selectedAsset.url
+          }
+          return null;
+      }
+  }
 }

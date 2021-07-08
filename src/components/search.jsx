@@ -33,17 +33,9 @@ const Search = (props) => {
         }, endIcon: {
             padding: 0
         },
-        searchIcon: {
-            //padding: theme.spacing(0, 2),
-            height: '100%',
-            //position: 'absolute',
-            pointerEvents: 'none',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-        },
+        
         inputRoot: {
-            color: 'primary',
+            color: theme.palette.primary.main,
         }, form: {
             display: 'flex'
         },
@@ -102,10 +94,7 @@ const Search = (props) => {
 
     return (
         <div className={classes.search}>
-            <Paper component="form" className={classes.form} onSubmit={(e) => {
-                e.preventDefault();
-
-            }} >
+            <Paper elevation={2} >
                 <InputBase
                     endAdornment={
                         <div className={classes.searchStatus}>
