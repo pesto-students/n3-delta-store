@@ -12,6 +12,7 @@ import SizeSelector from '../components/SizeSelector';
 import ColorSelector from '../components/ColorSelector';
 import { useDispatch } from 'react-redux';
 import { setLoader } from '../main/store/actions/LoadingActions';
+import { getProductImg } from '../utils/util';
 
 const PDPContainer = props => {
     const { id } = useParams();
@@ -95,22 +96,7 @@ const PDPContainer = props => {
         setSize(event.target.value);
     };
 
-    const getProductImg = () => {
-        const colorOptions = _.find(product.variant_groups, { name: "Color" })
-        if (colorOptions) {
-            const selectedColor = _.find(colorOptions.options, { id: color })
-            if (selectedColor && selectedColor.name) {
-
-                const selectedAsset = _.find(product.assets, (prodAsset) => {
-                    return prodAsset.filename.split("_")[1].split(".")[0] === selectedColor.name
-                })
-                if (selectedAsset) {
-                    return selectedAsset.url
-                }
-                return null;
-            }
-        }
-    }
+    
     return (
         <main className={classes.root}>
             <Grid container className={classes.gridList}>
@@ -118,7 +104,7 @@ const PDPContainer = props => {
                     <CardMedia
                         className={classes.media}
                     >
-                        <img className={classes.img} src={getProductImg() || product.media.source} alt={classes.media} />
+                        <img className={classes.img} src={getProductImg(product,color) || product.media.source} alt={classes.media} />
                     </CardMedia>
                 </Grid>
                 <Grid xs={12} sm={12} md={6} item className={classes.gridPadding}>
