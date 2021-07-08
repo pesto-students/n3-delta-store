@@ -35,12 +35,12 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
 ## Technology Stack
 
 It is an e-commerce site built with following Stack
-| Library  |  Coded?       | Description  |
-|----------|:-------------:|:-------------|
-| [React](https://reactjs.org/) | &#10004; | Front End Library |
-| [Firebase](https://firebase.google.com/) | &#10004; | Library used for authentication |
-| [Firestore](https://firebase.google.com/products/firestore?gclsrc=aw.ds&gclid=Cj0KCQjw24qHBhCnARIsAPbdtlJ8Wq-nK99Zgqjibv2EKRFJ3d23t6H3PQeWlmzWpQxJnzG59rYhyKwaAmqeEALw_wcB) | &#10004; | To store wishlist data |
-| [Commerce.js](https://commercejs.com/) | &#10004; | Library to get products, cart and store cart details |
+| Library  | Description  |
+|----------|:-------------:|
+| [React](https://reactjs.org/) | Front End Library |
+| [Firebase](https://firebase.google.com/) | Library used for authentication |
+| [Firestore](https://firebase.google.com/products/firestore?gclsrc=aw.ds&gclid=Cj0KCQjw24qHBhCnARIsAPbdtlJ8Wq-nK99Zgqjibv2EKRFJ3d23t6H3PQeWlmzWpQxJnzG59rYhyKwaAmqeEALw_wcB) | To store wishlist data |
+| [Commerce.js](https://commercejs.com/) | Library to get products, cart and store cart details |
 
 ## Features
 

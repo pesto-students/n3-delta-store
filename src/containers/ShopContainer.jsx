@@ -80,6 +80,7 @@ const ShopContainer = (props) => {
                 maxWidth: cardWidth,
                 width: cardWidth,
                 height: cardHeight,
+                boxShadow: 'none',
                 '&:hover': {
                     boxShadow: theme.shadows[18]
                 },
@@ -97,6 +98,7 @@ const ShopContainer = (props) => {
                 textAlign: 'center'
             }, img: {
                 ...theme.img,
+                width: '150px',
                 height: '200px'
             },
 
@@ -105,7 +107,7 @@ const ShopContainer = (props) => {
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
             }, gridList: {
-                margin: theme.spacing(2),
+                margin: theme.spacing(1),
             }, gridContainer: {
                 [theme.breakpoints.down("md")]: {
                     justifyContent: "center"
@@ -124,7 +126,7 @@ const ShopContainer = (props) => {
             <main>
 
                 <Grid container className={classes.gridContainer}>
-                    {_.times(4, _.constant(0)).map((product, key) => (
+                    {_.times(8, _.constant(0)).map((product, key) => (
                         <Grid key={key} item className={classes.gridList} >
                             <Card className={classes.cardWidth}>
                                 <Skeleton variant="rect" className={classes.cardWidth} />
@@ -149,7 +151,7 @@ const ShopContainer = (props) => {
                                         <img className={classes.img} src={product.media.source} alt={classes.media} />
                                     </CardMedia>
                                     <CardContent >
-                                        <Typography className={classes.producName} variant="subtitle2" >
+                                        <Typography className={classes.producName} variant="h5" >
                                             {product.name}
                                         </Typography>
                                         <Typography className={classes.producName} variant="h6" >
