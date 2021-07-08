@@ -18,6 +18,7 @@ import Fade from "@material-ui/core/Fade";
 import LoginModal from "./LoginModal";
 import { signOut } from "../services/Authentication/auth";
 import { setAuth } from "../main/store/actions/AuthActions";
+import { noCart } from "../main/store/actions/CartActions";
 import { Button, CssBaseline, Divider, Drawer, List, ListItem, ListItemText } from "@material-ui/core";
 import Search from "../components/search";
 import { List as ListIcon } from "@material-ui/icons";
@@ -66,14 +67,12 @@ const Navbar = (props) => {
   const history = useHistory();
   const [anchorEl, setAnchorEl] = useState(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const isMobile = useSelector((state) => state?.display?.isMobile || false)
+  const isMobile = useSelector((state) => state?.display?.isMobile || false);
   const open = Boolean(anchorEl);
 
-  const totalCartItems = useSelector(
-    (state) => state?.cart?.items?.length || 0
-  );
+  const totalCartItems = useSelector((state) => state?.cart?.cartLength || 0);
+  const wishListItems = useSelector((state) => state?.wishList?.items?.length || 0);
   const authState = useSelector((state) => state?.authReducer);
-
   const { isLoggedIn } = authState;
   const dispatch = useDispatch();
   let { pathname } = useLocation();
@@ -95,10 +94,10 @@ const Navbar = (props) => {
 
   const handleDrawerOpen = () => {
     setDrawerOpen(true);
-  }
+  };
   const handleDrawerClose = () => {
     setDrawerOpen(false);
-  }
+  };
 
   const mainLogo = () => {
     return (
@@ -111,10 +110,7 @@ const Navbar = (props) => {
     );
   };
   const pageLinks = () => {
-
-
     const generatedLinks = links.map(({ route, title }) => {
-
       return isMobile ? (
         <List
           {...{
@@ -125,15 +121,19 @@ const Navbar = (props) => {
             key: title,
           }}
         >
-          <ListItem button key={title}
+          <ListItem
+            button
+            key={title}
             selected={pathname === route}
-
-            onClick={(event) => { handleDrawerClose(); history.push(route) }}
+            onClick={(event) => {
+              handleDrawerClose();
+              history.push(route);
+            }}
           >
             <ListItemText>{title}</ListItemText>
           </ListItem>
-        </List >) : (
-
+        </List>
+      ) : (
         <Button
           key={title}
           variant={pathname === route ? "contained" : "text"}
@@ -144,7 +144,8 @@ const Navbar = (props) => {
           className={classes.linkTitle}
         >
           {title}
-        </Button>)
+        </Button>
+      );
     });
     return isMobile ? (
       <>
@@ -171,8 +172,10 @@ const Navbar = (props) => {
               <div>{generatedLinks}</div></>) : null}
           </div>
         </Drawer>
-
-      </>) : generatedLinks;
+      </>
+    ) : (
+      generatedLinks
+    );
   };
 
   const profileMenu = () => {
@@ -199,8 +202,8 @@ const Navbar = (props) => {
           onClick={async () => {
             await signOut();
             dispatch(setAuth(null));
+            dispatch(noCart());
             handleProfileMenuClose();
-            history.push("/");
           }}
         >
           Logout
@@ -251,7 +254,9 @@ const Navbar = (props) => {
                 handleMenuItemOnClick("wishlist");
               }}
             >
-              <Favorite />
+              <Badge badgeContent={wishListItems} color="primary">
+                <Favorite />
+              </Badge>
             </IconButton>
             <LoginModal />
           </Toolbar>
