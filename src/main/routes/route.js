@@ -8,12 +8,13 @@ import {
 } from "react-router-dom";
 import Footer from "../../components/footer";
 import Header from "../../components/header";
+import Checkout from "../../containers/CheckoutContainer";
 
 const Home = lazy(() => import("../../containers/HomeContainer"));
 const About = lazy(() => import("../../containers/AboutContainer"));
 const Contact = lazy(() => import("../../containers/ContactContainer"));
-const Shop = lazy(() => import('../../containers/ShopContainer'));
-const PDP = lazy(() => import('../../containers/PDPContainer'));
+const Shop = lazy(() => import("../../containers/ShopContainer"));
+const PDP = lazy(() => import("../../containers/PDPContainer"));
 const Cart = lazy(() => import("../../containers/CartContainer"));
 const WishList = lazy(() => import("../../containers/WishListContainer"));
 const Profile = lazy(() => import("../../containers/ProfileContainer"));
@@ -21,7 +22,7 @@ const Profile = lazy(() => import("../../containers/ProfileContainer"));
 const Routes = ({ isLoggedIn }) => {
   const location = useLocation();
   const { from } = location.state || { from: { pathname: "/" } };
-  
+
   return (
     <>
       <Header />
@@ -84,6 +85,13 @@ const Routes = ({ isLoggedIn }) => {
           path="/wishlist"
           render={() => {
             return <WishList />;
+          }}
+        />
+        <Route
+          exact
+          path="/checkout"
+          render={() => {
+            return <Checkout />;
           }}
         />
         <Route
