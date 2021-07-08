@@ -45,7 +45,7 @@ const PDPContainer = props => {
                 [theme.breakpoints.down("md")]: {
                     ...theme.typography.h5,
                 }
-            },productDescription:{
+            }, productDescription: {
                 ...theme.typography.subtitle1,
                 [theme.breakpoints.down("md")]: {
                     ...theme.typography.subtitle2,
@@ -95,6 +95,22 @@ const PDPContainer = props => {
         setSize(event.target.value);
     };
 
+    const getProductImg = () => {
+        const colorOptions = _.find(product.variant_groups, { name: "Color" })
+        if (colorOptions) {
+            const selectedColor = _.find(colorOptions.options, { id: color })
+            if (selectedColor && selectedColor.name) {
+
+                const selectedAsset = _.find(product.assets, (prodAsset) => {
+                    return prodAsset.filename.split("_")[1].split(".")[0] === selectedColor.name
+                })
+                if (selectedAsset) {
+                    return selectedAsset.url
+                }
+                return null;
+            }
+        }
+    }
     return (
         <main className={classes.root}>
             <Grid container className={classes.gridList}>
@@ -102,7 +118,7 @@ const PDPContainer = props => {
                     <CardMedia
                         className={classes.media}
                     >
-                        <img className={classes.img} src={product.media.source} alt={classes.media} />
+                        <img className={classes.img} src={getProductImg() || product.media.source} alt={classes.media} />
                     </CardMedia>
                 </Grid>
                 <Grid xs={12} sm={12} md={6} item className={classes.gridPadding}>
@@ -110,7 +126,7 @@ const PDPContainer = props => {
                         {product.name}
                     </Typography>
                     <Typography dangerouslySetInnerHTML={{ __html: product.description }} className={classes.productDescription}>
-                        
+
                     </Typography>
                     <Typography variant="h5" className={classes.gridPadding}>
                         {product.price.formatted_with_symbol}

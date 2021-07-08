@@ -20,6 +20,7 @@ const ColorSelector = props => {
     }))
     const classes = useStyles();
     const { product, setColor, color } = props;
+    console.log(props)
     useEffect(() => {
         const colorOptions = _.find(product.variant_groups, { name: "Color" })
         if (colorOptions && colorOptions.options && colorOptions.options.length) {
