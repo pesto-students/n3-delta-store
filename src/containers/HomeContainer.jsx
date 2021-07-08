@@ -95,7 +95,7 @@ const Home = (props) => {
                         {categoriesList.map((category, i) => (
                             <Grid key={i} className={classes.cardItem} item xs={12} sm={12} md={6} lg={6}>
                                 <Grid style={{ margin: 'auto' }} item xs={12} >
-                                    <Paper onClick={() => { history.push(`/shop/${category.slug}`) }} className={classes.paper}>
+                                    <Paper tabIndex={0} onClick={() => { history.push(`/shop/${category.slug}`) }} className={classes.paper}>
                                         <CardMedia>
                                             <img className={classes.img} alt={category.slug ? `alt-${category.slug}` : ""} src={category.description} />
                                         </CardMedia>
