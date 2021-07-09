@@ -8,7 +8,7 @@ import {
   Typography
 } from '@material-ui/core';
 
-const user = {
+/* const user = {
   avatar: '/static/images/avatars/avatar_6.png',
   city: 'Los Angeles',
   country: 'USA',
@@ -16,7 +16,7 @@ const user = {
   name: 'Katarina Smith',
   timezone: 'GTM-7'
 };
-
+ */
 
 const AccountProfile = (props) => {
   const useStyles = makeStyles((theme) => {
@@ -38,7 +38,8 @@ const AccountProfile = (props) => {
     })
   });
   const classes = useStyles();
-
+  const { user } = props;
+  
   return (
     <Card {...props}>
       <CardContent>
@@ -46,7 +47,7 @@ const AccountProfile = (props) => {
           className={classes.box}
         >
           <Avatar
-            src={user.avatar}
+            src={user?.photoURL}
             className={classes.avatar}
           />
           <Typography
@@ -54,9 +55,9 @@ const AccountProfile = (props) => {
             gutterBottom
             variant="h4"
           >
-            {user.name}
+            {user?.displayName}
           </Typography>
-          
+
         </Box>
       </CardContent>
 

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Box,
   Button,
@@ -15,11 +15,16 @@ import {
 } from '@material-ui/core';
 import _ from 'lodash';
 import { isValidEmail } from '../utils/util';
+import { setAuth } from '../main/store/actions/AuthActions';
+import { useDispatch } from 'react-redux';
+import { dbUtils } from '../services/firestore/db';
+import { setLoader } from '../main/store/actions/LoadingActions';
 
 
 const AccountProfileDetails = (props) => {
+  const { user } = props;
   const [value, setValue] = useState(0);
-
+  const dispatch = useDispatch();
 
   const useStyles = makeStyles((theme) => {
     return ({
@@ -42,12 +47,17 @@ const AccountProfileDetails = (props) => {
   };
 
   const [values, setValues] = useState({
-    firstName: 'Katarina',
-    lastName: 'Smith',
-    email: 'demo@devias.io',
-    phone: '',
-    country: 'USA'
+    displayName: "",
+    email: "",
+    photoURL: "",
+    address: ""
   });
+
+  useEffect(() => {
+    if (user && !_.isEmpty(user)) {
+      setValues({ ...values, ...user })
+    }
+  }, [user])
   const [submitted, setSubmitted] = useState(false);
   const handleChange = (event) => {
     setValues({
@@ -88,19 +98,23 @@ const AccountProfileDetails = (props) => {
           autoComplete="off"
           noValidate
           {...props}
-          onSubmit={(e) => {
+          onSubmit={async (e) => {
             e.preventDefault()
-            setSubmitted(true);
-            if (_.isEmpty(values.firstName)
-              || _.isEmpty(values.lastName)
+            if (_.isEmpty(values.displayName)
               || _.isEmpty(values.email)
-              || _.isEmpty(values.country)) {
+              || _.isEmpty(values.address)) {
               return;
             }
 
             if (!isValidEmail(values.email)) {
               return
             }
+            dispatch(setLoader(true));
+
+            await dbUtils.udpateUser(values.id, values);
+            dispatch(setAuth(values));
+            setSubmitted(true);
+            dispatch(setLoader(false));
           }}
         >
           <Card>
@@ -121,28 +135,12 @@ const AccountProfileDetails = (props) => {
                 >
                   <TextField
                     fullWidth
-                    helperText={validate('firstName', "first name")}
-                    label="First name"
-                    name="firstName"
+                    helperText={validate('displayName', "full name")}
+                    label="Full name"
+                    name="displayName"
                     onChange={handleChange}
                     required
-                    value={values.firstName}
-                    variant="outlined"
-                  />
-                </Grid>
-                <Grid
-                  item
-                  md={6}
-                  xs={12}
-                >
-                  <TextField
-                    fullWidth
-                    label="Last name"
-                    helperText={validate('lastName', "last name")}
-                    name="lastName"
-                    onChange={handleChange}
-                    required
-                    value={values.lastName}
+                    value={values.displayName}
                     variant="outlined"
                   />
                 </Grid>
@@ -185,12 +183,12 @@ const AccountProfileDetails = (props) => {
                 >
                   <TextField
                     fullWidth
-                    label="Country"
-                    name="country"
-                    helperText={validate('country', "country")}
+                    label="Address"
+                    name="address"
+                    helperText={validate('address', "address")}
                     onChange={handleChange}
                     required
-                    value={values.country}
+                    value={values.address}
                     variant="outlined"
                   />
                 </Grid>
