@@ -39,17 +39,21 @@ export class dbUtils {
   };
 
   static udpateUser = async (uid, userData) => {
-    let docRef = db.collection(USERS).doc(uid).update(userData);
+    let docRef = db.collection(USERS).doc(uid);
     let data = null;
     try {
-      const doc = await docRef.get();
+      const doc = await docRef.update({
+        displayName: userData.displayName,
+        address: userData.address
+      })
       if (doc?.exists) {
         data = doc.data();
+        console.log("updated user successfully", data);
       }
+      return data;
     } catch (err) {
       console.log(err);
     }
-    return data;
   };
 
   static updateUserWishList = async (uid, payload) => {

@@ -155,8 +155,9 @@ const AccountProfileDetails = (props) => {
                     helperText={validate('email', "email")}
                     name="email"
                     type="email"
-                    onChange={handleChange}
-                    required
+                    //onChange={handleChange}
+                    //required
+                    disabled
                     value={values.email}
                     variant="outlined"
                   />

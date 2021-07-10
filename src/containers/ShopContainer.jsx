@@ -56,6 +56,7 @@ const ShopContainer = (props) => {
             getProducts().then(
                 res => {
                     setProducts(res.data)
+                    debugger
                     const categories = _.uniqBy(_.flattenDeep(res.data.map((product) => product.categories)), 'id')
                     _.each(categories, (category) => {
                         if (params && params.categories) {
@@ -64,6 +65,7 @@ const ShopContainer = (props) => {
                             }
                         }
                     })
+                    const Price_Range = 
                     setFilters({ categories })
                     setFilteredProducts(getFilteredProducts(res.data, getCheckedCategories({ categories })))
                     dispatch(setLoader(false));
