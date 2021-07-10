@@ -18,7 +18,7 @@ const Filters = (props) => {
                 textTransform: 'capitalize',
                 fontWeight: 700
             }, accordianHeader: {
-                backgroundColor: theme.palette.secondary.main,
+                backgroundColor: theme.palette.primary.main,
                 color: theme.palette.secondary.contrastText
             }, arrowColor: {
                 color: theme.palette.common.white
@@ -54,7 +54,7 @@ const Filters = (props) => {
             })
             return (<Accordion defaultExpanded={true} key={filterName}>
                 <AccordionSummary
-                    expandIcon={<ExpandMoreOutlined className={classes.arrowColor} />}
+                    // expandIcon={<ExpandMoreOutlined className={classes.arrowColor} />}
                     aria-controls={filterName}
                     id={filterName}
                     color="secondary"

@@ -19,10 +19,19 @@ import LoginModal from "./LoginModal";
 import { signOut } from "../services/Authentication/auth";
 import { setAuth } from "../main/store/actions/AuthActions";
 import { noCart } from "../main/store/actions/CartActions";
-import { Button, CssBaseline, Divider, Drawer, List, ListItem, ListItemText } from "@material-ui/core";
+import {
+  Button,
+  CssBaseline,
+  Divider,
+  Drawer,
+  List,
+  ListItem,
+  ListItemText,
+} from "@material-ui/core";
 import Search from "../components/search";
 import { List as ListIcon } from "@material-ui/icons";
 import ElevationScroll from "./elevation";
+import { clearWishlist } from "../main/store/actions/WishListActions";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -35,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
   },
   drawerList: {
     textDecoration: "none",
-    padding: 0
+    padding: 0,
   },
   logo: {
     height: "50px",
@@ -44,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: theme.spacing(1),
     paddingLeft: theme.spacing(1),
     cursor: "pointer",
-  }
+  },
 }));
 
 const links = [
@@ -71,7 +80,9 @@ const Navbar = (props) => {
   const open = Boolean(anchorEl);
 
   const totalCartItems = useSelector((state) => state?.cart?.cartLength || 0);
-  const wishListItems = useSelector((state) => state?.wishList?.items?.length || 0);
+  const wishListItems = useSelector(
+    (state) => state?.wishList?.items?.length || 0
+  );
   const authState = useSelector((state) => state?.authReducer);
   const { isLoggedIn } = authState;
   const dispatch = useDispatch();
@@ -101,10 +112,7 @@ const Navbar = (props) => {
 
   const mainLogo = () => {
     return (
-      <div
-        className={classes.title}
-        onClick={() => history.push("/")}
-      >
+      <div className={classes.title} onClick={() => history.push("/")}>
         <img src={AppLogo} alt="app-logo" className={classes.logo} />
       </div>
     );
@@ -149,13 +157,15 @@ const Navbar = (props) => {
     });
     return isMobile ? (
       <>
-        <IconButton  {...{
-          edge: "start",
-          color: "primary",
-          "aria-label": "menu",
-          "aria-haspopup": "true",
-          onClick: handleDrawerOpen,
-        }}>
+        <IconButton
+          {...{
+            edge: "start",
+            color: "primary",
+            "aria-label": "menu",
+            "aria-haspopup": "true",
+            onClick: handleDrawerOpen,
+          }}
+        >
           <ListIcon />
         </IconButton>
         <Drawer
@@ -165,11 +175,14 @@ const Navbar = (props) => {
             onClose: handleDrawerClose,
           }}
         >
-          <div>{isMobile ? (
-            <>
-              {mainLogo()}
-              <Divider />
-              <div>{generatedLinks}</div></>) : null}
+          <div>
+            {isMobile ? (
+              <>
+                {mainLogo()}
+                <Divider />
+                <div>{generatedLinks}</div>
+              </>
+            ) : null}
           </div>
         </Drawer>
       </>
@@ -203,6 +216,7 @@ const Navbar = (props) => {
             await signOut();
             dispatch(setAuth(null));
             dispatch(noCart());
+            dispatch(clearWishlist());
             handleProfileMenuClose();
           }}
         >
