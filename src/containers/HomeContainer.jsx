@@ -85,12 +85,11 @@ const Home = (props) => {
                     </div>
                 </Carousel>
             </section>
+            <Divider className={classes.root} />
+                    <Typography variant="h3" align="center" color="primary" className={classes.sectionMargin} >{translate('Categories')}</Typography>
             <Divider className={classes.sectionMargin} />
             <Container component="section" >
-
-
-                <section className={classes.root}>
-                    <Typography variant="h3" align="center" >{translate('Categories')}</Typography>
+                <section >
                     <Grid container >
                         {categoriesList.map((category, i) => (
                             <Grid key={i} className={classes.cardItem} item xs={12} sm={12} md={6} lg={6}>
@@ -99,7 +98,7 @@ const Home = (props) => {
                                         <CardMedia>
                                             <img className={classes.img} alt={category.slug ? `alt-${category.slug}` : ""} src={category.description} />
                                         </CardMedia>
-                                        <Typography variant="h4">{translate(category.name)}</Typography>
+                                        <Typography color="secondary" variant="h4">{translate(category.name)}</Typography>
                                     </Paper>
                                 </Grid>
                             </Grid>))}

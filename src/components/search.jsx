@@ -26,6 +26,8 @@ const Search = (props) => {
                 marginLeft: theme.spacing(1),
                 width: 'auto',
             },
+        }, paper: {
+            display: 'flex'
         },
         searchStatus: {
             width: theme.spacing(8),
@@ -33,7 +35,7 @@ const Search = (props) => {
         }, endIcon: {
             padding: 0
         },
-        
+
         inputRoot: {
             color: theme.palette.primary.main,
         }, form: {
@@ -94,7 +96,7 @@ const Search = (props) => {
 
     return (
         <div className={classes.search}>
-            <Paper elevation={2} >
+            <Paper className={classes.paper} elevation={2} >
                 <InputBase
                     endAdornment={
                         <div className={classes.searchStatus}>

@@ -47,7 +47,6 @@ function AppMain() {
   };
 
   const getUserData = async () => {
-    console.log(user);
     const { uid } = user;
     const userData = await dbUtils.getUser(uid);
     if (userData) {
@@ -69,7 +68,7 @@ function AppMain() {
       initialRender.current = false;
       return;
     }
-    console.log(wishList);
+    //console.log(wishList);
     updateDbWishList(wishList?.items);
   }, [wishList]);
 

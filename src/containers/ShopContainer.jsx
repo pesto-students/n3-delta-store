@@ -55,7 +55,8 @@ const ShopContainer = (props) => {
             dispatch(setLoader(true));
             getProducts().then(
                 res => {
-                    setProducts(res.data)
+                    
+                    setProducts(_.reverse(res.data))
                     const categories = _.uniqBy(_.flattenDeep(res.data.map((product) => product.categories)), 'id')
                     _.each(categories, (category) => {
                         if (params && params.categories) {

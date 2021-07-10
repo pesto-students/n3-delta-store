@@ -6,7 +6,6 @@ import _ from 'lodash';
 const Filters = (props) => {
 
     const useStyles = makeStyles((theme) => {
-        console.log(theme)
         return ({
             drawer: {
                 position: "static",
