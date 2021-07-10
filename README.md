@@ -38,7 +38,7 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
 |----------|:-------------:|
 | [React](https://reactjs.org/) | Front End Library |
 | [Firebase](https://firebase.google.com/) | Library used for authentication |
-| [Firestore](https://firebase.google.com/products/firestore?gclsrc=aw.ds&gclid=Cj0KCQjw24qHBhCnARIsAPbdtlJ8Wq-nK99Zgqjibv2EKRFJ3d23t6H3PQeWlmzWpQxJnzG59rYhyKwaAmqeEALw_wcB) | To store wishlist data |
+| [Firestore](https://firebase.google.com/products/firestore?gclsrc=aw.ds&gclid=Cj0KCQjw24qHBhCnARIsAPbdtlJ8Wq-nK99Zgqjibv2EKRFJ3d23t6H3PQeWlmzWpQxJnzG59rYhyKwaAmqeEALw_wcB) | To store wishlist and user related data |
 | [Commerce.js](https://commercejs.com/) | Library to get products, cart and store cart details |
 
 ## Features
