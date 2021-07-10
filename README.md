@@ -34,10 +34,10 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
 
 ## Technology Stack
 
-It is an e-commerce site built with following Stack
 | Library  | Description  |
 |----------|:-------------:|
 | [React](https://reactjs.org/) | Front End Library |
+| [Firebase](https://firebase.google.com/) | Library used for authentication |
 
 ## Features
 
