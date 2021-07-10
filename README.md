@@ -59,4 +59,4 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
 | Filter Products | &#10004; | Ability to filter all prodcuts present in the store with categories |
 | Product Size Selector | &#10004; | Ability to select a product's size variant if present in a product |
 | Product Color Selector | &#10004; | Ability to select a product's color variant if present in a product |
-| Translate | U+2716 | Partially implemented will be added in future development |
+| Translate | &#10006; | Partially implemented will be added in future development |
