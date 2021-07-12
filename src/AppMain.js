@@ -25,10 +25,10 @@ function AppMain() {
   const { isLoggedIn, user } = authState;
   const initialRender = useRef(true);
 
-  // axios.get(`https://freegeoip.app/json/`)
-  //   .then(res => {
-  //     console.log(res.data.country_code)
-  //   });
+  /* axios.get(`https://freegeoip.app/json/`)
+    .then(res => {
+      console.log(res.data.country_code)
+    }); */
 
   const fetchCartItems = async (id) => {
     dispatch(setLoader(true));
