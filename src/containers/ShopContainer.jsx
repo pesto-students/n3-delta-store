@@ -55,7 +55,7 @@ const ShopContainer = (props) => {
             dispatch(setLoader(true));
             getProducts().then(
                 res => {
-                    
+
                     setProducts(_.reverse(res.data))
                     const categories = _.uniqBy(_.flattenDeep(res.data.map((product) => product.categories)), 'id')
                     _.each(categories, (category) => {
@@ -65,7 +65,12 @@ const ShopContainer = (props) => {
                             }
                         }
                     })
-                    setFilters({ categories })
+                    /* const getAllPrices = _.uniqBy(_.map(res.data, (prod) => prod.price.raw));
+                    const minMaxVal = []
+                    minMaxVal.push(_.min(getAllPrices))
+                    minMaxVal.push(_.max(getAllPrices)) */
+
+                    setFilters({ categories/* , price_range: minMaxVal */ })
                     setFilteredProducts(getFilteredProducts(res.data, getCheckedCategories({ categories })))
                     dispatch(setLoader(false));
                 }
