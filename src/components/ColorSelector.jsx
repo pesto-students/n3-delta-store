@@ -11,8 +11,10 @@ const ColorSelector = (props) => {
       borderRadius: "12px",
       borderImageSlice: "1",
       borderImageSource: `linear-gradient(to left, #743ad5, #d53a9d);`,
+      ...theme.alignItemCenter,
     },
     optionPallette: {
+      ...theme.alignItemCenter,
       border: "5px solid transparent",
       "&:hover": {
         boxShadow: theme.shadows[3],
