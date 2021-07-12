@@ -4,7 +4,7 @@ import { MenuItem, Typography, FormControl, Select } from "@material-ui/core";
 import { translate } from "../resources/language/translate";
 
 const SizeSelector = (props) => {
-  const { product = {}, handleChange, size } = props;
+  const { product = {}, handleChange, size, className } = props;
   const [sizeOptionsEle, setSizeOptionsEle] = useState([]);
   useEffect(() => {
     if (product?.variant_groups && product.variant_groups.length) {
@@ -30,8 +30,9 @@ const SizeSelector = (props) => {
               id="size-open-select"
               value={size}
               onChange={handleChange}
+              className={className}
             >
-              <MenuItem value="">Select</MenuItem>
+              <MenuItem value="0">Select</MenuItem>
               {[sizeOptionsEle]}
             </Select>
           </FormControl>

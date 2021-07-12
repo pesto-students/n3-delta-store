@@ -18,6 +18,8 @@ const Footer = (props) => {
                 width: '100%',
                 marginTop: theme.spacing(1),
                 marginBottom: theme.spacing(2),
+            }, alignItemCenter:{
+                ...theme.alignItemCenter
             }
         })
     })
@@ -33,7 +35,7 @@ const Footer = (props) => {
 
 
             <Grid container>
-                <Grid className={classes.cardIFootertem} item xs={12} md={3} >
+                <Grid className={classes.cardIFootertem} item xs={12} md={4} >
                     <Card className={classes.cardContent}>
                         <CardContent>
                             <Typography variant="h4" gutterBottom>
@@ -46,12 +48,12 @@ const Footer = (props) => {
                                 {translate("Here's how to reach us.")}
                             </Typography>
 
-                            <Typography variant="h6">
-                                <Link href="mailto:mitesh.jethmalani@gmail.com" onClick={(e) => e.preventDefault()}>
+                            <Typography variant="h6" >
+                                <Link href="mailto:mitesh.jethmalani@gmail.com" className={classes.alignItemCenter} onClick={(e) => e.preventDefault()}>
                                     <MailOutline fontSize="small" /> mitesh.jethmalani@gmail.com
                                 </Link>
                             </Typography>
-                            <Typography variant="subtitle1">
+                            <Typography variant="h6" className={classes.alignItemCenter}>
                                 <LocationCityOutlined /> Address:
                             </Typography>
                             <Typography variant="subtitle2">
@@ -61,28 +63,28 @@ const Footer = (props) => {
                         </CardContent>
                     </Card>
                 </Grid>
-                <Grid item xs={12} md={3} className={classes.cardIFootertem}>
+                <Grid item xs={12} md={4} className={classes.cardIFootertem}>
                     <Card className={classes.cardContent}>
                         <CardContent>
-                            <Typography variant="h4" align="center" gutterBottom>
+                            <Typography variant="h4" gutterBottom>
                                 Shop with us
                             </Typography>
-                            <Typography variant="h6" align="center" gutterBottom>
+                            <Typography variant="h6" gutterBottom>
                                 <Link href="/shop/men" >Men</Link>
                             </Typography>
-                            <Typography variant="h6" align="center" gutterBottom>
+                            <Typography variant="h6" gutterBottom>
                                 <Link href="/shop/women" >Women</Link>
                             </Typography>
-                            <Typography variant="h6" align="center" gutterBottom>
+                            <Typography variant="h6" gutterBottom>
                                 <Link href="/shop/accessories" >Accessories</Link>
                             </Typography>
-                            <Typography variant="h6" align="center" >
+                            <Typography variant="h6" >
                                 <Link href="/shop/new-arrivals">New Arrivals</Link>
                             </Typography>
                         </CardContent>
                     </Card>
                 </Grid>
-                <Grid className={classes.cardIFootertem} item xs={12} md={6} >
+                <Grid className={classes.cardIFootertem} item xs={12} md={4} >
                     <Card className={classes.cardContent}>
                         <CardContent>
                             <form onSubmit={handleSubmit}>

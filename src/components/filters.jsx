@@ -1,4 +1,4 @@
-import { Accordion, AccordionDetails, AccordionSummary, Checkbox, Container, Drawer, FormControlLabel, makeStyles, Typography } from '@material-ui/core';
+import { Accordion, AccordionDetails, AccordionSummary, Checkbox, Container, Drawer, FormControlLabel, makeStyles, Slider, Typography } from '@material-ui/core';
 import { ExpandMoreOutlined } from '@material-ui/icons';
 import React from 'react'
 import _ from 'lodash';
@@ -33,24 +33,31 @@ const Filters = (props) => {
 
     if (filters && !_.isEmpty(filters)) {
         accordian = _.map(filters, (filterArr, filterName) => {
-            const filterColl = _.map(filterArr, (filter) => {
-                return (
-                    <Typography key={filter.id}>
+            let filterColl;
+            if (filterName == "price_range") {
+                console.log([...filterArr])
+                filterColl = (<Slider key={filterName} value={[...filterArr]}></Slider>)
+            } else {
+                filterColl = _.map(filterArr, (filter) => {
+                    return (
+                        <Typography key={filter.id}>
 
-                        <FormControlLabel
-                            onClick={() => {
-                                const val = _.find(filters[filterName], { id: filter.id });
+                            <FormControlLabel
+                                onClick={() => {
+                                    const val = _.find(filters[filterName], { id: filter.id });
 
-                                val.checked = !!!val.checked;
+                                    val.checked = !!!val.checked;
 
-                                props.updateFilter(filters);
-                            }}
-                            control={<Checkbox checked={filter.checked || false} name={filter.name} />}
-                            label={filter.name}
-                        />
-                    </Typography>
-                )
-            })
+                                    props.updateFilter(filters);
+                                }}
+                                control={<Checkbox checked={filter.checked || false} name={filter.name} />}
+                                label={filter.name}
+                            />
+                        </Typography>
+                    )
+                })
+            }
+
             return (<Accordion defaultExpanded={true} key={filterName}>
                 <AccordionSummary
                     expandIcon={<ExpandMoreOutlined className={classes.arrowColor} />}

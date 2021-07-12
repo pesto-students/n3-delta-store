@@ -130,7 +130,7 @@ const Search = (props) => {
                     horizontal: 'left'
                 }}
                 getContentAnchorEl={null}
-                elevation={0}
+                elevation={18}
             >
 
                 {searchResult && searchResult.map((product) => {

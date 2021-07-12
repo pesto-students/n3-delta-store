@@ -30,7 +30,7 @@ const PDPContainer = (props) => {
     const { id } = useParams();
     const [product, setProduct] = useState({});
     const [isError, setError] = useState(false);
-    const [size, setSize] = useState("");
+    const [size, setSize] = useState(0);
     const [color, setColor] = useState("");
     const [variantAvailable, setVariantAvailable] = useState({
         sizeVar: false,
@@ -77,7 +77,11 @@ const PDPContainer = (props) => {
                 [theme.breakpoints.down("md")]: {
                     ...theme.typography.h4,
                 },
-            },
+            }, minWidth: {
+                minWidth: '80px'
+            }, alignItemCenter: {
+                ...theme.alignItemCenter
+            }
         };
     });
     const classes = useStyles();
@@ -217,19 +221,20 @@ const PDPContainer = (props) => {
                     <Typography variant="subtitle1">
                         <div dangerouslySetInnerHTML={{ __html: product.description }} />
                     </Typography>
-                    <Typography variant="h5" className={classes.gridPadding}>
+                    <Typography variant="h5" >
                         {product.price.formatted_with_symbol}
                     </Typography>
 
-                    <Typography variant="h5" className={classes.gridPadding}>
+                    <Typography variant="h5" className={classes.cartButton}>
                         <SizeSelector
                             product={product}
                             handleChange={handleChange}
                             size={size}
+                            className={classes.minWidth}
                         />
                     </Typography>
 
-                    <Typography variant="h5" className={classes.gridPadding}>
+                    <Typography variant="h5" className={classes.cartButton}>
                         <ColorSelector
                             product={product}
                             setColor={setColor}
@@ -237,28 +242,39 @@ const PDPContainer = (props) => {
                         ></ColorSelector>
                     </Typography>
                     <div className={classes.cartButton}>
-                        <Button
-                            size="large"
-                            fullWidth
-                            variant="contained"
-                            color="secondary"
-                            onClick={() => {
-                                checkUserLogin(handleAddToWishList);
-                            }}
-                        >
-                            <FavoriteIcon /> Add to Wishlist
-                        </Button>
-                        <Button
-                            size="large"
-                            fullWidth
-                            variant="contained"
-                            color="primary"
-                            onClick={() => {
-                                checkUserLogin(handleAddToCart);
-                            }}
-                        >
-                            <ShoppingCart /> Add to Cart
-                        </Button>
+                        <Grid container spacing={2}>
+                            <Grid item xs={12} md={6}>
+                                <Button
+                                    size="large"
+                                    fullWidth
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={() => {
+                                        checkUserLogin(handleAddToCart);
+                                    }}
+                                >
+                                    <Typography variant="h6" className={classes.alignItemCenter}>
+                                        <ShoppingCart /> Add to Cart
+                                    </Typography>
+                                </Button>
+                            </Grid>
+                            <Grid item xs={12} md={6}>
+                                <Button
+                                    size="large"
+                                    fullWidth
+                                    variant="contained"
+                                    color="secondary"
+                                    onClick={() => {
+                                        checkUserLogin(handleAddToWishList);
+                                    }}
+                                >
+                                    <Typography variant="h6" className={classes.alignItemCenter}>
+                                        <FavoriteIcon /> Add to Wishlist
+                                    </Typography>
+                                </Button>
+
+                            </Grid>
+                        </Grid>
                     </div>
                 </Grid>
             </Grid>

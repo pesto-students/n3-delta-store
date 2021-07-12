@@ -22,9 +22,6 @@ const theme = createMuiTheme({
             dark: '#d82f11',
             contrastText: '#fff'
         }
-
-
-
     },
     header: {
         borderBottom: '1px solid darkgray'
@@ -34,6 +31,10 @@ const theme = createMuiTheme({
         maxHeight: "100%"
     }, page: {
         minHeight: "calc(90vh - 50px)"
+    }, alignItemCenter: {
+        display: 'inline-flex',
+        alignItems: 'center',
+        flexWrap: 'wrap'
     }
 });
 
