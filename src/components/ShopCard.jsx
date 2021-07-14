@@ -7,13 +7,14 @@ import {
   makeStyles,
   Typography,
 } from "@material-ui/core";
+import PropTypes from "prop-types";
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addItemToWishList } from "../main/store/actions/WishListActions";
 import { FavoriteBorderOutlined } from "@material-ui/icons";
 
-const ShopCard = ({ product }) => {
+const ShopCard = ({ product, className }) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -40,16 +41,6 @@ const ShopCard = ({ product }) => {
           boxShadow: theme.shadows[18],
         },
         cursor: "pointer",
-      },
-      root: {
-        ...theme.page,
-        marginTop: theme.spacing(8),
-        padding: theme.spacing(4),
-        marginBottom: 0,
-        [theme.breakpoints.up("sm")]: {
-          display: "flex",
-          flex: 1,
-        },
       },
       media: {
         textAlign: "center",
@@ -85,11 +76,6 @@ const ShopCard = ({ product }) => {
       gridList: {
         margin: theme.spacing(1),
       },
-      productGridList: {
-        margin: theme.spacing(1),
-        paddingBottom: theme.spacing(2),
-        paddingLeft: theme.spacing(4),
-      },
       gridContainer: {
         [theme.breakpoints.down("md")]: {
           justifyContent: "center",
@@ -102,25 +88,27 @@ const ShopCard = ({ product }) => {
   const mapVariants = () => {
     let sizes = "";
     const [variant] = product?.variant_groups;
-    variant?.options?.map(({ name }, index) => {
+    variant?.options?.forEach(({ name }, index) => {
       if (!index) {
         sizes = `${name}`;
       } else {
-        sizes += `,${name}`;
+        sizes +=
+          variant.options.length - 1 === index ? ` & ${name}` : `, ${name}`;
       }
     });
     return sizes;
   };
   const available = mapVariants();
   return (
-    <Grid
-      key={product.id}
-      item
-      className={classes.productGridList}
-      onMouseEnter={handlePopoverOpen}
-      onMouseLeave={handlePopoverClose}
-    >
-      <Card className={classes.cardWidth}>
+    <Grid key={product.id} item className={className}>
+      <Card
+        tabIndex={0}
+        onMouseEnter={handlePopoverOpen}
+        onFocus={handlePopoverOpen}
+        onMouseLeave={handlePopoverClose}
+        onBlur={handlePopoverClose}
+        className={classes.cardWidth}
+      >
         <CardMedia className={classes.media} style={{ position: "relative" }}>
           <img
             className={classes.img}
@@ -210,4 +198,10 @@ const ShopCard = ({ product }) => {
     </Grid>
   );
 };
+
+ShopCard.propTypes = {
+  product: PropTypes.object,
+  className: PropTypes.string,
+};
+
 export default ShopCard;

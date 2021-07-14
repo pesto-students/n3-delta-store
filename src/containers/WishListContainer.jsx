@@ -71,7 +71,7 @@ const WishList = () => {
             </Grid>
             <Grid container>
               {items?.map((item) => (
-                <WishListItem item={item} />
+                <WishListItem key={item.id} item={item} />
               ))}
             </Grid>
           </Grid>

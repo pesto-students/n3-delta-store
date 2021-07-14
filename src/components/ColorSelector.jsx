@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import _ from "lodash";
 import { Box, Grid, makeStyles } from "@material-ui/core";
 import Brightness1SharpIcon from "@material-ui/icons/Brightness1Sharp";
+import PropTypes from "prop-types";
 
 const ColorSelector = (props) => {
   const useStyles = makeStyles((theme) => ({
@@ -10,8 +11,10 @@ const ColorSelector = (props) => {
       borderRadius: "12px",
       borderImageSlice: "1",
       borderImageSource: `linear-gradient(to left, #743ad5, #d53a9d);`,
+      ...theme.alignItemCenter,
     },
     optionPallette: {
+      ...theme.alignItemCenter,
       border: "5px solid transparent",
       "&:hover": {
         boxShadow: theme.shadows[3],
@@ -39,6 +42,7 @@ const ColorSelector = (props) => {
             <Box
               borderRadius={16}
               onClick={() => setColor(option.id)}
+              tabIndex={0}
               border={5}
               className={
                 color === option.id
@@ -70,6 +74,12 @@ const ColorSelector = (props) => {
       )}
     </>
   );
+};
+
+ColorSelector.propTypes = {
+  product: PropTypes.object,
+  color: PropTypes.string,
+  setColor: PropTypes.func,
 };
 
 export default ColorSelector;

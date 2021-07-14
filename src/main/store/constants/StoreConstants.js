@@ -18,6 +18,7 @@ export const CLEAR_CART = "CLEAR_CART";
 export const EMPTY_CART = "EMPTY_CART";
 export const NO_CART = "NO_CART";
 export const SET_HOME_CATEGORIES = "SET_HOME_CATEGORIES";
+export const SET_GEOIP_DATA = "SET_GEOIP_DATA";
 export const SET_DISPLAY_TYPE = "SET_DISPLAY_TYPE";
 export const SET_WISHLIST = "SET_WISHLIST";
 export const ADD_ITEM_TO_WISHLIST = "ADD_ITEM_TO_WISHLIST";

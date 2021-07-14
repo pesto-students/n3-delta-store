@@ -83,7 +83,7 @@ const Cart = () => {
             </Grid>
             <Divider />
             {items?.map((item) => (
-              <CartItem item={item} />
+              <CartItem key={item.id} item={item} />
             ))}
           </Grid>
         </Grid>

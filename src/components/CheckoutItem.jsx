@@ -5,6 +5,7 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
+import PropTypes from "prop-types";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -88,6 +89,10 @@ const CheckoutItem = ({ product }) => {
       </div>
     </Card>
   );
+};
+
+CheckoutItem.propTypes = {
+  product: PropTypes.object,
 };
 
 export default CheckoutItem;

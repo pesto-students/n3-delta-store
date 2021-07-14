@@ -14,10 +14,12 @@ const ShopContainer = (props) => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [filters, setFilters] = useState({});
+  const geoIpData = useSelector((state) => state?.homeReducer?.geoIpData);
+
   const dispatch = useDispatch();
 
   const getFilteredProducts = (productsData, checkedCategories) => {
-    return _.compact(
+    const filteredProducts = _.compact(
       _.map(productsData, (prod) => {
         if (prod.categories && prod.categories.length) {
           if (
@@ -38,6 +40,12 @@ const ShopContainer = (props) => {
         }
       })
     );
+
+    return geoIpData.country_code == "IN"
+      ? _.sortBy(filteredProducts, (prod) => {
+          return prod.price.raw;
+        })
+      : _.reverse(filteredProducts);
   };
   const getCheckedCategories = (filterObj) => {
     return _.compact(
@@ -73,7 +81,12 @@ const ShopContainer = (props) => {
             }
           }
         });
-        setFilters({ categories });
+        /* const getAllPrices = _.uniqBy(_.map(res.data, (prod) => prod.price.raw));
+                    const minMaxVal = []
+                    minMaxVal.push(_.min(getAllPrices))
+                    minMaxVal.push(_.max(getAllPrices)) */
+
+        setFilters({ categories /* , price_range: minMaxVal */ });
         setFilteredProducts(
           getFilteredProducts(res.data, getCheckedCategories({ categories }))
         );
@@ -98,10 +111,11 @@ const ShopContainer = (props) => {
       },
       root: {
         ...theme.page,
+        padding: theme.spacing(2),
         marginTop: theme.spacing(8),
-        padding: theme.spacing(4),
         marginBottom: 0,
         [theme.breakpoints.up("sm")]: {
+          padding: theme.spacing(4),
           display: "flex",
           flex: 1,
         },
@@ -146,8 +160,11 @@ const ShopContainer = (props) => {
         paddingLeft: theme.spacing(4),
       },
       gridContainer: {
+        paddingLeft: theme.spacing(4),
         [theme.breakpoints.down("md")]: {
+          paddingLeft: theme.spacing(0),
           justifyContent: "center",
+          paddingTop: theme.spacing(4),
         },
       },
     };
@@ -161,10 +178,10 @@ const ShopContainer = (props) => {
         <div>
           <Skeleton variant="text" />
           <Skeleton animation="wave" />
-          <Skeleton variant="rect" width={210} height={210} />
+          <Skeleton variant="rect" width={240} height={210} />
         </div>
         <main>
-          <Grid container className={classes.gridContainer}>
+          <Grid container spacing={2} className={classes.gridContainer}>
             {_.times(20, _.constant(0)).map((product, key) => (
               <Grid key={key} item className={classes.productGridList}>
                 <Card className={classes.cardWidth}>
@@ -184,9 +201,13 @@ const ShopContainer = (props) => {
       <div className={classes.root}>
         <Filter updateFilter={updateFilter} filters={filters}></Filter>
         <main>
-          <Grid container className={classes.gridContainer}>
+          <Grid container spacing={2} className={classes.gridContainer}>
             {productsList.map((product) => (
-              <ShopCard product={product} />
+              <ShopCard
+                key={product.id}
+                product={product}
+                className={classes.productGridList}
+              />
             ))}
           </Grid>
         </main>
