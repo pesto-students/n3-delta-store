@@ -36,7 +36,7 @@ const Cart = () => {
   const authState = useSelector((state) => state?.authReducer);
   const cart = useSelector((state) => state?.cart);
   const { isLoggedIn } = authState;
-  const { items, cartLength, total, currency } = cart;
+  const { items, cartLength } = cart;
 
   if (!isLoggedIn) {
     return (

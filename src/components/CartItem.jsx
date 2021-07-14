@@ -10,7 +10,6 @@ import {
 } from "@material-ui/core";
 import {
   getProduct,
-  getVariantsForProduct,
   removeFromCart,
   updateCart,
 } from "../main/axios/commerce";
@@ -80,7 +79,7 @@ const CartItem = ({ item = {} }) => {
     checkSelectedOptions(selected_options, "Color")
   );
   const [product, setProduct] = useState(null);
-  const [quantity, setQuantity] = useState(item.quantity || 1);
+  const [quantity] = useState(item.quantity || 1);
   const [variantAvailable, setVariantAvailable] = useState({
     sizeVar: false,
     colorVar: false,
@@ -190,7 +189,7 @@ const CartItem = ({ item = {} }) => {
             <ButtonBase className={classes.image}>
               <img
                 className={classes.img}
-                alt="product image"
+                alt="product"
                 src={item?.media?.source}
               />
             </ButtonBase>
@@ -206,7 +205,7 @@ const CartItem = ({ item = {} }) => {
                 </Typography>
               </Grid>
               <Grid item container className={classes.flex}>
-                <Grid item xs={6} className={classes.flex}>
+                <Grid item xs={12} md={6} className={classes.flex}>
                   <Typography variant="subtitle2" style={{ paddingRight: 5 }}>
                     {translate("Quantity")}:{" "}
                   </Typography>

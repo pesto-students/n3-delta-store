@@ -35,7 +35,6 @@ const useStyles = makeStyles((theme) => {
 
 const Total = () => {
   const classes = useStyles();
-  const authState = useSelector((state) => state?.authReducer);
   const cartInfo = useSelector((state) => state?.cart);
   const { cart, total: cartTotal } = cartInfo;
   const currency = cart?.currency?.symbol;

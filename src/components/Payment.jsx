@@ -18,7 +18,6 @@ const Payment = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const authState = useSelector((state) => state?.authReducer);
-  const cart = useSelector((state) => state?.cart);
   const { isLoggedIn } = authState;
 
   const [isProcessing, setIsProcessing] = useState(false);

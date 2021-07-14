@@ -4,7 +4,6 @@ import {
   CardContent,
   CardMedia,
   Grid,
-  IconButton,
   makeStyles,
   Typography,
 } from "@material-ui/core";
@@ -12,7 +11,7 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addItemToWishList } from "../main/store/actions/WishListActions";
-import { Favorite, FavoriteBorderOutlined } from "@material-ui/icons";
+import { FavoriteBorderOutlined } from "@material-ui/icons";
 
 const ShopCard = ({ product }) => {
   const dispatch = useDispatch();

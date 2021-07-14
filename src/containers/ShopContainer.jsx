@@ -1,24 +1,10 @@
-import { Card, Grid, makeStyles } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { getProducts } from "../main/axios/commerce";
 import Filter from "../components/filters";
 import _ from "lodash";
-import { useParams } from "react-router-dom";
-import { Skeleton } from "@material-ui/lab";
 import ShopCard from "../components/ShopCard";
-import {
-  Card,
-  CardContent,
-  CardMedia,
-  Grid,
-  makeStyles,
-  Typography,
-} from "@material-ui/core";
-import React, { useEffect, useState } from "react";
-import { getProducts } from "../main/axios/commerce";
-import Filter from "../components/filters";
-import _ from "lodash";
-import { useHistory, useParams } from "react-router-dom";
+import { Card, Grid, makeStyles } from "@material-ui/core";
+import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoader } from "../main/store/actions/LoadingActions";
 import { Skeleton } from "@material-ui/lab";
@@ -28,7 +14,6 @@ const ShopContainer = (props) => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [filters, setFilters] = useState({});
-  const history = useHistory();
   const dispatch = useDispatch();
 
   const getFilteredProducts = (productsData, checkedCategories) => {
@@ -151,7 +136,6 @@ const ShopContainer = (props) => {
         lineHeight: 1,
         color: "#282c3f",
         marginBottom: "6px",
-        whiteSpace: "nowrap",
       },
       gridList: {
         margin: theme.spacing(1),
