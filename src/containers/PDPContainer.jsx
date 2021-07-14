@@ -21,8 +21,7 @@ import ColorSelector from "../components/ColorSelector";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoader } from "../main/store/actions/LoadingActions";
 import { addItemToWishList } from "../main/store/actions/WishListActions";
-import { addItemToCart, setCart } from "../main/store/actions/CartActions";
-import { translate } from "../resources/language/translate";
+import { setCart } from "../main/store/actions/CartActions";
 import { openLoginModal } from "../main/store/actions/LoginModalActions";
 import { setError as setGlobalError } from "../main/store/actions/ErrorActions";
 import { getProductImg } from "../utils/util";
@@ -31,7 +30,7 @@ const PDPContainer = (props) => {
   const { id } = useParams();
   const [product, setProduct] = useState({});
   const [isError, setError] = useState(false);
-  const [size, setSize] = useState(0);
+  const [size, setSize] = useState("0");
   const [color, setColor] = useState("");
   const [variantAvailable, setVariantAvailable] = useState({
     sizeVar: false,
@@ -50,12 +49,13 @@ const PDPContainer = (props) => {
     }
     return variantOptions ? variantOptions.id : false;
   };
-
+  const imageHeight = "500px";
   const useStyles = makeStyles((theme) => {
     return {
       root: {
+        ...theme.page,
         flexGrow: 1,
-        marginTop: theme.spacing(5),
+        marginTop: theme.spacing(8),
       },
       gridList: {
         padding: theme.spacing(6),
@@ -69,6 +69,8 @@ const PDPContainer = (props) => {
       img: {
         ...theme.img,
         boxShadow: theme.shadows[3],
+        height: imageHeight,
+        width: imageHeight,
       },
       cartButton: {
         paddingTop: theme.spacing(2),
@@ -192,9 +194,24 @@ const PDPContainer = (props) => {
 
   if (_.isEmpty(product)) {
     return (
-      <Paper>
-        <Skeleton variant="rect" width={210} height={"50%"} />
-      </Paper>
+      <main className={classes.root}>
+        <Grid container className={classes.gridList}>
+          <Grid
+            key={product.id}
+            xs={12}
+            sm={12}
+            md={5}
+            item
+            className={classes.gridPadding}
+          >
+            <Skeleton variant="rect" width={imageHeight} height={imageHeight} />
+          </Grid>
+          <Grid xs={12} sm={12} md={6} item className={classes.gridPadding}>
+            <Skeleton variant="text" height={20} />
+            <Skeleton animation="wave" />
+          </Grid>
+        </Grid>
+      </main>
     );
   }
 
@@ -224,11 +241,11 @@ const PDPContainer = (props) => {
           <Typography variant="subtitle1">
             <div dangerouslySetInnerHTML={{ __html: product.description }} />
           </Typography>
-          <Typography variant="h5">
+          <Typography variant="h5" className={classes.gridPadding}>
             {product.price.formatted_with_symbol}
           </Typography>
 
-          <Typography variant="h5" className={classes.cartButton}>
+          <Typography variant="h5" className={classes.gridPadding}>
             <SizeSelector
               product={product}
               handleChange={handleChange}
@@ -237,7 +254,7 @@ const PDPContainer = (props) => {
             />
           </Typography>
 
-          <Typography variant="h5" className={classes.cartButton}>
+          <Typography variant="h5" className={classes.gridPadding}>
             <ColorSelector
               product={product}
               setColor={setColor}

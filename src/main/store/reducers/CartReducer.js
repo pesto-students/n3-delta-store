@@ -5,7 +5,7 @@ import {
   ADD_ITEM_TO_CART,
   REMOVE_ITEM_FROM_CART,
   EMPTY_CART,
-  NO_CART
+  NO_CART,
 } from "../constants/StoreConstants";
 
 const initialState = {
@@ -14,6 +14,7 @@ const initialState = {
   cartLength: 0,
   cart: {},
   total: 0,
+  currency: {},
 };
 
 const CartReducer = (state = initialState, action) => {
@@ -24,6 +25,7 @@ const CartReducer = (state = initialState, action) => {
         total_items = 0,
         line_items = [],
         subtotal = {},
+        currency = {},
       } = action?.payload;
       return {
         ...state,
@@ -32,6 +34,7 @@ const CartReducer = (state = initialState, action) => {
         items: line_items,
         cart: action?.payload,
         total: subtotal?.raw,
+        currency,
       };
     }
     case CLEAR_CART: {

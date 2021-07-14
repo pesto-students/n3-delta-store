@@ -11,6 +11,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     margin: "12px 0px",
+    outline: "2px solid #e9e9eb",
   },
   details: {
     display: "flex",
@@ -27,8 +28,9 @@ const useStyles = makeStyles((theme) => ({
       minWidth: 100,
       height: 100,
     },
-    height: "200px",
+    height: "150px",
     backgroundSize: "contain",
+    margin: 10,
   },
   productTitle: {
     [theme.breakpoints.down("sm")]: {
@@ -75,17 +77,13 @@ const CheckoutItem = ({ product }) => {
             {product?.name}
           </Typography>
           <Typography variant="subtitle1" color="textSecondary">
-            Size: <span className="bold"> {product?.currentSize} </span>
+            Qty:
+            <span className="bold">{`${product?.quantity}`}</span>
           </Typography>
-          <Typography variant="subtitle1" color="textSecondary">
-            Price:
+          <Typography variant="subtitle1" color="primary">
             <span className="bold">
               {`${product?.price?.formatted_with_symbol}`}
             </span>
-          </Typography>
-          <Typography variant="subtitle1" color="textSecondary">
-            Qty:
-            <span className="bold">{`${product?.quantity}`}</span>
           </Typography>
         </CardContent>
       </div>

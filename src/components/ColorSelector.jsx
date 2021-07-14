@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import _ from "lodash";
-import { Box, Grid, makeStyles, Typography } from "@material-ui/core";
+import { Box, Grid, makeStyles } from "@material-ui/core";
 import Brightness1SharpIcon from "@material-ui/icons/Brightness1Sharp";
 import PropTypes from "prop-types";
 

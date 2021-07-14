@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
@@ -23,7 +24,7 @@ import { translate } from "../resources/language/translate";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 200,
+    width: 210,
     padding: theme.spacing(2),
     margin: theme.spacing(2),
     outline: "1px solid #e9e9eb",
@@ -41,6 +42,11 @@ const useStyles = makeStyles((theme) => ({
     whiteSpace: "nowrap",
     overflow: "hidden",
     textOverflow: "ellipsis",
+  },
+  cardContent: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
 }));
 
@@ -80,13 +86,7 @@ const WishListItem = ({ item = {} }) => {
 
   return (
     <Card className={classes.root}>
-      <CardContent
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-      >
+      <CardContent className={classes.cardContent}>
         <Grid item xs={12} sm container spacing={2}>
           <Typography className={classes.title} variant="subtitle2">
             {item?.name}
@@ -128,9 +128,9 @@ const WishListItem = ({ item = {} }) => {
 
       <CardActions disableSpacing>
         <Button
-          size="small"
+          size="medium"
           fullWidth
-          variant="contained"
+          variant="outlined"
           color="primary"
           onClick={handleMove}
         >

@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { makeStyles, Container, Grid } from "@material-ui/core";
+import { makeStyles, Container, Grid, Typography } from "@material-ui/core";
 import EmptyCart from "../components/EmptyCart";
 import NoAuth from "../components/NoAuth";
 import WishListItem from "../components/WishListItem";
@@ -8,6 +8,8 @@ const useStyles = makeStyles((theme) => ({
   root: {
     marginTop: theme.spacing(8),
     marginBottom: 0,
+    padding: theme.spacing(4),
+    ...theme.page,
   },
   container: {
     marginTop: "100px",
@@ -16,6 +18,9 @@ const useStyles = makeStyles((theme) => ({
 
   columnTitle: {
     margin: "8px 0px",
+  },
+  flex: {
+    display: "flex",
   },
   gridContainer: {
     [theme.breakpoints.down("md")]: {
@@ -54,11 +59,23 @@ const WishList = () => {
 
     return (
       <div className={classes.root}>
-        <div style={{ display: "flex" }}>
-          {items?.map((item) => (
-            <WishListItem key={item.id} item={item} />
-          ))}
-        </div>
+        <main>
+          <Grid container className={classes.gridContainer}>
+            <Grid item className={classes.flex}>
+              <Typography gutterBottom variant="h6">
+                Wishlist Items
+              </Typography>
+              <Typography gutterBottom variant="h6" color="textSecondary">
+                ({items?.length})
+              </Typography>
+            </Grid>
+            <Grid container>
+              {items?.map((item) => (
+                <WishListItem key={item.id} item={item} />
+              ))}
+            </Grid>
+          </Grid>
+        </main>
       </div>
     );
   }

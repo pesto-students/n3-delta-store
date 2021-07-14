@@ -1,20 +1,13 @@
-import {
-  Card,
-  CardContent,
-  CardMedia,
-  Grid,
-  makeStyles,
-  Typography,
-} from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { getProducts } from "../main/axios/commerce";
 import Filter from "../components/filters";
 import _ from "lodash";
-import { useHistory, useParams } from "react-router-dom";
+import ShopCard from "../components/ShopCard";
+import { Card, Grid, makeStyles } from "@material-ui/core";
+import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoader } from "../main/store/actions/LoadingActions";
 import { Skeleton } from "@material-ui/lab";
-
 const ShopContainer = (props) => {
   let params = useParams("categories");
   const loader = useSelector((state) => state.loader.loading);
@@ -23,7 +16,6 @@ const ShopContainer = (props) => {
   const [filters, setFilters] = useState({});
   const geoIpData = useSelector((state) => state?.homeReducer?.geoIpData);
 
-  const history = useHistory();
   const dispatch = useDispatch();
 
   const getFilteredProducts = (productsData, checkedCategories) => {
@@ -77,7 +69,7 @@ const ShopContainer = (props) => {
     if (!(products && products.length) && !loader) {
       dispatch(setLoader(true));
       getProducts().then((res) => {
-        setProducts(_.reverse(res.data));
+        setProducts(res.data);
         const categories = _.uniqBy(
           _.flattenDeep(res.data.map((product) => product.categories)),
           "id"
@@ -104,47 +96,75 @@ const ShopContainer = (props) => {
   }, [products, dispatch, loader, params]);
 
   const useStyles = makeStyles((theme) => {
-    const cardWidth = 240;
-    const cardHeight = 290;
+    const cardWidth = 210;
+    const cardHeight = 380;
     return {
       cardWidth: {
-        maxWidth: cardWidth,
         width: cardWidth,
-        height: cardHeight,
         boxShadow: "none",
+        minHeight: cardHeight,
+        outline: "2px solid #e9e9eb",
         "&:hover": {
           boxShadow: theme.shadows[18],
         },
+        cursor: "pointer",
       },
       root: {
         ...theme.page,
+        padding: theme.spacing(2),
         marginTop: theme.spacing(8),
         marginBottom: 0,
         [theme.breakpoints.up("sm")]: {
+          padding: theme.spacing(4),
           display: "flex",
           flex: 1,
         },
       },
       media: {
         textAlign: "center",
+        height: 270,
+        padding: 10,
+        justifyContent: "center",
+        alignItems: "center",
+        display: "flex",
       },
       img: {
         ...theme.img,
-        width: "150px",
-        height: "200px",
       },
-
+      producPrice: {
+        whiteSpace: "nowrap",
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+        fontSize: "16px",
+        fontWeight: "bold",
+        lineHeight: 1,
+        color: "#282c3f",
+        marginBottom: "6px",
+      },
       producName: {
         whiteSpace: "nowrap",
         overflow: "hidden",
         textOverflow: "ellipsis",
+        fontSize: "14px",
+        fontWeight: 500,
+        lineHeight: 1,
+        color: "#282c3f",
+        marginBottom: "6px",
       },
       gridList: {
         margin: theme.spacing(1),
       },
+      productGridList: {
+        margin: theme.spacing(1),
+        paddingBottom: theme.spacing(2),
+        paddingLeft: theme.spacing(4),
+      },
       gridContainer: {
+        paddingLeft: theme.spacing(4),
         [theme.breakpoints.down("md")]: {
+          paddingLeft: theme.spacing(0),
           justifyContent: "center",
+          paddingTop: theme.spacing(4),
         },
       },
     };
@@ -155,13 +175,20 @@ const ShopContainer = (props) => {
   return !(productsList && productsList.length) ? (
     <>
       <div className={classes.root}>
-        <Filter updateFilter={updateFilter} filters={filters}></Filter>
+        <div>
+          <Skeleton variant="text" />
+          <Skeleton animation="wave" />
+          <Skeleton variant="rect" width={240} height={210} />
+        </div>
         <main>
-          <Grid container className={classes.gridContainer}>
-            {_.times(8, _.constant(0)).map((product, key) => (
-              <Grid key={key} item className={classes.gridList}>
+          <Grid container spacing={2} className={classes.gridContainer}>
+            {_.times(20, _.constant(0)).map((product, key) => (
+              <Grid key={key} item className={classes.productGridList}>
                 <Card className={classes.cardWidth}>
-                  <Skeleton variant="rect" className={classes.cardWidth} />
+                  <Skeleton variant="rect" className={classes.media} />
+                  <Skeleton />
+                  <Skeleton width="60%" />
+                  <Skeleton width="60%" />
                 </Card>
               </Grid>
             ))}
@@ -174,32 +201,13 @@ const ShopContainer = (props) => {
       <div className={classes.root}>
         <Filter updateFilter={updateFilter} filters={filters}></Filter>
         <main>
-          <Grid container className={classes.gridContainer}>
+          <Grid container spacing={2} className={classes.gridContainer}>
             {productsList.map((product) => (
-              <Grid
+              <ShopCard
                 key={product.id}
-                onClick={() => history.push(`/shop/product/${product.id}`)}
-                item
-                className={classes.gridList}
-              >
-                <Card tabIndex={0} className={classes.cardWidth}>
-                  <CardMedia className={classes.media}>
-                    <img
-                      className={classes.img}
-                      src={product.media.source}
-                      alt={classes.media}
-                    />
-                  </CardMedia>
-                  <CardContent>
-                    <Typography className={classes.producName} variant="h5">
-                      {product.name}
-                    </Typography>
-                    <Typography className={classes.producName} variant="h6">
-                      {product.price.formatted_with_symbol}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
+                product={product}
+                className={classes.productGridList}
+              />
             ))}
           </Grid>
         </main>

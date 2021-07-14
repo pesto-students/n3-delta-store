@@ -30,7 +30,7 @@ const Filters = (props) => {
         fontWeight: 700,
       },
       accordianHeader: {
-        backgroundColor: theme.palette.secondary.main,
+        backgroundColor: theme.palette.primary.main,
         color: theme.palette.secondary.contrastText,
       },
       arrowColor: {
@@ -56,9 +56,7 @@ const Filters = (props) => {
               <FormControlLabel
                 onClick={() => {
                   const val = _.find(filters[filterName], { id: filter.id });
-
                   val.checked = !!!val.checked;
-
                   props.updateFilter(filters);
                 }}
                 control={
