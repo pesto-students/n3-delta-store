@@ -14,6 +14,7 @@ import { getCart, getExistingUserCart } from "./main/axios/commerce";
 import { noCart, setCart } from "./main/store/actions/CartActions";
 import { dbUtils } from "./services/firestore/db";
 import { setWishList } from "./main/store/actions/WishListActions";
+import { setError as setGlobalError } from "./main/store/actions/ErrorActions";
 import axios from "axios";
 import { setGeoIpData } from "./main/store/actions/HomeActions";
 import _ from "lodash";
@@ -29,9 +30,16 @@ function AppMain() {
 
   useEffect(() => {
     if (_.isEmpty(geoIpdata)) {
-      axios.get(`https://freegeoip.app/json/`).then((res) => {
-        dispatch(setGeoIpData(res.data));
-      });
+      axios
+        .get(`https://freegeoip.app/json/`)
+        .then((res) => {
+          dispatch(setGeoIpData(res.data));
+        })
+        .catch(() => {
+          dispatch(
+            setGlobalError("There was some issue identifying the customer")
+          );
+        });
     }
   }, [geoIpdata]);
   /* ; */
