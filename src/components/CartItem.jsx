@@ -48,6 +48,13 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: "100%",
     maxHeight: "100%",
   },
+  defaultPaddingR: {
+    paddingRight: 5,
+  },
+  divider: {
+    marginTop: 10,
+    marginBottom: 10,
+  },
   flex: {
     display: "flex",
     alignItems: "center",
@@ -204,7 +211,10 @@ const CartItem = ({ item = {} }) => {
               </Grid>
               <Grid item container className={classes.flex}>
                 <Grid item xs={12} md={6} className={classes.flex}>
-                  <Typography variant="subtitle2" style={{ paddingRight: 5 }}>
+                  <Typography
+                    variant="subtitle2"
+                    className={classes.defaultPaddingR}
+                  >
                     {translate("Quantity")}:{" "}
                   </Typography>
                   <QuantitySelector
@@ -214,7 +224,10 @@ const CartItem = ({ item = {} }) => {
                 </Grid>
                 {sizeVar && (
                   <Grid item xs={3} className={classes.flex}>
-                    <Typography variant="subtitle2" style={{ paddingRight: 5 }}>
+                    <Typography
+                      variant="subtitle2"
+                      className={classes.defaultPaddingR}
+                    >
                       {translate("Size")}:{" "}
                     </Typography>
                     <SizeSelector
@@ -226,8 +239,11 @@ const CartItem = ({ item = {} }) => {
                 )}
               </Grid>
               {colorVar && (
-                <Grid item style={{ display: "flex", alignItems: "center" }}>
-                  <Typography variant="subtitle2" style={{ paddingRight: 5 }}>
+                <Grid item className={classes.flex}>
+                  <Typography
+                    variant="subtitle2"
+                    className={classes.defaultPaddingR}
+                  >
                     {translate("Color")}:{" "}
                   </Typography>
                   <ColorSelector
@@ -243,19 +259,14 @@ const CartItem = ({ item = {} }) => {
             <Typography
               variant="body2"
               gutterBottom
-              style={{ display: "flex" }}
+              className={classes.flex}
             >
               {item?.currency}
               {item?.line_total?.formatted_with_symbol}
             </Typography>
           </Grid>
         </Grid>
-        <Divider
-          style={{
-            marginTop: 10,
-            marginBottom: 10,
-          }}
-        />
+        <Divider className={classes.divider} />
         <Grid container spacing={2} className={classes.flex}>
           <Grid item xs={3}>
             <Button

@@ -76,6 +76,18 @@ const ShopCard = ({ product, className }) => {
       gridList: {
         margin: theme.spacing(1),
       },
+
+      cardActions: {
+        position: "absolute",
+        bottom: 0,
+        left: 0,
+        backgroundColor: "white",
+        width: "100%",
+        boxSizing: "border-box",
+        padding: 16,
+        display: "flex",
+        flexDirection: "column",
+      },
       gridContainer: {
         [theme.breakpoints.down("md")]: {
           justifyContent: "center",
@@ -159,20 +171,7 @@ const ShopCard = ({ product, className }) => {
             </Typography>
           )}
           {showActions && (
-            <Grid
-              item
-              style={{
-                position: "absolute",
-                bottom: 0,
-                left: 0,
-                backgroundColor: "white",
-                width: "100%",
-                boxSizing: "border-box",
-                padding: 16,
-                display: "flex",
-                flexDirection: "column",
-              }}
-            >
+            <Grid item className={classes.cardActions}>
               <Typography gutterBottom variant="body2">
                 {product.name}
               </Typography>

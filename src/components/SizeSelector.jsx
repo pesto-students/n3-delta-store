@@ -1,10 +1,20 @@
 import React, { useEffect, useState } from "react";
 import _ from "lodash";
-import { MenuItem, FormControl, Select } from "@material-ui/core";
+import { MenuItem, FormControl, Select, makeStyles } from "@material-ui/core";
 import { translate } from "../resources/language/translate";
 import PropTypes from "prop-types";
 
+const useStyles = makeStyles((theme) => {
+  return {
+    flex: {
+      display: "flex",
+    },
+  };
+});
+
 const SizeSelector = (props) => {
+  const classes = useStyles();
+
   const { product = {}, handleChange, size, className } = props;
   const [sizeOptionsEle, setSizeOptionsEle] = useState([]);
   useEffect(() => {
@@ -24,7 +34,7 @@ const SizeSelector = (props) => {
   return (
     <>
       {sizeOptionsEle && sizeOptionsEle.length ? (
-        <div style={{ display: "flex" }}>
+        <div className={classes.flex}>
           <FormControl>
             <Select
               labelId="size-open-select-label"
