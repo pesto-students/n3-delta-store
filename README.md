@@ -27,16 +27,16 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
 
 ## Keys required
 
-| Library                                                     |                Keys Required                | Description                                                                                                                                                      |
-| ----------------------------------------------------------- | :-----------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [Commerce.js](https://dashboard.chec.io/settings/developer) | Eg.: pk_test_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX | Login to [Commerce.js](https://dashboard.chec.io/settings/developer) go to Developer Tab and click on API keys and get the respective key as per the environment |
-| [Firbase](https://console.firebase.google.com/)             |              FIREBASE_API_KEY               | Login to firebase, create a project and add a web app name, as the application basic setup is complete you will get all the keys mentioned in firebaseConfig     |
-|                                                             |            FIREBASE_AUTH_DOMAIN             |                                                                                                                                                                  |
-|                                                             |             FIREBASE_PROJECT_ID             |                                                                                                                                                                  |
-|                                                             |           FIREBASE_STORAGE_BUCKET           |                                                                                                                                                                  |
-|                                                             |        FIREBASE_MESSAGING_SENDER_ID         |                                                                                                                                                                  |
-|                                                             |               FIREBASE_APP_ID               |                                                                                                                                                                  |
-|                                                             |           FIREBASE_MEASUREMENT_ID           |                                                                                                                                                                  |
+| Library                                                     |                Keys Required                | Description                                                                                                                                                                                          |
+| ----------------------------------------------------------- | :-----------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [Commerce.js](https://dashboard.chec.io/settings/developer) | Eg.: pk_test_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX | Login to [Commerce.js](https://dashboard.chec.io/settings/developer) go to Developer Tab and click on API keys and get the respective key as per the environment                                     |
+| [Firbase](https://console.firebase.google.com/)             |              FIREBASE_API_KEY               | Login to [firebase](https://console.firebase.google.com/), create a project and add a web app name, as the application basic setup is complete you will get all the keys mentioned in firebaseConfig |
+|                                                             |            FIREBASE_AUTH_DOMAIN             |                                                                                                                                                                                                      |
+|                                                             |             FIREBASE_PROJECT_ID             |                                                                                                                                                                                                      |
+|                                                             |           FIREBASE_STORAGE_BUCKET           |                                                                                                                                                                                                      |
+|                                                             |        FIREBASE_MESSAGING_SENDER_ID         |                                                                                                                                                                                                      |
+|                                                             |               FIREBASE_APP_ID               |                                                                                                                                                                                                      |
+|                                                             |           FIREBASE_MEASUREMENT_ID           |                                                                                                                                                                                                      |
 
 ## Technology Stack
 
@@ -51,7 +51,7 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
 
 | Feature                   | Implemented? | Description                                                         |
 | ------------------------- | :----------: | :------------------------------------------------------------------ |
-| Gelocation                |   &#10004;   | Detect user's geolocation and set the product listing order         |
+| Geolocation               |   &#10004;   | Detect user's geolocation and set the product listing order         |
 | Cart                      |   &#10004;   | A new Cart is created for every user                                |
 | See Cart                  |   &#10004;   | Ability to see the Cart and it items                                |
 | Add Item                  |   &#10004;   | Ability to add a new Item on the Cart                               |
