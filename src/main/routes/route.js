@@ -9,6 +9,7 @@ import {
 import Footer from "../../components/footer";
 import Header from "../../components/header";
 import Checkout from "../../containers/CheckoutContainer";
+import PropTypes from "prop-types";
 
 const Home = lazy(() => import("../../containers/HomeContainer"));
 const About = lazy(() => import("../../containers/AboutContainer"));
@@ -105,6 +106,10 @@ const Routes = ({ isLoggedIn }) => {
       <Footer />
     </>
   );
+};
+
+Routes.propTypes = {
+  isLoggedIn: PropTypes.bool,
 };
 
 export default withRouter(Routes);

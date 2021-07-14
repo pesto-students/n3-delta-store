@@ -13,6 +13,8 @@ import {
   removeFromCart,
   updateCart,
 } from "../main/axios/commerce";
+import PropTypes from "prop-types";
+
 import _ from "lodash";
 import { setError } from "../main/store/actions/ErrorActions";
 import { setCart } from "../main/store/actions/CartActions";
@@ -294,6 +296,11 @@ const CartItem = ({ item = {} }) => {
       </Paper>
     </div>
   );
+};
+
+CartItem.propTypes = {
+  item: PropTypes.object,
+  key: PropTypes.string,
 };
 
 export default CartItem;

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import _ from "lodash";
 import { MenuItem, Typography, FormControl, Select } from "@material-ui/core";
 import { translate } from "../resources/language/translate";
+import PropTypes from "prop-types";
 
 const SizeSelector = (props) => {
   const { product = {}, handleChange, size, className } = props;
@@ -42,6 +43,13 @@ const SizeSelector = (props) => {
       )}
     </>
   );
+};
+
+SizeSelector.propTypes = {
+  product: PropTypes.object,
+  handleChange: PropTypes.func,
+  size: PropTypes.string,
+  className: PropTypes.object,
 };
 
 export default SizeSelector;

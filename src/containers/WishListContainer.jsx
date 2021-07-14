@@ -56,7 +56,7 @@ const WishList = () => {
       <div className={classes.root}>
         <div style={{ display: "flex" }}>
           {items?.map((item) => (
-            <WishListItem item={item} />
+            <WishListItem key={item.id} item={item} />
           ))}
         </div>
       </div>

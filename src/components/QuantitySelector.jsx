@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Button from "@material-ui/core/Button";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
+import PropTypes from "prop-types";
 
 const QuantitySelector = ({ onChange, value = 1 }) => {
   const [quantity, setQuantity] = useState(value);
@@ -42,6 +43,11 @@ const QuantitySelector = ({ onChange, value = 1 }) => {
       </Button>
     </ButtonGroup>
   );
+};
+
+QuantitySelector.propTypes = {
+  onChange: PropTypes.func,
+  value: PropTypes.number,
 };
 
 export default QuantitySelector;

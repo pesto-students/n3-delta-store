@@ -53,7 +53,14 @@ const Cart = () => {
       <Container maxWidth="md" className={classes.container}>
         <Grid container justify="center">
           <Grid item xs={12}>
-            <Grid item style={{ display: "flex", justifyContent:'space-between', paddingBottom:10 }}>
+            <Grid
+              item
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                paddingBottom: 10,
+              }}
+            >
               <h2 className={classes.columnTitle}>
                 My Cart({cartLength}) ({total})
               </h2>
@@ -70,7 +77,7 @@ const Cart = () => {
             </Grid>
             <Divider />
             {items?.map((item) => (
-              <CartItem item={item} />
+              <CartItem key={item.id} item={item} />
             ))}
           </Grid>
         </Grid>

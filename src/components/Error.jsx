@@ -1,3 +1,4 @@
+import React from "react";
 import { Container, makeStyles, Paper, Typography } from "@material-ui/core";
 
 const NotFound = () => {
