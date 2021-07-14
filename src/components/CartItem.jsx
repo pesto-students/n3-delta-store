@@ -22,6 +22,13 @@ import ColorSelector from "./ColorSelector";
 import { addItemToWishList } from "../main/store/actions/WishListActions";
 import { translate } from "../resources/language/translate";
 import { useHistory } from "react-router-dom";
+import {
+  fetchFromLocalStorage,
+  fetchFromStorage,
+  getProductImg,
+  saveToLocalStorage,
+  saveToStorage,
+} from "../utils/util";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -103,6 +110,8 @@ const CartItem = ({ item = {} }) => {
   useEffect(() => {
     const sizeVar = checkOptionsAvailable("Size");
     const colorVar = checkOptionsAvailable("Color");
+    console.log("sizeVar", sizeVar);
+    console.log("colorVar", colorVar);
     setVariantAvailable({
       sizeVar,
       colorVar,
@@ -113,11 +122,17 @@ const CartItem = ({ item = {} }) => {
     dispatch(setLoader(true));
     const prd = await getProduct(item?.product_id);
     setProduct(prd);
+    saveToStorage(item?.product_id, prd);
     dispatch(setLoader(false));
   };
 
   useEffect(() => {
-    getProductData();
+    const product = fetchFromStorage(item?.product_id);
+    if (product) {
+      setProduct(product);
+    } else {
+      getProductData();
+    }
   }, []);
 
   const handleRemove = async (wishlist) => {
@@ -195,7 +210,8 @@ const CartItem = ({ item = {} }) => {
               <img
                 className={classes.img}
                 alt="product"
-                src={item?.media?.source}
+                // src={item?.media?.source}
+                src={getProductImg(product, color) || item.media.source}
               />
             </ButtonBase>
           </Grid>
@@ -256,11 +272,7 @@ const CartItem = ({ item = {} }) => {
             </Grid>
           </Grid>
           <Grid item>
-            <Typography
-              variant="body2"
-              gutterBottom
-              className={classes.flex}
-            >
+            <Typography variant="body2" gutterBottom className={classes.flex}>
               {item?.currency}
               {item?.line_total?.formatted_with_symbol}
             </Typography>

@@ -65,8 +65,8 @@ export const isValidEmail = (value) => {
   return true;
 };
 
-export const getProductImg = (product, selectedColorOfProd) => {
-  const colorOptions = _.find(product.variant_groups, { name: "Color" });
+export const getProductImg = (product = {}, selectedColorOfProd) => {
+  const colorOptions = _.find(product?.variant_groups, { name: "Color" });
   if (colorOptions) {
     const selectedColor = _.find(colorOptions.options, {
       id: selectedColorOfProd,

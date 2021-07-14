@@ -4,10 +4,14 @@ import {
   REMOVE_ITEM_FROM_WISHLIST,
   MOVE_ITEM_FROM_WISHLIST_TO_CART,
   CLEAR_WISHLIST,
+  OPEN_WISHLIST_MODAL,
+  CLOSE_WISHLIST_MODAL,
 } from "../constants/StoreConstants";
 
 const initialState = {
   items: [],
+  isModalOpen: false,
+  currentItem: {},
 };
 
 const remove = (tobeRemovedId, items = []) => {
@@ -37,7 +41,6 @@ const WishListReducer = (state = initialState, action) => {
       };
     }
     case ADD_ITEM_TO_WISHLIST: {
-      console.log("coming here");
       return {
         ...state,
         items: add(action?.payload, state.items),
@@ -56,7 +59,19 @@ const WishListReducer = (state = initialState, action) => {
         ...initialState,
       };
     }
-
+    case OPEN_WISHLIST_MODAL: {
+      return {
+        ...state,
+        isModalOpen: true,
+        currentItem: action?.payload,
+      };
+    }
+    case CLOSE_WISHLIST_MODAL: {
+      return {
+        ...state,
+        isModalOpen: false,
+      };
+    }
     default:
       return state;
   }

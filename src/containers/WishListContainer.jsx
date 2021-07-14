@@ -40,20 +40,24 @@ const WishList = () => {
 
   if (!isLoggedIn) {
     return (
-      <Container maxWidth="lg" className={classes.container}>
-        <Grid container justify="center">
-          <NoAuth />
-        </Grid>
-      </Container>
+      <div className={classes.root}>
+        <Container maxWidth="lg" className={classes.container}>
+          <Grid container justify="center">
+            <NoAuth />
+          </Grid>
+        </Container>
+      </div>
     );
   } else {
     if (!items?.length) {
       return (
-        <Container maxWidth="lg" className={classes.container}>
-          <Grid container justify="center">
-            <EmptyCart />
-          </Grid>
-        </Container>
+        <div className={classes.root}>
+          <Container maxWidth="lg" className={classes.container}>
+            <Grid container justify="center">
+              <EmptyCart />
+            </Grid>
+          </Container>
+        </div>
       );
     }
 
