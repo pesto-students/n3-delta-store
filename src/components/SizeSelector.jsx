@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import _ from "lodash";
-import { MenuItem, Typography, FormControl, Select } from "@material-ui/core";
+import { MenuItem, FormControl, Select } from "@material-ui/core";
 import { translate } from "../resources/language/translate";
 
 const SizeSelector = (props) => {

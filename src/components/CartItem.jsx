@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import {
   Button,
   ButtonBase,
+  Divider,
   Grid,
   makeStyles,
   Paper,
@@ -9,7 +10,6 @@ import {
 } from "@material-ui/core";
 import {
   getProduct,
-  getVariantsForProduct,
   removeFromCart,
   updateCart,
 } from "../main/axios/commerce";
@@ -33,9 +33,10 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
     margin: "auto",
     maxWidth: 700,
+    outline: "2px solid #e9e9eb",
   },
   image: {
-    width: 128,
+    width: 150,
     height: 128,
   },
   gridFlex: {
@@ -48,6 +49,11 @@ const useStyles = makeStyles((theme) => ({
     display: "block",
     maxWidth: "100%",
     maxHeight: "100%",
+  },
+  flex: {
+    display: "flex",
+    alignItems: "center",
+    flexGrow: 1,
   },
 }));
 
@@ -73,7 +79,7 @@ const CartItem = ({ item = {} }) => {
     checkSelectedOptions(selected_options, "Color")
   );
   const [product, setProduct] = useState(null);
-  const [quantity, setQuantity] = useState(item.quantity || 1);
+  const [quantity] = useState(item.quantity || 1);
   const [variantAvailable, setVariantAvailable] = useState({
     sizeVar: false,
     colorVar: false,
@@ -183,14 +189,14 @@ const CartItem = ({ item = {} }) => {
             <ButtonBase className={classes.image}>
               <img
                 className={classes.img}
-                alt="product image"
+                alt="product"
                 src={item?.media?.source}
               />
             </ButtonBase>
           </Grid>
           <Grid item xs={12} sm container>
             <Grid item xs container direction="column" spacing={2}>
-              <Grid item xs>
+              <Grid item>
                 <Typography gutterBottom variant="h6">
                   {item.name}
                 </Typography>
@@ -198,16 +204,18 @@ const CartItem = ({ item = {} }) => {
                   {item.description}
                 </Typography>
               </Grid>
-              <Grid item>
+              <Grid item container className={classes.flex}>
+                <Grid item xs={12} md={6} className={classes.flex}>
+                  <Typography variant="subtitle2" style={{ paddingRight: 5 }}>
+                    {translate("Quantity")}:{" "}
+                  </Typography>
+                  <QuantitySelector
+                    onChange={handleQuantityChange}
+                    value={quantity}
+                  />
+                </Grid>
                 {sizeVar && (
-                  <Grid
-                    item
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      paddingBottom: 5,
-                    }}
-                  >
+                  <Grid item xs={3} className={classes.flex}>
                     <Typography variant="subtitle2" style={{ paddingRight: 5 }}>
                       {translate("Size")}:{" "}
                     </Typography>
@@ -218,22 +226,6 @@ const CartItem = ({ item = {} }) => {
                     />
                   </Grid>
                 )}
-                <Grid
-                  item
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    paddingBottom: 5,
-                  }}
-                >
-                  <Typography variant="subtitle2" style={{ paddingRight: 5 }}>
-                    {translate("Quantity")}:{" "}
-                  </Typography>
-                  <QuantitySelector
-                    onChange={handleQuantityChange}
-                    value={quantity}
-                  />
-                </Grid>
               </Grid>
               {colorVar && (
                 <Grid item style={{ display: "flex", alignItems: "center" }}>
@@ -260,15 +252,14 @@ const CartItem = ({ item = {} }) => {
             </Typography>
           </Grid>
         </Grid>
-        <Grid
-          container
-          spacing={2}
+        <Divider
           style={{
-            display: "flex",
-            flexGrow: 1,
+            marginTop: 10,
+            marginBottom: 10,
           }}
-        >
-          <Grid item>
+        />
+        <Grid container spacing={2} className={classes.flex}>
+          <Grid item xs={3}>
             <Button
               size="large"
               fullWidth

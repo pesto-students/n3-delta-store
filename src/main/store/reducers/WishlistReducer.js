@@ -3,6 +3,7 @@ import {
   ADD_ITEM_TO_WISHLIST,
   REMOVE_ITEM_FROM_WISHLIST,
   MOVE_ITEM_FROM_WISHLIST_TO_CART,
+  CLEAR_WISHLIST,
 } from "../constants/StoreConstants";
 
 const initialState = {
@@ -48,6 +49,11 @@ const WishListReducer = (state = initialState, action) => {
       return {
         ...state,
         items: remove(id, state.items),
+      };
+    }
+    case CLEAR_WISHLIST: {
+      return {
+        ...initialState,
       };
     }
 

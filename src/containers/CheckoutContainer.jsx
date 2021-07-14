@@ -1,6 +1,5 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import CartItem from "../components/CartItem";
 import { Divider, makeStyles, Container, Grid } from "@material-ui/core";
 import EmptyCart from "../components/EmptyCart";
 import NoAuth from "../components/NoAuth";
@@ -27,7 +26,7 @@ const Checkout = () => {
   const authState = useSelector((state) => state?.authReducer);
   const cart = useSelector((state) => state?.cart);
   const { isLoggedIn } = authState;
-  const { items, cartLength, total } = cart;
+  const { items } = cart;
 
   if (!isLoggedIn) {
     return (

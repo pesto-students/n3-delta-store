@@ -47,7 +47,7 @@ const CheckoutFlow = () => {
   const addressesCount =
     useSelector((state) => state?.addressInfo?.addresses?.length) || 0;
   const cart = useSelector((state) => state?.cart);
-  const { items, cartLength, total } = cart;
+  const { items } = cart;
 
   function getStepContent(step) {
     switch (step) {
@@ -56,10 +56,7 @@ const CheckoutFlow = () => {
           <>
             {items.length ? (
               items.map((product) => (
-                <CheckoutItem
-                  key={`${product.id}`}
-                  product={product}
-                />
+                <CheckoutItem key={`${product.id}`} product={product} />
               ))
             ) : (
               <EmptyCart />
