@@ -1,8 +1,4 @@
-import {
-  Card,
-  Grid,
-  makeStyles,
-} from "@material-ui/core";
+import { Card, Grid, makeStyles } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { getProducts } from "../main/axios/commerce";
 import Filter from "../components/filters";
@@ -10,12 +6,30 @@ import _ from "lodash";
 import { useParams } from "react-router-dom";
 import { Skeleton } from "@material-ui/lab";
 import ShopCard from "../components/ShopCard";
-
+import {
+  Card,
+  CardContent,
+  CardMedia,
+  Grid,
+  makeStyles,
+  Typography,
+} from "@material-ui/core";
+import React, { useEffect, useState } from "react";
+import { getProducts } from "../main/axios/commerce";
+import Filter from "../components/filters";
+import _ from "lodash";
+import { useHistory, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setLoader } from "../main/store/actions/LoadingActions";
+import { Skeleton } from "@material-ui/lab";
 const ShopContainer = (props) => {
   let params = useParams("categories");
+  const loader = useSelector((state) => state.loader.loading);
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [filters, setFilters] = useState({});
+  const history = useHistory();
+  const dispatch = useDispatch();
 
   const getFilteredProducts = (productsData, checkedCategories) => {
     return _.compact(
@@ -59,7 +73,8 @@ const ShopContainer = (props) => {
   };
 
   useEffect(() => {
-    if (!(products && products.length)) {
+    if (!(products && products.length) && !loader) {
+      dispatch(setLoader(true));
       getProducts().then((res) => {
         setProducts(res.data);
         const categories = _.uniqBy(
@@ -77,9 +92,10 @@ const ShopContainer = (props) => {
         setFilteredProducts(
           getFilteredProducts(res.data, getCheckedCategories({ categories }))
         );
+        dispatch(setLoader(false));
       });
     }
-  });
+  }, [products, dispatch, loader, params]);
 
   const useStyles = makeStyles((theme) => {
     const cardWidth = 210;
