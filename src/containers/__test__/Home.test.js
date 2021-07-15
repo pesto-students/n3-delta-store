@@ -24,7 +24,7 @@ const server = setupServer(
   })
 );
 const mockDispatch = jest.fn();
-const mockSelector = jest.fn();
+
 
 const mockStore = { ...store };
 
