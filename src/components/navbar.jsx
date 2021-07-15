@@ -155,6 +155,9 @@ const Navbar = (props) => {
         </Button>
       );
     });
+    /**
+     * used when the view is Mobile view
+     */
     return isMobile ? (
       <>
         <IconButton

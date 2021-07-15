@@ -10,6 +10,9 @@ import {
 } from "@material-ui/core";
 import { useSelector } from "react-redux";
 
+/**
+ * Address css in checkout
+ */
 const useStyles = makeStyles(() => ({
   root: {
     padding: "10px",
@@ -43,8 +46,8 @@ const AddressSelection = () => {
   const { addresses } = addressInfo;
   const [currentAddress, setCurrentAddress] = useState("");
   const handleChange = (event) => {
-    console.log(event.target.value);
-    console.log(event.target);
+    //console.log(event.target.value);
+    //console.log(event.target);
     setCurrentAddress(event.target.value);
   };
 

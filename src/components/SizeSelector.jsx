@@ -4,6 +4,9 @@ import { MenuItem, FormControl, Select, makeStyles } from "@material-ui/core";
 import { translate } from "../resources/language/translate";
 import PropTypes from "prop-types";
 
+/**
+ * CSS for size selector
+ */
 const useStyles = makeStyles((theme) => {
   return {
     flex: {
@@ -17,6 +20,9 @@ const SizeSelector = (props) => {
 
   const { product = {}, handleChange, size, className } = props;
   const [sizeOptionsEle, setSizeOptionsEle] = useState([]);
+  /**
+   * Size selector menu item list
+   */
   useEffect(() => {
     if (product?.variant_groups && product.variant_groups.length) {
       const sizeOptions = _.find(product.variant_groups, { name: "Size" });

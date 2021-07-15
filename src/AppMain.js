@@ -18,7 +18,10 @@ import { setError as setGlobalError } from "./main/store/actions/ErrorActions";
 import axios from "axios";
 import { setGeoIpData } from "./main/store/actions/HomeActions";
 import _ from "lodash";
-import { addAddress, setDefaultAddress } from "./main/store/actions/AddressInfoActions";
+import {
+  addAddress,
+  setDefaultAddress,
+} from "./main/store/actions/AddressInfoActions";
 
 // import axios from 'axios';
 
@@ -31,6 +34,9 @@ function AppMain() {
   const { isLoggedIn, user } = authState;
   const initialRender = useRef(true);
 
+  /**
+   * Set Geolocation data of a user to redux
+   */
   useEffect(() => {
     if (_.isEmpty(geoIpdata)) {
       axios
@@ -47,6 +53,11 @@ function AppMain() {
   }, [geoIpdata]);
   /* ; */
 
+  /**
+   *
+   * @param {*} id
+   * Get cart tems from ecommerce.js
+   */
   const fetchCartItems = async (id) => {
     dispatch(setLoader(true));
     const cart = await getExistingUserCart(id);
@@ -54,6 +65,9 @@ function AppMain() {
     dispatch(setLoader(false));
   };
 
+  /**
+   * Check if cart exist if not create a acart and save it to redux
+   */
   const createAndFetchCart = async () => {
     dispatch(setLoader(true));
     const cart = await getCart();
@@ -63,6 +77,9 @@ function AppMain() {
     dispatch(setLoader(false));
   };
 
+  /**
+   * Get user data on load
+   */
   const getUserData = async () => {
     const { uid } = user;
     const userData = await dbUtils.getUser(uid);

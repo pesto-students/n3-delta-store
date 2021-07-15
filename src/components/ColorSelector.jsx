@@ -5,6 +5,9 @@ import Brightness1SharpIcon from "@material-ui/icons/Brightness1Sharp";
 import PropTypes from "prop-types";
 
 const ColorSelector = (props) => {
+  /**
+   * Styling for color selector
+   */
   const useStyles = makeStyles((theme) => ({
     selectedPallette: {
       border: "5px solid",
@@ -23,6 +26,9 @@ const ColorSelector = (props) => {
   }));
   const classes = useStyles();
   const { product = {}, setColor = () => {}, color } = props;
+  /**
+   * On load set first color
+   */
   useEffect(() => {
     const colorOptions = _.find(product?.variant_groups, { name: "Color" });
     if (colorOptions && colorOptions.options && colorOptions.options.length) {
@@ -32,6 +38,9 @@ const ColorSelector = (props) => {
     }
   }, [product]);
 
+  /**
+   * Color palette render
+   */
   let colorEle = [];
   if (product?.variant_groups && product.variant_groups.length) {
     const colorOptions = _.find(product.variant_groups, { name: "Color" });

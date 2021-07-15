@@ -12,6 +12,10 @@ import {
 import EmptyCart from "../components/EmptyCart";
 import NoAuth from "../components/NoAuth";
 import { useHistory } from "react-router-dom";
+
+/**
+ * Css for cart container
+ */
 const useStyles = makeStyles((theme) => ({
   container: {
     marginTop: "100px",

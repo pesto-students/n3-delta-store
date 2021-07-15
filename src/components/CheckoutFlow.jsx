@@ -12,6 +12,9 @@ import EmptyCart from "./EmptyCart";
 import Payment from "./Payment";
 import AddressSelection from "./AddressSelection";
 
+/**
+ * Checkout css
+ */
 const useStyles = makeStyles((theme) => ({
   root: {
     margin: "12px 0px",
@@ -35,6 +38,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+/**
+ * Steps in checkout stepper
+ */
 const steps = [
   "Shopping Cart",
   "Select Delivery Address",
@@ -48,7 +54,11 @@ const CheckoutFlow = () => {
     useSelector((state) => state?.addressInfo?.addresses?.length) || 0;
   const cart = useSelector((state) => state?.cart);
   const { items } = cart;
-
+  /**
+   *
+   * @param {*} step
+   * Stepper view and body
+   */
   function getStepContent(step) {
     switch (step) {
       case 0:
@@ -72,10 +82,16 @@ const CheckoutFlow = () => {
         return "Unknown step";
     }
   }
+  /**
+   * On next click
+   */
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
+  /**
+   * On back click
+   */
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };

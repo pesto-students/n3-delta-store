@@ -80,6 +80,11 @@ const Search = (props) => {
     setAnchorEl(event.currentTarget);
   };
 
+  /**
+   *
+   * @param {*} searchString
+   * @returns List of products with search string
+   */
   const debounceCallBack = (searchString) => {
     setSearching(true);
     if (!searchString) {
@@ -93,12 +98,20 @@ const Search = (props) => {
       setSearchResult(res.data);
     });
   };
+  /**
+   * Function to trigger when search text has been added
+   */
   const debounce_fun = useMemo(() => _.debounce(debounceCallBack, 1000), []);
 
   useEffect(() => {
     debounce_fun(searchString);
   }, [debounce_fun, searchString]);
 
+  /**
+   *
+   * @param {*} e
+   * set search string to state
+   */
   const searchResultInput = (e) => {
     setSearchString(e.currentTarget.value);
   };

@@ -43,6 +43,9 @@ const Filters = (props) => {
 
   let accordian = [];
 
+  /**
+   * Set type of filter in accordian
+   */
   if (filters && !_.isEmpty(filters)) {
     accordian = _.map(filters, (filterArr, filterName) => {
       let filterColl;
