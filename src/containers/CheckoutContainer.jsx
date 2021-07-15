@@ -5,6 +5,10 @@ import EmptyCart from "../components/EmptyCart";
 import NoAuth from "../components/NoAuth";
 import Total from "../components/Total";
 import CheckoutFlow from "../components/CheckoutFlow";
+
+/**
+ * Css for Checkout page
+ */
 const useStyles = makeStyles((theme) => ({
   container: {
     ...theme.page,

@@ -106,18 +106,23 @@ const CartItem = ({ item = {} }) => {
     }
     return variantOptions ? variantOptions.id : false;
   };
-
+  /**
+   * set size and color option of an item
+   */
   useEffect(() => {
     const sizeVar = checkOptionsAvailable("Size");
     const colorVar = checkOptionsAvailable("Color");
-    console.log("sizeVar", sizeVar);
-    console.log("colorVar", colorVar);
+    //console.log("sizeVar", sizeVar);
+    //console.log("colorVar", colorVar);
     setVariantAvailable({
       sizeVar,
       colorVar,
     });
   }, [product]);
 
+  /**
+   * Get product data of cart
+   */
   const getProductData = async () => {
     dispatch(setLoader(true));
     const prd = await getProduct(item?.product_id);
@@ -126,6 +131,9 @@ const CartItem = ({ item = {} }) => {
     dispatch(setLoader(false));
   };
 
+  /**
+   * Get products from session storage
+   */
   useEffect(() => {
     const product = fetchFromStorage(item?.product_id);
     if (product) {
@@ -135,6 +143,11 @@ const CartItem = ({ item = {} }) => {
     }
   }, []);
 
+  /**
+   *
+   * @param {*} wishlist
+   * On click remove item from wishlist
+   */
   const handleRemove = async (wishlist) => {
     try {
       dispatch(setLoader(true));
@@ -154,10 +167,16 @@ const CartItem = ({ item = {} }) => {
     }
   };
 
+  /**
+   * Move item from wishlist to cart
+   */
   const handleMoveToWishList = async () => {
     await handleRemove(true);
   };
 
+  /**
+   * On size change update in cart
+   */
   const handleSizeChange = (event) => {
     const selected = event?.target?.value;
     setSize(selected);
@@ -167,6 +186,9 @@ const CartItem = ({ item = {} }) => {
     handleUpdateCartItem(metaData);
   };
 
+  /**
+   *  on color select update in cart
+   */
   const handleColorChange = (selected) => {
     setColor(selected);
     const variantData = {};
@@ -175,6 +197,10 @@ const CartItem = ({ item = {} }) => {
     handleUpdateCartItem(metaData);
   };
 
+  /**
+   *
+   * Update item in cart
+   */
   const handleUpdateCartItem = async (body) => {
     try {
       dispatch(setLoader(true));
@@ -191,6 +217,9 @@ const CartItem = ({ item = {} }) => {
     }
   };
 
+  /**
+   * On quantity update save in cart
+   */
   const handleQuantityChange = async (selectedQuantity) => {
     const body = {
       quantity: selectedQuantity,

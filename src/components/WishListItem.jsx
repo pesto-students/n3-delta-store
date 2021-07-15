@@ -124,6 +124,9 @@ const WishListSelectionModal = () => {
     dispatch(closeWishListModal());
   };
 
+  /**
+   * In modal validate size and color and proceed to next screen
+   */
   const handleSelection = async () => {
     try {
       const { sizeVar, colorVar } = variantAvailable;
@@ -239,6 +242,9 @@ const WishListItem = ({ item = {} }) => {
     }
   };
 
+  /**
+   * Move item from wishlist to cart
+   */
   const handleMove = async () => {
     if (item?.variant_groups?.length > 0) {
       dispatch(openWishListModal(item));
@@ -247,6 +253,9 @@ const WishListItem = ({ item = {} }) => {
     }
   };
 
+  /**
+   * On delete button click remove item from wishlist
+   */
   const handleDelete = async () => {
     try {
       dispatch(setLoader(true));

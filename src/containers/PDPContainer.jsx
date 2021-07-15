@@ -39,15 +39,23 @@ const PDPContainer = (props) => {
   const authState = useSelector((state) => state?.authReducer);
   const { isLoggedIn } = authState;
 
+  /**
+   *
+   * @param {*} variant
+   * @returns variant option of a product
+   */
   const checkOptionsAvailable = (variant) => {
-    console.log("coming to check otions", variant);
+    //console.log("coming to check otions", variant);
     let variantOptions = [];
     if (product?.variant_groups && product.variant_groups.length) {
       variantOptions = _.find(product.variant_groups, { name: variant });
-      console.log(variantOptions);
+      //console.log(variantOptions);
     }
     return variantOptions ? variantOptions.id : false;
   };
+  /**
+   * PDP style
+   */
   const useStyles = makeStyles((theme) => {
     return {
       root: {
@@ -98,6 +106,9 @@ const PDPContainer = (props) => {
   });
   const classes = useStyles();
 
+  /**
+   * Get product data by id
+   */
   useEffect(() => {
     if (!product || _.isEmpty(product)) {
       dispatch(setLoader(true));
@@ -124,6 +135,9 @@ const PDPContainer = (props) => {
     }
   }, [product, id, dispatch]);
 
+  /**
+   * Set colo and size variant on load
+   */
   useEffect(() => {
     const sizeVar = checkOptionsAvailable("Size");
     const colorVar = checkOptionsAvailable("Color");
@@ -133,10 +147,20 @@ const PDPContainer = (props) => {
     });
   }, [product]);
 
+  /**
+   *
+   * @param {*} event
+   * Set size on dropdown change
+   */
   const handleChange = (event) => {
     setSize(event.target.value);
   };
-
+  /**
+   *
+   * @param {*} fn
+   * @param {*} fnProps
+   * On adding item in cart check for login
+   */
   const checkUserLogin = (fn, fnProps) => {
     if (isLoggedIn) {
       fnProps ? fn(fnProps) : fn();
@@ -145,6 +169,9 @@ const PDPContainer = (props) => {
     }
   };
 
+  /**
+   * On Click wishlist validate and add to firestore
+   */
   const handleAddToWishList = () => {
     try {
       const { sizeVar, colorVar } = variantAvailable;
@@ -163,6 +190,9 @@ const PDPContainer = (props) => {
     }
   };
 
+  /**
+   * On add to cart click validate and add item to cart
+   */
   const handleAddToCart = async () => {
     try {
       const { sizeVar, colorVar } = variantAvailable;

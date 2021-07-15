@@ -7,6 +7,9 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import PropTypes from "prop-types";
 
+/**
+ * CSS for item in checkout
+ */
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",

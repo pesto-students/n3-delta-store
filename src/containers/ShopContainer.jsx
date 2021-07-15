@@ -197,6 +197,9 @@ const ShopContainer = (props) => {
     };
   });
   const classes = useStyles();
+  /**
+   * Skeleton when products are loading
+   */
   const productsList =
     filteredProducts && filteredProducts.length ? filteredProducts : products;
   return !(productsList && productsList.length) ? (
