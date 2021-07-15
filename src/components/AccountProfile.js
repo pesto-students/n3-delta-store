@@ -7,6 +7,7 @@ import {
   makeStyles,
   Typography,
 } from "@material-ui/core";
+import PropTypes from "prop-types";
 
 const user = {
   avatar: "/static/images/avatars/avatar_6.png",
@@ -37,22 +38,13 @@ const AccountProfile = (props) => {
   });
   const classes = useStyles();
   const { user } = props;
-  
+
   return (
     <Card {...props}>
       <CardContent>
-        <Box
-          className={classes.box}
-        >
-          <Avatar
-            src={user?.photoURL}
-            className={classes.avatar}
-          />
-          <Typography
-            color="textPrimary"
-            gutterBottom
-            variant="h4"
-          >
+        <Box className={classes.box}>
+          <Avatar src={user?.photoURL} className={classes.avatar} />
+          <Typography color="textPrimary" gutterBottom variant="h4">
             {user?.displayName}
           </Typography>
         </Box>
@@ -60,5 +52,7 @@ const AccountProfile = (props) => {
     </Card>
   );
 };
-
+AccountProfile.propTypes = {
+  user: PropTypes.element.isRequired,
+};
 export default AccountProfile;

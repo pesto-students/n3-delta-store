@@ -11,18 +11,25 @@ import {
   Paper,
   Tab,
   Tabs,
-  TextField
-} from '@material-ui/core';
-import _ from 'lodash';
-import { isValidEmail } from '../utils/util';
-import { setAuth } from '../main/store/actions/AuthActions';
-import { useDispatch } from 'react-redux';
-import { dbUtils } from '../services/firestore/db';
-import { setLoader } from '../main/store/actions/LoadingActions';
-
+  TextField,
+} from "@material-ui/core";
+import _ from "lodash";
+import { isValidEmail } from "../utils/util";
+import { setAuth } from "../main/store/actions/AuthActions";
+import { useDispatch, useSelector } from "react-redux";
+import { dbUtils } from "../services/firestore/db";
+import { setLoader } from "../main/store/actions/LoadingActions";
+import { setError } from "../main/store/actions/ErrorActions";
+import PropTypes from 'prop-types'
+import {
+  addAddress,
+  setDefaultAddress,
+} from "../main/store/actions/AddressInfoActions";
 
 const AccountProfileDetails = (props) => {
   const { user } = props;
+  const addressInfo = useSelector((state) => state?.addressInfo);
+  const { displayName, email, address, phone } = addressInfo;
   const [value, setValue] = useState(0);
   const dispatch = useDispatch();
 
@@ -43,28 +50,57 @@ const AccountProfileDetails = (props) => {
   });
   const classes = useStyles();
 
+  /**
+   *
+   * @param {domevent} event
+   * @param {value to be updated} newValue
+   */
   const handleTabChange = (event, newValue) => {
     setValue(newValue);
   };
 
   const [values, setValues] = useState({
-    displayName: "",
-    email: "",
-    photoURL: "",
-    address: ""
+    displayName: displayName || "",
+    email: email || "",
+    address: address || "",
+    phone: phone || "",
   });
 
   useEffect(() => {
+    console.log(
+      "in accountprofiledetails useEffect",
+      addressInfo?.defaultAddress
+    );
+
     if (user && !_.isEmpty(user)) {
-      setValues({ ...values, ...user })
+      setValues({ ...values, ...user, ...addressInfo?.defaultAddress });
     }
-  }, [user])
+  }, [user, addressInfo]);
   const [submitted, setSubmitted] = useState(false);
   const handleChange = (event) => {
     setValues({
       ...values,
       [event.target.name]: event.target.value,
     });
+  };
+
+  const handleSave = async () => {
+    const { uid } = user;
+    const { displayName, address } = values;
+    const { error = "" } =
+      (await dbUtils.udpateUser(uid, {
+        ...values,
+      })) || {};
+    if (error) {
+      dispatch(setError(`Error in updating user details`));
+    }
+    const userData = await dbUtils.getUser(uid);
+    if (userData) {
+      console.log("what is userdata", userData);
+      const { wishList, ...otherInfo } = userData;
+      dispatch(setDefaultAddress(otherInfo));
+      dispatch(addAddress(otherInfo));
+    }
   };
 
   const validate = (type, text) => {
@@ -110,10 +146,12 @@ const AccountProfileDetails = (props) => {
           noValidate
           {...props}
           onSubmit={async (e) => {
-            e.preventDefault()
-            if (_.isEmpty(values.displayName)
-              || _.isEmpty(values.email)
-              || _.isEmpty(values.address)) {
+            e.preventDefault();
+            if (
+              _.isEmpty(values.displayName) ||
+              _.isEmpty(values.email) ||
+              _.isEmpty(values.address)
+            ) {
               return;
             }
 
@@ -139,7 +177,7 @@ const AccountProfileDetails = (props) => {
                 <Grid item md={6} xs={12}>
                   <TextField
                     fullWidth
-                    helperText={validate('displayName', "full name")}
+                    helperText={validate("displayName", "full name")}
                     label="Full name"
                     name="displayName"
                     onChange={handleChange}
@@ -178,7 +216,7 @@ const AccountProfileDetails = (props) => {
                     fullWidth
                     label="Address"
                     name="address"
-                    helperText={validate('address', "address")}
+                    helperText={validate("address", "address")}
                     onChange={handleChange}
                     required
                     value={values.address}
@@ -189,7 +227,12 @@ const AccountProfileDetails = (props) => {
             </CardContent>
             <Divider />
             <Box className={classes.footer}>
-              <Button color="primary" variant="contained" type="submit">
+              <Button
+                color="primary"
+                variant="contained"
+                type="submit"
+                onClick={handleSave}
+              >
                 Save details
               </Button>
             </Box>
@@ -198,6 +241,10 @@ const AccountProfileDetails = (props) => {
       </div>
     </>
   );
+};
+
+AccountProfileDetails.propTypes = {
+  user: PropTypes.element.isRequired,
 };
 
 export default AccountProfileDetails;

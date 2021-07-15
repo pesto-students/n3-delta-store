@@ -18,6 +18,9 @@ import { setError as setGlobalError } from "./main/store/actions/ErrorActions";
 import axios from "axios";
 import { setGeoIpData } from "./main/store/actions/HomeActions";
 import _ from "lodash";
+import { addAddress, setDefaultAddress } from "./main/store/actions/AddressInfoActions";
+
+// import axios from 'axios';
 
 function AppMain() {
   const dispatch = useDispatch();
@@ -64,8 +67,10 @@ function AppMain() {
     const { uid } = user;
     const userData = await dbUtils.getUser(uid);
     if (userData) {
-      const { wishList } = userData;
+      const { wishList, ...otherInfo } = userData;
       dispatch(setWishList(wishList));
+      dispatch(setDefaultAddress(otherInfo));
+      dispatch(addAddress(otherInfo));
       fetchCartItems();
     } else {
       createAndFetchCart();

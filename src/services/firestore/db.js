@@ -44,15 +44,17 @@ export class dbUtils {
     try {
       const doc = await docRef.update({
         displayName: userData.displayName,
-        address: userData.address
-      })
+        address: userData.address,
+      });
+      console.log("doc", doc);
       if (doc?.exists) {
         data = doc.data();
         console.log("updated user successfully", data);
       }
       return data;
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error);
+      return { error };
     }
   };
 
