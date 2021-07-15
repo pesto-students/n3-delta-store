@@ -30,7 +30,7 @@ const Checkout = () => {
 
   if (!isLoggedIn) {
     return (
-      <Container maxWidth="lg" className={classes.container}>
+      <Container maxWidth="lg" className={classes.container} data-testid="checkout-noauth-container">
         <Grid container justify="center">
           <NoAuth />
         </Grid>
@@ -39,7 +39,7 @@ const Checkout = () => {
   } else {
     if (!items?.length) {
       return (
-        <Container maxWidth="lg" className={classes.container}>
+        <Container maxWidth="lg" className={classes.container} data-testid="checkout-empty-container">
           <Grid container justify="center">
             <EmptyCart />
           </Grid>
@@ -48,7 +48,7 @@ const Checkout = () => {
     }
 
     return (
-      <Container maxWidth="lg" className={classes.container}>
+      <Container maxWidth="lg" className={classes.container} data-testid="checkout-data-container">
         <Grid container justify="center" spacing={3}>
           <Grid item xs={12} md={8}>
             <h2 className={classes.columnTitle}>Checkout</h2>

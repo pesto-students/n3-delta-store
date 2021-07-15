@@ -40,7 +40,7 @@ const WishList = () => {
 
   if (!isLoggedIn) {
     return (
-      <div className={classes.root}>
+      <div className={classes.root} data-testid="wishlist-noauth">
         <Container maxWidth="lg" className={classes.container}>
           <Grid container justify="center">
             <NoAuth />
@@ -51,7 +51,7 @@ const WishList = () => {
   } else {
     if (!items?.length) {
       return (
-        <div className={classes.root}>
+        <div className={classes.root} data-testid="wishlist-empty">
           <Container maxWidth="lg" className={classes.container}>
             <Grid container justify="center">
               <EmptyCart />
@@ -62,7 +62,7 @@ const WishList = () => {
     }
 
     return (
-      <div className={classes.root}>
+      <div className={classes.root} data-testid="wishlist-items">
         <main>
           <Grid container className={classes.gridContainer}>
             <Grid item className={classes.flex}>

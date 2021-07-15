@@ -14,6 +14,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import "@testing-library/jest-dom/extend-expect";
 import * as mockProducts from "../../mock/products.json";
 import Home from "../HomeContainer";
+import Profile from "../ProfileContainer";
 
 // const store = configureStore({ reducer: { user: userReducer }, preloadedState })
 const server = setupServer(
@@ -42,41 +43,41 @@ jest.mock("react-router-dom", () => ({
   useSelector: () => (selector) => selector(mockStore),
 }));
 
-test("should load and display different categories in Home page", async () => {
+test("should load and display main conitainer for profile page", async () => {
   render(
     <Provider store={mockStore}>
-      <Home />
+      <Profile />
     </Provider>
   );
 
-  await waitFor(() => screen.getByTestId("home-categories-container"));
-  const element = screen.getByTestId("home-categories-container");
+  await waitFor(() => screen.getByTestId("profile-main-container"));
+  const element = screen.getByTestId("profile-main-container");
 
   expect(element).toBeInTheDocument;
 });
 
-test("loads and displays home page main container", async () => {
+test("loads and displays account profile holder", async () => {
   render(
     <Provider store={mockStore}>
-      <Home />
+      <Profile />
     </Provider>
   );
 
-  await waitFor(() => screen.getByTestId("home-main-container"));
-  const element = screen.getByTestId("home-main-container");
+  await waitFor(() => screen.getByTestId("profile-component-holder"));
+  const element = screen.getByTestId("profile-component-holder");
 
   expect(element).toBeInTheDocument;
 });
 
-test("loads and displays home page carousel", async () => {
+test("loads and renders AccountProfileDetails child component holder", async () => {
   render(
     <Provider store={mockStore}>
-      <Home />
+      <Profile />
     </Provider>
   );
 
-  await waitFor(() => screen.getByTestId("home-carousel"));
-  const element = screen.getByTestId("home-carousel");
+  await waitFor(() => screen.getByTestId("profile-details-component-holder"));
+  const element = screen.getByTestId("profile-details-component-holder");
 
   expect(element).toBeInTheDocument;
 });

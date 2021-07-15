@@ -13,7 +13,7 @@ import store from "../../main/store/store";
 import { configureStore } from "@reduxjs/toolkit";
 import "@testing-library/jest-dom/extend-expect";
 import * as mockProducts from "../../mock/products.json";
-import Home from "../HomeContainer";
+import Checkout from "../CheckoutContainer";
 
 // const store = configureStore({ reducer: { user: userReducer }, preloadedState })
 const server = setupServer(
@@ -42,41 +42,41 @@ jest.mock("react-router-dom", () => ({
   useSelector: () => (selector) => selector(mockStore),
 }));
 
-test("should load and display different categories in Home page", async () => {
+test("should load and display noauth when not logged in", async () => {
   render(
     <Provider store={mockStore}>
-      <Home />
+      <Checkout />
     </Provider>
   );
 
-  await waitFor(() => screen.getByTestId("home-categories-container"));
-  const element = screen.getByTestId("home-categories-container");
+  await waitFor(() => screen.getByTestId("checkout-noauth-container"));
+  const element = screen.getByTestId("checkout-noauth-container");
 
   expect(element).toBeInTheDocument;
 });
 
-test("loads and displays home page main container", async () => {
+test("should load and display empty component when logged in and no cart items", async () => {
   render(
     <Provider store={mockStore}>
-      <Home />
+      <Checkout />
     </Provider>
   );
 
-  await waitFor(() => screen.getByTestId("home-main-container"));
-  const element = screen.getByTestId("home-main-container");
+  await waitFor(() => screen.getByTestId("checkout-empty-container"));
+  const element = screen.getByTestId("checkout-empty-container");
 
   expect(element).toBeInTheDocument;
 });
 
-test("loads and displays home page carousel", async () => {
-  render(
-    <Provider store={mockStore}>
-      <Home />
-    </Provider>
-  );
-
-  await waitFor(() => screen.getByTestId("home-carousel"));
-  const element = screen.getByTestId("home-carousel");
-
-  expect(element).toBeInTheDocument;
-});
+test("should load and display cart items when logged in and user has cart items", async () => {
+    render(
+      <Provider store={mockStore}>
+        <Checkout />
+      </Provider>
+    );
+  
+    await waitFor(() => screen.getByTestId("checkout-data-container"));
+    const element = screen.getByTestId("checkout-data-container");
+  
+    expect(element).toBeInTheDocument;
+  });

@@ -12,14 +12,14 @@ import { Provider } from "react-redux";
 import store from "../../main/store/store";
 import { configureStore } from "@reduxjs/toolkit";
 import "@testing-library/jest-dom/extend-expect";
+import PDPContainer from "../PDPContainer";
 import * as mockProducts from "../../mock/products.json";
-import Home from "../HomeContainer";
-
+import * as commerce from "../../main/axios/commerce";
 // const store = configureStore({ reducer: { user: userReducer }, preloadedState })
 const server = setupServer(
   
 
-  rest.get("https://api.chec.io/v1/products", (req, res, ctx) => {
+  rest.get("https://api.chec.io/v1/products/:id", (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(mockProducts));
   })
 );
@@ -33,6 +33,7 @@ afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 afterEach(cleanup);
 jest.useFakeTimers();
+
 jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"), // use actual for all non-hook parts
   useParams: () => ({
@@ -42,41 +43,31 @@ jest.mock("react-router-dom", () => ({
   useSelector: () => (selector) => selector(mockStore),
 }));
 
-test("should load and display different categories in Home page", async () => {
+test("should load and display skeleton of pdp page", async () => {
   render(
     <Provider store={mockStore}>
-      <Home />
+      <PDPContainer />
     </Provider>
   );
 
-  await waitFor(() => screen.getByTestId("home-categories-container"));
-  const element = screen.getByTestId("home-categories-container");
+  await waitFor(() => screen.getByTestId("pdp-skeleton-container"));
+  const element = screen.getByTestId("pdp-skeleton-container");
 
   expect(element).toBeInTheDocument;
 });
 
-test("loads and displays home page main container", async () => {
+test("loads and displays pdp page", async () => {
+  jest.spyOn(commerce, 'getProducts').mockResolvedValue({});
+  const spyMethod = jest.spyOn(commerce, 'getProducts');
+
   render(
     <Provider store={mockStore}>
-      <Home />
+      <PDPContainer />
     </Provider>
   );
 
-  await waitFor(() => screen.getByTestId("home-main-container"));
-  const element = screen.getByTestId("home-main-container");
-
-  expect(element).toBeInTheDocument;
-});
-
-test("loads and displays home page carousel", async () => {
-  render(
-    <Provider store={mockStore}>
-      <Home />
-    </Provider>
-  );
-
-  await waitFor(() => screen.getByTestId("home-carousel"));
-  const element = screen.getByTestId("home-carousel");
-
+  await waitFor(() => screen.getByTestId("pdp-skeleton-container"));
+  const element = screen.getByTestId("pdp-skeleton-container");
+  await waitFor(() => expect(spyMethod).toHaveBeenCalledTimes(0));
   expect(element).toBeInTheDocument;
 });
