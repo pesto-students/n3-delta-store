@@ -38,6 +38,26 @@ export class dbUtils {
     return data;
   };
 
+  static udpateUser = async (uid, userData) => {
+    let docRef = db.collection(USERS).doc(uid);
+    let data = null;
+    try {
+      const doc = await docRef.update({
+        displayName: userData.displayName,
+        address: userData.address,
+      });
+      console.log("doc", doc);
+      if (doc?.exists) {
+        data = doc.data();
+        console.log("updated user successfully", data);
+      }
+      return data;
+    } catch (error) {
+      console.log(error);
+      return { error };
+    }
+  };
+
   static updateUserWishList = async (uid, payload) => {
     let docRef = db.collection(USERS).doc(uid);
     let data = null;

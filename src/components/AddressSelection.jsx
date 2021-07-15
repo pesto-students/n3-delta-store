@@ -49,17 +49,7 @@ const AddressSelection = () => {
   };
 
   const renderAddress = (addressInfo) => {
-    const {
-      uid,
-      firstName,
-      lastName,
-      email,
-      state,
-      city,
-      pin,
-      address,
-      mobile,
-    } = addressInfo;
+    const { uid, displayName, email, address, mobile } = addressInfo;
     return (
       <FormControlLabel
         key={uid}
@@ -69,15 +59,10 @@ const AddressSelection = () => {
           <Grid container justify="flex-start" alignItems="center">
             <Grid item>
               <Paper elevation={3} className={classes.paper}>
-                <h4>
-                  {firstName} {lastName}
-                </h4>
+                <h4>{displayName}</h4>
                 <h6>{email}</h6>
                 <h6>{mobile}</h6>
-                <h6>
-                  {address}, {city}, {state}
-                </h6>
-                <h6>{pin}</h6>
+                <h6>{address}</h6>
               </Paper>
             </Grid>
           </Grid>

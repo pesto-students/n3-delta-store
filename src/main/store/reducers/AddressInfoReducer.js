@@ -1,44 +1,33 @@
-/**
- userProfile:{
-   uid: '',
-  fullName:'',
-   address:'',
-   payment:{
-
-   },
-   orders:{
-
-   },
- }
+/*
+uid,
+displayName,
+email,
+address,
+mobile,
  */
 
 import { ADD_ADDRESS, SET_DEFAULT_ADDRESS } from "../constants/StoreConstants";
 
-const initialState = {
+/* const initialState = {
   addresses: [
     {
       uid: "1",
-      firstName: "john",
-      lastName: "doe",
+      displayName: "john",
       email: "johndoe@example.com",
-      mobile: "1234567890",
-      addressLine: "something",
-      state: "Karnataka",
-      city: "Bangalore",
-      pin: "560103",
+      address: "something",
     },
   ],
   defaultAddress: {
     uid: "1",
-    firstName: "john",
-    lastName: "doe",
+    displayName: "john",
     email: "johndoe@example.com",
-    mobile: "1234567890",
-    addressLine: "something",
-    state: "Karnataka",
-    city: "Bangalore",
-    pin: "560103",
+    address: "something",
   },
+}; */
+
+const initialState = {
+  addresses: [],
+  defaultAddress: {},
 };
 
 const AddressInfoReducer = (state = initialState, action) => {
@@ -56,7 +45,7 @@ const AddressInfoReducer = (state = initialState, action) => {
 
       return {
         ...state,
-        default: { ...payload },
+        defaultAddress: { ...payload },
       };
     }
     default:

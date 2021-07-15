@@ -7,6 +7,7 @@ import {
 } from '@material-ui/core';
 import AccountProfile from '../components/AccountProfile';
 import AccountProfileDetails from '../components/AccountProfileDetails';
+import { useSelector } from "react-redux";
 
 const Profile = (props) => {
   const useStyles = makeStyles((theme) => {
@@ -15,13 +16,18 @@ const Profile = (props) => {
         ...theme.page,
         marginTop: theme.spacing(8)
       },
-      container:{
-        padding:theme.spacing(1,1)
+      container: {
+        padding: theme.spacing(1, 1)
+      }, profile: {
+        [theme.breakpoints.up("sm")]: {
+          marginTop: theme.spacing(6)
+        }
       }
 
     })
   });
   const classes = useStyles();
+  const user = useSelector((state) => state?.authReducer?.user);
 
   return (
     <main className={classes.page}>
@@ -35,12 +41,13 @@ const Profile = (props) => {
               spacing={2}
             >
               <Grid
+                className={classes.profile}
                 item
                 lg={4}
                 md={6}
                 xs={12}
               >
-                <AccountProfile />
+                <AccountProfile user={user} />
               </Grid>
               <Grid
                 item
@@ -48,7 +55,7 @@ const Profile = (props) => {
                 md={6}
                 xs={12}
               >
-                <AccountProfileDetails />
+                <AccountProfileDetails user={user} />
               </Grid>
             </Grid>
           </Container>
