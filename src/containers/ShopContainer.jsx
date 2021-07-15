@@ -204,7 +204,7 @@ const ShopContainer = (props) => {
     filteredProducts && filteredProducts.length ? filteredProducts : products;
   return !(productsList && productsList.length) ? (
     <>
-      <div className={classes.root}>
+      <div className={classes.root} data-testid="shop-skeleton-container">
         <div>
           <Skeleton variant="text" />
           <Skeleton animation="wave" />

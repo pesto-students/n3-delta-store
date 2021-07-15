@@ -231,7 +231,7 @@ const PDPContainer = (props) => {
 
   if (_.isEmpty(product)) {
     return (
-      <main className={classes.root}>
+      <main className={classes.root} data-testid='pdp-skeleton-container'>
         <Grid container className={classes.gridList}>
           <Grid
             key={product.id}

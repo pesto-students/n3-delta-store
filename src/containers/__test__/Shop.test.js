@@ -13,7 +13,7 @@ import store from "../../main/store/store";
 import { configureStore } from "@reduxjs/toolkit";
 import "@testing-library/jest-dom/extend-expect";
 import * as mockProducts from "../../mock/products.json";
-import Home from "../HomeContainer";
+import ShopContainer from "../ShopContainer";
 
 // const store = configureStore({ reducer: { user: userReducer }, preloadedState })
 const server = setupServer(
@@ -44,41 +44,28 @@ jest.mock("react-router-dom", () => ({
   useSelector: () => (selector) => selector(mockStore),
 }));
 
-test("should load and display different categories in Home page", async () => {
+test("should load and display skeleton of shop page", async () => {
   render(
     <Provider store={mockStore}>
-      <Home />
+      <ShopContainer />
     </Provider>
   );
 
-  await waitFor(() => screen.getByTestId("home-categories-container"));
-  const element = screen.getByTestId("home-categories-container");
+  await waitFor(() => screen.getByTestId("shop-skeleton-container"));
+  const element = screen.getByTestId("shop-skeleton-container");
 
   expect(element).toBeInTheDocument;
 });
 
-test("loads and displays home page main container", async () => {
+test("loads and displays prducts in shop page", async () => {
   render(
     <Provider store={mockStore}>
-      <Home />
+      <ShopContainer />
     </Provider>
   );
 
-  await waitFor(() => screen.getByTestId("home-main-container"));
-  const element = screen.getByTestId("home-main-container");
-
-  expect(element).toBeInTheDocument;
-});
-
-test("loads and displays home page carousel", async () => {
-  render(
-    <Provider store={mockStore}>
-      <Home />
-    </Provider>
-  );
-
-  await waitFor(() => screen.getByTestId("home-carousel"));
-  const element = screen.getByTestId("home-carousel");
+  await waitFor(() => screen.getByTestId("shop-skeleton-container"));
+  const element = screen.getByTestId("shop-skeleton-container");
 
   expect(element).toBeInTheDocument;
 });

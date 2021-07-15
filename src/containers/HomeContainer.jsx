@@ -100,7 +100,7 @@ const Home = (props) => {
       : _.times(4, _.constant({}));
 
   return (
-    <main className={classes.page}>
+    <main className={classes.page} data-testid="home-main-container">
       <section>
         <Carousel /** Used for autoplay banner as Carousel */
           infiniteLoop={true}
@@ -108,8 +108,9 @@ const Home = (props) => {
           centerMode={true}
           autoPlay={true}
           showThumbs={false}
+          data-testid="home-carousel"
         >
-          <div>
+          <div data-testid="home-carousel-image">
             <img
               className={classes.minHeightBanner}
               alt="Discount"
@@ -137,7 +138,7 @@ const Home = (props) => {
       <Divider className={classes.sectionMargin} />
       <Container component="section">
         <section>
-          <Grid container>
+          <Grid container data-testid="home-categories-container">
             {categoriesList.map(
               (
                 category,

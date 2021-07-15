@@ -44,7 +44,7 @@ const Cart = () => {
 
   if (!isLoggedIn) {
     return (
-      <Container maxWidth="lg" className={classes.container}>
+      <Container maxWidth="lg" className={classes.container} data-testid="cart-noauth">
         <Grid container justify="center">
           <NoAuth />
         </Grid>
@@ -53,7 +53,7 @@ const Cart = () => {
   } else {
     if (!items?.length) {
       return (
-        <Container maxWidth="lg" className={classes.container}>
+        <Container maxWidth="lg" className={classes.container} data-testid="cart-empty">
           <Grid container justify="center">
             <EmptyCart />
           </Grid>
@@ -62,7 +62,7 @@ const Cart = () => {
     }
 
     return (
-      <Container maxWidth="md" className={classes.container}>
+      <Container maxWidth="md" className={classes.container} data-testid="cart-items-container">
         <Grid container justify="center">
           <Grid item xs={12} md={10}>
             <Grid item container className={classes.cartHeader}>
