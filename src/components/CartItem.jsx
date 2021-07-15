@@ -22,6 +22,13 @@ import ColorSelector from "./ColorSelector";
 import { addItemToWishList } from "../main/store/actions/WishListActions";
 import { translate } from "../resources/language/translate";
 import { useHistory } from "react-router-dom";
+import {
+  fetchFromLocalStorage,
+  fetchFromStorage,
+  getProductImg,
+  saveToLocalStorage,
+  saveToStorage,
+} from "../utils/util";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,6 +54,13 @@ const useStyles = makeStyles((theme) => ({
     display: "block",
     maxWidth: "100%",
     maxHeight: "100%",
+  },
+  defaultPaddingR: {
+    paddingRight: 5,
+  },
+  divider: {
+    marginTop: 10,
+    marginBottom: 10,
   },
   flex: {
     display: "flex",
@@ -96,6 +110,8 @@ const CartItem = ({ item = {} }) => {
   useEffect(() => {
     const sizeVar = checkOptionsAvailable("Size");
     const colorVar = checkOptionsAvailable("Color");
+    console.log("sizeVar", sizeVar);
+    console.log("colorVar", colorVar);
     setVariantAvailable({
       sizeVar,
       colorVar,
@@ -106,11 +122,17 @@ const CartItem = ({ item = {} }) => {
     dispatch(setLoader(true));
     const prd = await getProduct(item?.product_id);
     setProduct(prd);
+    saveToStorage(item?.product_id, prd);
     dispatch(setLoader(false));
   };
 
   useEffect(() => {
-    getProductData();
+    const product = fetchFromStorage(item?.product_id);
+    if (product) {
+      setProduct(product);
+    } else {
+      getProductData();
+    }
   }, []);
 
   const handleRemove = async (wishlist) => {
@@ -188,7 +210,8 @@ const CartItem = ({ item = {} }) => {
               <img
                 className={classes.img}
                 alt="product"
-                src={item?.media?.source}
+                // src={item?.media?.source}
+                src={getProductImg(product, color) || item.media.source}
               />
             </ButtonBase>
           </Grid>
@@ -204,7 +227,10 @@ const CartItem = ({ item = {} }) => {
               </Grid>
               <Grid item container className={classes.flex}>
                 <Grid item xs={12} md={6} className={classes.flex}>
-                  <Typography variant="subtitle2" style={{ paddingRight: 5 }}>
+                  <Typography
+                    variant="subtitle2"
+                    className={classes.defaultPaddingR}
+                  >
                     {translate("Quantity")}:{" "}
                   </Typography>
                   <QuantitySelector
@@ -214,7 +240,10 @@ const CartItem = ({ item = {} }) => {
                 </Grid>
                 {sizeVar && (
                   <Grid item xs={3} className={classes.flex}>
-                    <Typography variant="subtitle2" style={{ paddingRight: 5 }}>
+                    <Typography
+                      variant="subtitle2"
+                      className={classes.defaultPaddingR}
+                    >
                       {translate("Size")}:{" "}
                     </Typography>
                     <SizeSelector
@@ -226,8 +255,11 @@ const CartItem = ({ item = {} }) => {
                 )}
               </Grid>
               {colorVar && (
-                <Grid item style={{ display: "flex", alignItems: "center" }}>
-                  <Typography variant="subtitle2" style={{ paddingRight: 5 }}>
+                <Grid item className={classes.flex}>
+                  <Typography
+                    variant="subtitle2"
+                    className={classes.defaultPaddingR}
+                  >
                     {translate("Color")}:{" "}
                   </Typography>
                   <ColorSelector
@@ -240,22 +272,13 @@ const CartItem = ({ item = {} }) => {
             </Grid>
           </Grid>
           <Grid item>
-            <Typography
-              variant="body2"
-              gutterBottom
-              style={{ display: "flex" }}
-            >
+            <Typography variant="body2" gutterBottom className={classes.flex}>
               {item?.currency}
               {item?.line_total?.formatted_with_symbol}
             </Typography>
           </Grid>
         </Grid>
-        <Divider
-          style={{
-            marginTop: 10,
-            marginBottom: 10,
-          }}
-        />
+        <Divider className={classes.divider} />
         <Grid container spacing={2} className={classes.flex}>
           <Grid item xs={3}>
             <Button

@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => {
       fontSize: 16,
     },
     lastRow: {
-      outline: "2px solid gray",
+      // outline: "2px solid gray",
       backgroundColor: theme.palette.secondary.dark,
     },
     lastCell: {

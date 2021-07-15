@@ -10,7 +10,6 @@ import {
   CardMedia,
   Grid,
   makeStyles,
-  Paper,
   Typography,
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
@@ -71,6 +70,7 @@ const PDPContainer = (props) => {
         boxShadow: theme.shadows[3],
         height: imageHeight,
         width: imageHeight,
+        backgroundSize:'contain'
       },
       cartButton: {
         paddingTop: theme.spacing(2),
