@@ -5,19 +5,15 @@ import EmptyCart from "../components/EmptyCart";
 import NoAuth from "../components/NoAuth";
 import Total from "../components/Total";
 import CheckoutFlow from "../components/CheckoutFlow";
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   container: {
-    marginTop: "20px",
+    ...theme.page,
+    marginTop: theme.spacing(8),
     marginBottom: "70px",
   },
 
   columnTitle: {
-    margin: "8px 0px",
-  },
-
-  billSummary: {
-    position: "sticky",
-    top: "20px",
+    margin: theme.spacing(1, 0),
   },
 }));
 const Checkout = () => {
@@ -56,7 +52,7 @@ const Checkout = () => {
             <CheckoutFlow />
           </Grid>
           <Grid item xs={12} md={4}>
-            <div className={classes.billSummary}>
+            <div>
               <h2 className={classes.columnTitle}>Total</h2>
               <Divider />
               <Total />

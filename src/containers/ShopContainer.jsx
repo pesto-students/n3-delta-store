@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setLoader } from "../main/store/actions/LoadingActions";
 import { Skeleton } from "@material-ui/lab";
 const ShopContainer = (props) => {
+  /**Get categories is present from URL */
   let params = useParams("categories");
   const loader = useSelector((state) => state.loader.loading);
   const [products, setProducts] = useState([]);
@@ -17,7 +18,12 @@ const ShopContainer = (props) => {
   const geoIpData = useSelector((state) => state?.homeReducer?.geoIpData);
 
   const dispatch = useDispatch();
-
+  /**
+   *
+   * @param {*} productsData
+   * @param {*} checkedCategories
+   * @returns Filtered products after filtering
+   */
   const getFilteredProducts = (productsData, checkedCategories) => {
     const filteredProducts = _.compact(
       _.map(productsData, (prod) => {
@@ -47,6 +53,11 @@ const ShopContainer = (props) => {
         })
       : _.reverse(filteredProducts);
   };
+  /**
+   *
+   * @param {*} filterObj
+   * @returns get checked filters present in filter
+   */
   const getCheckedCategories = (filterObj) => {
     return _.compact(
       _.map(filterObj.categories, (categoryFilter) =>
@@ -54,6 +65,12 @@ const ShopContainer = (props) => {
       )
     );
   };
+
+  /**
+   *
+   * @param {*} filterObj
+   * Update Filter on click
+   */
   const updateFilter = (filterObj) => {
     setFilters(_.cloneDeep(filterObj));
     const checkedCategories = getCheckedCategories(filterObj);
@@ -65,6 +82,9 @@ const ShopContainer = (props) => {
     }
   };
 
+  /**
+   * Get all products on load of shopping page
+   */
   useEffect(() => {
     if (!(products && products.length) && !loader) {
       dispatch(setLoader(true));
@@ -155,7 +175,7 @@ const ShopContainer = (props) => {
         margin: theme.spacing(1),
       },
       productGridList: {
-        margin: theme.spacing(1),
+        //margin: theme.spacing(1),
         paddingBottom: theme.spacing(2),
         paddingLeft: theme.spacing(4),
       },
@@ -165,6 +185,13 @@ const ShopContainer = (props) => {
           paddingLeft: theme.spacing(0),
           justifyContent: "center",
           paddingTop: theme.spacing(4),
+        },
+      },
+      skeleton: {
+        width: "240px",
+        height: "210px",
+        [theme.breakpoints.down("sm")]: {
+          width: "auto",
         },
       },
     };
@@ -178,7 +205,7 @@ const ShopContainer = (props) => {
         <div>
           <Skeleton variant="text" />
           <Skeleton animation="wave" />
-          <Skeleton variant="rect" width={240} height={210} />
+          <Skeleton variant="rect" className={classes.skeleton} />
         </div>
         <main>
           <Grid container spacing={2} className={classes.gridContainer}>

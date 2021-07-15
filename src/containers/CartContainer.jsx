@@ -60,7 +60,7 @@ const Cart = () => {
     return (
       <Container maxWidth="md" className={classes.container}>
         <Grid container justify="center">
-          <Grid item xs={10}>
+          <Grid item xs={12} md={10}>
             <Grid item container className={classes.cartHeader}>
               <Grid item className={classes.flex}>
                 <Typography gutterBottom variant="h6">

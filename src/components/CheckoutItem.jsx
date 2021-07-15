@@ -59,6 +59,10 @@ const useStyles = makeStyles((theme) => ({
 
 const CheckoutItem = ({ product }) => {
   const classes = useStyles();
+  const selecttedColor =
+    _.find(product?.selected_options, { group_name: "Color" }) || {};
+  const selecttedSize =
+    _.find(product?.selected_options, { group_name: "Size" }) || {};
 
   return (
     <Card className={classes.root}>
@@ -80,6 +84,22 @@ const CheckoutItem = ({ product }) => {
             Qty:
             <span className="bold">{`${product?.quantity}`}</span>
           </Typography>
+          {selecttedColor ? (
+            <Typography variant="subtitle1" color="textSecondary">
+              Color:
+              <span className="bold">{`${selecttedColor.option_name}`}</span>
+            </Typography>
+          ) : (
+            ""
+          )}
+          {selecttedSize ? (
+            <Typography variant="subtitle1" color="textSecondary">
+              Size:
+              <span className="bold">{`${selecttedSize.option_name}`}</span>
+            </Typography>
+          ) : (
+            ""
+          )}
           <Typography variant="subtitle1" color="primary">
             <span className="bold">
               {`${product?.price?.formatted_with_symbol}`}
