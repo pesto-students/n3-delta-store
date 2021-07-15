@@ -17,10 +17,7 @@ import Cart from "../CartContainer";
 
 // const store = configureStore({ reducer: { user: userReducer }, preloadedState })
 const server = setupServer(
-  rest.get("/greeting", (req, res, ctx) => {
-    return res(ctx.json({ greeting: "hello there" }));
-  }),
-
+  
   rest.get("https://api.chec.io/v1/products", (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(mockProducts));
   })
