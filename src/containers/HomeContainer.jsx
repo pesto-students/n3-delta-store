@@ -18,8 +18,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { setLoader } from "../main/store/actions/LoadingActions";
 import _ from "lodash";
 import { isAccessibleKeyCode } from "../utils/util";
+import { setError } from "../main/store/actions/ErrorActions";
 
 const Home = (props) => {
+  // Styling for home container
   const useStyles = makeStyles((theme) => {
     return {
       page: {
@@ -53,6 +55,10 @@ const Home = (props) => {
         ...theme.img,
         borderBottomRightRadius: "50px",
       },
+      minHeightBanner: {
+        minHeight: "200px",
+        maxHeight: "60vh",
+      },
     };
   });
 
@@ -63,26 +69,40 @@ const Home = (props) => {
   const history = useHistory();
   const dispatch = useDispatch();
 
+  /**
+   * get categories from ecommerce.js
+   */
   useEffect(() => {
     if (!(categories && categories.length) && !loader) {
       dispatch(setLoader(true));
-      getCategories().then((res) => {
-        dispatch(setHomeCategories(res.data));
-        dispatch(setLoader(false));
-      });
+      getCategories()
+        .then((res) => {
+          dispatch(setHomeCategories(res.data));
+          dispatch(setLoader(false));
+        })
+        .catch(() => {
+          /**
+           * Throw an error if categories not found
+           */
+          dispatch(setError("There was some issue getting the categories"));
+        });
     }
   }, [categories, dispatch, loader]);
 
+  /**
+   * set categories as per country fetch from geoip
+   */
   const categoriesList =
     categories && categories.length
       ? geoIpData.country_code == "IN"
         ? categories
         : _.reverse(categories)
       : _.times(4, _.constant({}));
+
   return (
     <main className={classes.page}>
       <section>
-        <Carousel
+        <Carousel /** Used for autoplay banner as Carousel */
           infiniteLoop={true}
           showStatus={false}
           centerMode={true}
@@ -91,12 +111,14 @@ const Home = (props) => {
         >
           <div>
             <img
+              className={classes.minHeightBanner}
               alt="Discount"
               src="https://res.cloudinary.com/dwclofpev/image/upload/v1624298910/samples/ecommerce/oie_2120324lgcHQ4Z7_qlia85.jpg"
             />
           </div>
           <div>
             <img
+              className={classes.minHeightBanner}
               alt="Payment"
               src="https://res.cloudinary.com/dwclofpev/image/upload/v1624298910/samples/ecommerce/oie_2120723FKM6U6QZ_hoc7wd.jpg"
             />
@@ -116,43 +138,48 @@ const Home = (props) => {
       <Container component="section">
         <section>
           <Grid container>
-            {categoriesList.map((category, i) => (
-              <Grid
-                key={i}
-                className={classes.cardItem}
-                item
-                xs={12}
-                sm={12}
-                md={6}
-                lg={6}
-              >
-                <Grid style={{ margin: "auto" }} item xs={12}>
-                  <Paper
-                    tabIndex={0}
-                    onKeyUp={(e) => {
-                      if (isAccessibleKeyCode(e)) {
+            {categoriesList.map(
+              (
+                category,
+                i /*Iterate the categories fetched from ecommerce */
+              ) => (
+                <Grid
+                  key={i}
+                  className={classes.cardItem}
+                  item
+                  xs={12}
+                  sm={12}
+                  md={6}
+                  lg={6}
+                >
+                  <Grid style={{ margin: "auto" }} item xs={12}>
+                    <Paper
+                      tabIndex={0}
+                      onKeyUp={(e) => {
+                        if (isAccessibleKeyCode(e)) {
+                          history.push(`/shop/${category.slug}`);
+                        }
+                      }}
+                      onClick={() => {
                         history.push(`/shop/${category.slug}`);
-                      }
-                    }}
-                    onClick={() => {
-                      history.push(`/shop/${category.slug}`);
-                    }}
-                    className={classes.paper}
-                  >
-                    <CardMedia>
-                      <img
-                        className={classes.img}
-                        alt={category.slug ? `alt-${category.slug}` : ""}
-                        src={category.description}
-                      />
-                    </CardMedia>
-                    <Typography color="secondary" variant="h4">
-                      {translate(category.name)}
-                    </Typography>
-                  </Paper>
+                      }}
+                      className={classes.paper}
+                    >
+                      <CardMedia>
+                        <img
+                          className={classes.img}
+                          alt={category.slug ? `alt-${category.slug}` : ""}
+                          src={category.description}
+                        />
+                      </CardMedia>
+                      <Typography color="secondary" variant="h4">
+                        {translate(category.name)}
+                      </Typography>
+                    </Paper>
+                  </Grid>
                 </Grid>
-              </Grid>
-            ))}
+              )
+            )}
           </Grid>
         </section>
       </Container>

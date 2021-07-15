@@ -73,7 +73,7 @@ const WishList = () => {
                 ({items?.length})
               </Typography>
             </Grid>
-            <Grid container>
+            <Grid container className={classes.gridContainer}>
               {items?.map((item) => (
                 <WishListItem key={item.id} item={item} />
               ))}

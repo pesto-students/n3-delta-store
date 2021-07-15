@@ -48,7 +48,6 @@ const PDPContainer = (props) => {
     }
     return variantOptions ? variantOptions.id : false;
   };
-  const imageHeight = "500px";
   const useStyles = makeStyles((theme) => {
     return {
       root: {
@@ -68,9 +67,14 @@ const PDPContainer = (props) => {
       img: {
         ...theme.img,
         boxShadow: theme.shadows[3],
-        height: imageHeight,
-        width: imageHeight,
-        backgroundSize:'contain'
+        height: "450px",
+        width: "400px",
+        backgroundSize: "contain",
+        textAlign: "center",
+        [theme.breakpoints.down("md")]: {
+          width: "auto",
+          //height: "auto"
+        },
       },
       cartButton: {
         paddingTop: theme.spacing(2),
@@ -86,6 +90,9 @@ const PDPContainer = (props) => {
       },
       alignItemCenter: {
         ...theme.alignItemCenter,
+      },
+      media: {
+        textAlign: "center",
       },
     };
   });
@@ -200,11 +207,12 @@ const PDPContainer = (props) => {
             key={product.id}
             xs={12}
             sm={12}
-            md={5}
+            md={12}
+            lg={5}
             item
             className={classes.gridPadding}
           >
-            <Skeleton variant="rect" width={imageHeight} height={imageHeight} />
+            <Skeleton variant="rect" className={classes.img} />
           </Grid>
           <Grid xs={12} sm={12} md={6} item className={classes.gridPadding}>
             <Skeleton variant="text" height={20} />
@@ -222,7 +230,8 @@ const PDPContainer = (props) => {
           key={product.id}
           xs={12}
           sm={12}
-          md={5}
+          md={12}
+          lg={5}
           item
           className={classes.gridPadding}
         >
@@ -230,11 +239,18 @@ const PDPContainer = (props) => {
             <img
               className={classes.img}
               src={getProductImg(product, color) || product.media.source}
-              alt={classes.media}
+              alt={product.name}
             />
           </CardMedia>
         </Grid>
-        <Grid xs={12} sm={12} md={6} item className={classes.gridPadding}>
+        <Grid
+          xs={12}
+          sm={12}
+          md={12}
+          lg={6}
+          item
+          className={classes.gridPadding}
+        >
           <Typography className={classes.productTitle}>
             {product.name}
           </Typography>
