@@ -40,7 +40,7 @@ const useStyles = makeStyles(() => ({
 const AddressSelection = () => {
   const classes = useStyles();
   const addressInfo = useSelector((state) => state?.addressInfo);
-  const { addresses, defaultAddress } = addressInfo;
+  const { addresses } = addressInfo;
   const [currentAddress, setCurrentAddress] = useState("");
   const handleChange = (event) => {
     console.log(event.target.value);

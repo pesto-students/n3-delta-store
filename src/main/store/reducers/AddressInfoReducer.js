@@ -1,13 +1,15 @@
-/*
-uid,
-firstName,
-lastName,
-email,
-addressLine,
-mobile,
-state,
-city,
-pin,
+/**
+ userProfile:{
+   uid: '',
+  fullName:'',
+   address:'',
+   payment:{
+
+   },
+   orders:{
+
+   },
+ }
  */
 
 import { ADD_ADDRESS, SET_DEFAULT_ADDRESS } from "../constants/StoreConstants";

@@ -11,23 +11,33 @@ import Paper from "@material-ui/core/Paper";
 const TAX_RATE = 0.18;
 const shippingCost = 40;
 
-const useStyles = makeStyles({
-  root: {
-    display: "flex",
-    margin: "12px 0px",
-    marginTop:'100px'
-  },
-  cell: {
-    fontSize: 16,
-  },
+const useStyles = makeStyles((theme) => {
+  return {
+    root: {
+      display: "flex",
+      margin: "12px 0px",
+      marginTop: "100px",
+    },
+    cell: {
+      fontSize: 16,
+    },
+    lastRow: {
+      // outline: "2px solid gray",
+      backgroundColor: theme.palette.secondary.dark,
+    },
+    lastCell: {
+      fontSize: 16,
+      fontWeight: "bold",
+      color: theme.palette.primary.contrastText,
+    },
+  };
 });
 
 const Total = () => {
   const classes = useStyles();
-  const authState = useSelector((state) => state?.authReducer);
   const cartInfo = useSelector((state) => state?.cart);
-  const { cart, total:cartTotal } = cartInfo;
-  const currency = cart?.currency?.code;
+  const { cart, total: cartTotal } = cartInfo;
+  const currency = cart?.currency?.symbol;
   const [summary, setSummary] = useState({
     subtotal: 0,
     shipping: 40,
@@ -37,7 +47,7 @@ const Total = () => {
 
   useEffect(() => {
     const shipping = cartTotal ? shippingCost : 0;
-    const tax = ((cartTotal + shipping) * TAX_RATE);
+    const tax = (cartTotal + shipping) * TAX_RATE;
     const total = cartTotal + shipping + tax;
     setSummary({
       ...summary,
@@ -56,8 +66,8 @@ const Total = () => {
               Subtotal
             </TableCell>
             <TableCell className={classes.cell} align="right">
-              {summary.subtotal}
               {` ${currency}`}
+              {summary.subtotal}
             </TableCell>
           </TableRow>
           <TableRow>
@@ -65,28 +75,27 @@ const Total = () => {
               Shipping
             </TableCell>
             <TableCell className={classes.cell} align="right">
+              {` ${currency}`}&nbsp;
               {summary.shipping}
-              {` ${currency}`}
             </TableCell>
           </TableRow>
           <TableRow>
-            <TableCell className={classes.cell}>Tax</TableCell>
-            <TableCell className={classes.cell} align="right">{`${(
-              TAX_RATE * 100
-            ).toFixed(0)} %`}</TableCell>
+            <TableCell className={classes.cell} colSpan={2}>
+              Tax({`${(TAX_RATE * 100).toFixed(0)} %`})
+            </TableCell>
             <TableCell className={classes.cell} align="right">
+              {` ${currency}`}&nbsp;
               {summary?.tax.toFixed(2)}
-              {` ${currency}`}
             </TableCell>
           </TableRow>
-          <TableRow style={{backgroundColor:'green'}}>
-            <TableCell className={classes.cell} colSpan={2}>
+          <TableRow className={classes.lastRow}>
+            <TableCell className={classes.lastCell} colSpan={2}>
               <h3>Total</h3>
             </TableCell>
-            <TableCell className={classes.cell} align="right" >
+            <TableCell className={classes.lastCell} align="right">
               <h3>
+                {` ${currency}`}&nbsp;
                 {summary?.total}
-                {` ${currency}`}
               </h3>
             </TableCell>
           </TableRow>

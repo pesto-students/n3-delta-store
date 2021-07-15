@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import  React,{ useEffect, useState } from 'react';
 import {
   Box,
   Button,
@@ -27,18 +27,19 @@ const AccountProfileDetails = (props) => {
   const dispatch = useDispatch();
 
   const useStyles = makeStyles((theme) => {
-    return ({
+    return {
       footer: {
-        display: 'flex',
-        justifyContent: 'center',
-        padding: theme.spacing(2)
-      }, tab: {
-        padding: theme.spacing(2, 1)
-      }, error: {
-        color: theme.palette.error.main
-      }
-
-    })
+        display: "flex",
+        justifyContent: "center",
+        padding: theme.spacing(2),
+      },
+      tab: {
+        padding: theme.spacing(2, 1),
+      },
+      error: {
+        color: theme.palette.error.main,
+      },
+    };
   });
   const classes = useStyles();
 
@@ -62,19 +63,28 @@ const AccountProfileDetails = (props) => {
   const handleChange = (event) => {
     setValues({
       ...values,
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     });
   };
 
   const validate = (type, text) => {
-    if (type === 'email') {
-
-      return (submitted && (_.isEmpty(values[type]) ? `Please specify the ${text}` : isValidEmail(values[type]) ? "" : `Please specify valid ${text}`));
+    if (type === "email") {
+      return (
+        submitted &&
+        (_.isEmpty(values[type])
+          ? `Please specify the ${text}`
+          : isValidEmail(values[type])
+          ? ""
+          : `Please specify valid ${text}`)
+      );
     } else {
-
-      return (submitted && _.isEmpty(values[type])) ? <span className={classes.error} >{`Please specify the ${text}`}</span> : "";
+      return submitted && _.isEmpty(values[type]) ? (
+        <span className={classes.error}>{`Please specify the ${text}`}</span>
+      ) : (
+        ""
+      );
     }
-  }
+  };
   return (
     <>
       <Tabs
@@ -94,7 +104,8 @@ const AccountProfileDetails = (props) => {
         id={`simple-tabpanel-${0}`}
         aria-labelledby={`simple-tab-${0}`}
       >
-        <Paper component="form"
+        <Paper
+          component="form"
           autoComplete="off"
           noValidate
           {...props}
@@ -107,7 +118,7 @@ const AccountProfileDetails = (props) => {
             }
 
             if (!isValidEmail(values.email)) {
-              return
+              return;
             }
             dispatch(setLoader(true));
 
@@ -124,15 +135,8 @@ const AccountProfileDetails = (props) => {
             />
             <Divider />
             <CardContent>
-              <Grid
-                container
-                spacing={3}
-              >
-                <Grid
-                  item
-                  md={6}
-                  xs={12}
-                >
+              <Grid container spacing={3}>
+                <Grid item md={6} xs={12}>
                   <TextField
                     fullWidth
                     helperText={validate('displayName', "full name")}
@@ -144,15 +148,11 @@ const AccountProfileDetails = (props) => {
                     variant="outlined"
                   />
                 </Grid>
-                <Grid
-                  item
-                  md={6}
-                  xs={12}
-                >
+                <Grid item md={6} xs={12}>
                   <TextField
                     fullWidth
                     label="Email Address"
-                    helperText={validate('email', "email")}
+                    helperText={validate("email", "email")}
                     name="email"
                     type="email"
                     //onChange={handleChange}
@@ -162,11 +162,7 @@ const AccountProfileDetails = (props) => {
                     variant="outlined"
                   />
                 </Grid>
-                <Grid
-                  item
-                  md={6}
-                  xs={12}
-                >
+                <Grid item md={6} xs={12}>
                   <TextField
                     fullWidth
                     label="Phone Number"
@@ -177,11 +173,7 @@ const AccountProfileDetails = (props) => {
                     variant="outlined"
                   />
                 </Grid>
-                <Grid
-                  item
-                  md={6}
-                  xs={12}
-                >
+                <Grid item md={6} xs={12}>
                   <TextField
                     fullWidth
                     label="Address"
@@ -196,14 +188,8 @@ const AccountProfileDetails = (props) => {
               </Grid>
             </CardContent>
             <Divider />
-            <Box
-              className={classes.footer}
-            >
-              <Button
-                color="primary"
-                variant="contained"
-                type="submit"
-              >
+            <Box className={classes.footer}>
+              <Button color="primary" variant="contained" type="submit">
                 Save details
               </Button>
             </Box>
@@ -211,7 +197,6 @@ const AccountProfileDetails = (props) => {
         </Paper>
       </div>
     </>
-
   );
 };
 

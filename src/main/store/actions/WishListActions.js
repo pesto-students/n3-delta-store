@@ -3,6 +3,9 @@ import {
   ADD_ITEM_TO_WISHLIST,
   REMOVE_ITEM_FROM_WISHLIST,
   MOVE_ITEM_FROM_WISHLIST_TO_CART,
+  CLEAR_WISHLIST,
+  OPEN_WISHLIST_MODAL,
+  CLOSE_WISHLIST_MODAL,
 } from "../constants/StoreConstants";
 
 export const setWishList = (items) => (dispatch) => {
@@ -19,4 +22,16 @@ export const removeItemFromWishList = (id) => (dispatch) => {
 
 export const moveItemFromWishList = (id) => (dispatch) => {
   dispatch({ type: MOVE_ITEM_FROM_WISHLIST_TO_CART, payload: id });
+};
+
+export const clearWishlist = () => (dispatch) => {
+  dispatch({ type: CLEAR_WISHLIST });
+};
+
+export const openWishListModal = (data) => (dispatch) => {
+  dispatch({ type: OPEN_WISHLIST_MODAL, payload: data });
+};
+
+export const closeWishListModal = () => (dispatch) => {
+  dispatch({ type: CLOSE_WISHLIST_MODAL });
 };

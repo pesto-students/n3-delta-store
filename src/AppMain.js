@@ -14,21 +14,35 @@ import { getCart, getExistingUserCart } from "./main/axios/commerce";
 import { noCart, setCart } from "./main/store/actions/CartActions";
 import { dbUtils } from "./services/firestore/db";
 import { setWishList } from "./main/store/actions/WishListActions";
-
-// import axios from 'axios';
+import { setError as setGlobalError } from "./main/store/actions/ErrorActions";
+import axios from "axios";
+import { setGeoIpData } from "./main/store/actions/HomeActions";
+import _ from "lodash";
 
 function AppMain() {
   const dispatch = useDispatch();
   const loading = useSelector((state) => state?.loader?.loading || false);
+  const geoIpdata = useSelector((state) => state?.homeReducer?.geoIpData || {});
   const authState = useSelector((state) => state?.authReducer);
   const wishList = useSelector((state) => state?.wishList);
   const { isLoggedIn, user } = authState;
   const initialRender = useRef(true);
 
-  // axios.get(`https://freegeoip.app/json/`)
-  //   .then(res => {
-  //     console.log(res.data.country_code)
-  //   });
+  useEffect(() => {
+    if (_.isEmpty(geoIpdata)) {
+      axios
+        .get(`https://freegeoip.app/json/`)
+        .then((res) => {
+          dispatch(setGeoIpData(res.data));
+        })
+        .catch(() => {
+          dispatch(
+            setGlobalError("There was some issue identifying the customer")
+          );
+        });
+    }
+  }, [geoIpdata]);
+  /* ; */
 
   const fetchCartItems = async (id) => {
     dispatch(setLoader(true));
@@ -47,7 +61,6 @@ function AppMain() {
   };
 
   const getUserData = async () => {
-    console.log(user);
     const { uid } = user;
     const userData = await dbUtils.getUser(uid);
     if (userData) {
@@ -69,7 +82,7 @@ function AppMain() {
       initialRender.current = false;
       return;
     }
-    console.log(wishList);
+    //console.log(wishList);
     updateDbWishList(wishList?.items);
   }, [wishList]);
 

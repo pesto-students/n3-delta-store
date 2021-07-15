@@ -7,19 +7,27 @@ import {
   Container,
   Grid,
   Button,
+  Typography,
 } from "@material-ui/core";
 import EmptyCart from "../components/EmptyCart";
 import NoAuth from "../components/NoAuth";
 import { useHistory } from "react-router-dom";
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   container: {
     marginTop: "100px",
     marginBottom: "70px",
+    ...theme.page,
   },
 
   columnTitle: {
     margin: "8px 0px",
   },
+  cartHeader: {
+    display: "flex",
+    justifyContent: "space-between",
+    paddingBottom: 10,
+  },
+  flex: { display: "flex", flexDirection: "row" },
 }));
 const Cart = () => {
   const classes = useStyles();
@@ -28,7 +36,7 @@ const Cart = () => {
   const authState = useSelector((state) => state?.authReducer);
   const cart = useSelector((state) => state?.cart);
   const { isLoggedIn } = authState;
-  const { items, cartLength, total } = cart;
+  const { items, cartLength } = cart;
 
   if (!isLoggedIn) {
     return (
@@ -52,11 +60,16 @@ const Cart = () => {
     return (
       <Container maxWidth="md" className={classes.container}>
         <Grid container justify="center">
-          <Grid item xs={12}>
-            <Grid item style={{ display: "flex", justifyContent:'space-between', paddingBottom:10 }}>
-              <h2 className={classes.columnTitle}>
-                My Cart({cartLength}) ({total})
-              </h2>
+          <Grid item xs={10}>
+            <Grid item container className={classes.cartHeader}>
+              <Grid item className={classes.flex}>
+                <Typography gutterBottom variant="h6">
+                  My Cart
+                </Typography>
+                <Typography gutterBottom variant="h6" color="textSecondary">
+                  ({cartLength})
+                </Typography>
+              </Grid>
               <Button
                 size="medium"
                 variant="contained"
@@ -70,7 +83,7 @@ const Cart = () => {
             </Grid>
             <Divider />
             {items?.map((item) => (
-              <CartItem item={item} />
+              <CartItem key={item.id} item={item} />
             ))}
           </Grid>
         </Grid>
